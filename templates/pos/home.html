@@ -1095,6 +1095,270 @@ body.theme-nightmarket {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ========================
+   THEME 8: SOFT BREEZE
+   Bright · Clean · Modern Light
+======================== */
+body.theme-softbreeze {
+  background: #f0f7ff;
+  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Animated gradient background */
+.sb-bg {
+  background: linear-gradient(135deg, #ffffff 0%, #e8f4fd 30%, #f0fdf9 65%, #fafffe 100%);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Floating blob decorations */
+.sb-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+/* Hero gradient text */
+.sb-gradient-text {
+  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 40%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Secondary heading */
+.sb-text-dark { color: #0f172a; }
+.sb-text-muted { color: #64748b; }
+.sb-text-accent { color: #0ea5e9; }
+
+/* Top accent bar */
+.sb-topbar {
+  background: linear-gradient(90deg, #0ea5e9, #06b6d4, #10b981, #06b6d4, #0ea5e9);
+  background-size: 200% 100%;
+  animation: sbBarScroll 4s linear infinite;
+  height: 4px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+@keyframes sbBarScroll {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+/* Status pill */
+.sb-pill {
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.3);
+  color: #059669;
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Cards — clean white with subtle blue border */
+.sb-card {
+  background: #ffffff;
+  border: 1px solid rgba(14,165,233,0.12);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(14,165,233,0.07), 0 1px 4px rgba(0,0,0,0.04);
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  overflow: hidden;
+  position: relative;
+}
+.sb-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0ea5e9, #10b981);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.sb-card:hover::before { opacity: 1; }
+.sb-card:hover {
+  box-shadow: 0 20px 60px rgba(14,165,233,0.18), 0 8px 24px rgba(0,0,0,0.06);
+  transform: translateY(-8px);
+  border-color: rgba(14,165,233,0.3);
+}
+
+/* Stats card */
+.sb-stat {
+  background: #ffffff;
+  border: 1px solid rgba(14,165,233,0.1);
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(14,165,233,0.06);
+}
+
+/* Primary button */
+.sb-btn-primary {
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+  color: white;
+  border-radius: 14px;
+  padding: 14px 32px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 6px 24px rgba(14,165,233,0.35);
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  border: none;
+  cursor: pointer;
+}
+.sb-btn-primary:hover {
+  box-shadow: 0 12px 40px rgba(14,165,233,0.45);
+  transform: translateY(-3px);
+}
+
+/* Secondary button */
+.sb-btn-secondary {
+  background: white;
+  color: #0ea5e9;
+  border: 2px solid rgba(14,165,233,0.3);
+  border-radius: 14px;
+  padding: 12px 32px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.sb-btn-secondary:hover {
+  background: rgba(14,165,233,0.05);
+  border-color: #0ea5e9;
+}
+
+/* Filter chips */
+.sb-chip-active {
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 4px 16px rgba(14,165,233,0.35);
+}
+.sb-chip-default {
+  background: white !important;
+  color: #64748b !important;
+  border: 1.5px solid rgba(14,165,233,0.15) !important;
+}
+.sb-chip-default:hover {
+  border-color: #0ea5e9 !important;
+  color: #0ea5e9 !important;
+}
+
+/* Section label */
+.sb-section-label {
+  color: #0ea5e9;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Feature badges at bottom */
+.sb-feature {
+  background: white;
+  border: 1px solid rgba(14,165,233,0.12);
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 10px rgba(14,165,233,0.06);
+}
+.sb-feature-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* Category icon circle */
+.sb-tag-num {
+  background: linear-gradient(135deg, #0ea5e9, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 900;
+}
+
+/* Wavy section divider */
+.sb-wave {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  line-height: 0;
+}
+
+@keyframes sbFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-12px) rotate(2deg); }
+  66% { transform: translateY(-6px) rotate(-1deg); }
+}
+.sb-float { animation: sbFloat 6s ease-in-out infinite; }
+.sb-float-delay { animation: sbFloat 8s ease-in-out infinite 2s; }
+.sb-float-slow { animation: sbFloat 10s ease-in-out infinite 4s; }
+
+/* Tenant stall number badge */
+.sb-stall-badge {
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+}
+
+/* Open/close badge */
+.sb-open {
+  background: rgba(16,185,129,0.15);
+  border: 1px solid rgba(16,185,129,0.4);
+  color: #059669;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 100px;
+}
+
+/* Rating */
+.sb-rating { color: #f59e0b; font-size: 0.75rem; }
+
+/* Order button on card */
+.sb-order-btn {
+  background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+  color: white;
+  border-radius: 10px;
+  padding: 7px 16px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  box-shadow: 0 3px 10px rgba(14,165,233,0.3);
+  transition: all 0.25s ease;
+}
+.sb-order-btn:hover {
+  box-shadow: 0 6px 20px rgba(14,165,233,0.45);
+  transform: translateY(-2px);
+}
+
+/* Scrollbar */
+body.theme-softbreeze::-webkit-scrollbar { width: 6px; }
+body.theme-softbreeze::-webkit-scrollbar-track { background: #f0f7ff; }
+body.theme-softbreeze::-webkit-scrollbar-thumb {
+  background: linear-gradient(#0ea5e9, #10b981);
+  border-radius: 3px;
+}
 </style>
 {% endblock %}
 
@@ -1863,6 +2127,205 @@ body.theme-nightmarket {
 </div>
 </div>
 
+<!-- ==================== THEME 8: SOFT BREEZE ==================== -->
+<div class="theme-body" id="theme-softbreeze-body">
+<!-- Top animated accent bar -->
+<div class="sb-topbar"></div>
+
+<div class="sb-bg relative overflow-hidden" style="padding-top:4px;">
+
+  <!-- Floating decorative blobs -->
+  <div class="sb-blob sb-float" style="width:420px;height:420px;background:radial-gradient(circle,rgba(14,165,233,0.25),rgba(6,182,212,0.12));top:-80px;right:-60px;"></div>
+  <div class="sb-blob sb-float-delay" style="width:360px;height:360px;background:radial-gradient(circle,rgba(16,185,129,0.2),rgba(5,150,105,0.08));bottom:100px;left:-80px;"></div>
+  <div class="sb-blob sb-float-slow" style="width:260px;height:260px;background:radial-gradient(circle,rgba(14,165,233,0.15),transparent);top:40%;right:5%;"></div>
+  <div class="sb-blob" style="width:180px;height:180px;background:radial-gradient(circle,rgba(16,185,129,0.18),transparent);top:60%;left:15%;animation:sbFloat 12s ease-in-out infinite 1s;"></div>
+
+  <div class="relative z-10 max-w-screen-xl mx-auto px-6 pt-14 pb-16">
+
+    <!-- ─── HERO SECTION ─── -->
+    <div class="flex flex-col lg:flex-row items-center gap-12 mb-16">
+
+      <!-- Left: Hero text -->
+      <div class="flex-1 text-center lg:text-left">
+
+        <!-- Status badge -->
+        <div class="sb-pill mb-6">
+          <span class="w-2 h-2 bg-emerald-500 rounded-full open-pulse"></span>
+          Buka Sekarang · 10 Tenant Aktif
+        </div>
+
+        <!-- Main heading -->
+        <h1 class="font-black leading-[1.05] mb-5 tracking-tight" style="font-size:clamp(3rem,7vw,5.8rem);">
+          <span class="sb-text-dark">Makan</span><br>
+          <span class="sb-gradient-text">Enak &amp;</span><br>
+          <span class="sb-text-dark">Mudah</span><span style="color:#0ea5e9;">.</span>
+        </h1>
+
+        <p class="text-base sb-text-muted mb-9 max-w-md leading-relaxed lg:mx-0 mx-auto">
+          10 tenant pilihan dalam satu food court modern. Kuliner Asia, Western, hingga dessert premium — semuanya tersedia.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex gap-4 justify-center lg:justify-start flex-wrap">
+          <button onclick="document.getElementById('sb-tenants').scrollIntoView({behavior:'smooth'})"
+            class="sb-btn-primary">
+            Jelajahi Menu 🍽️
+          </button>
+          <button class="sb-btn-secondary">
+            Info &amp; Promo ✨
+          </button>
+        </div>
+
+        <!-- Trust signals -->
+        <div class="flex flex-wrap items-center gap-5 mt-9 justify-center lg:justify-start">
+          <div class="flex items-center gap-2 text-sm sb-text-muted">
+            <span class="text-emerald-500 font-bold">✓</span>
+            <span>Pembayaran Aman</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm sb-text-muted">
+            <span class="text-sky-500 font-bold">⚡</span>
+            <span>Pesan Cepat</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm sb-text-muted">
+            <span class="text-cyan-500 font-bold">🎯</span>
+            <span>100% Fresh</span>
+          </div>
+          <div class="flex items-center gap-2 text-sm sb-text-muted">
+            <span class="text-teal-500 font-bold">📱</span>
+            <span>QRIS &amp; Digital</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Stats grid -->
+      <div class="flex-shrink-0 grid grid-cols-2 gap-4 w-full max-w-xs">
+        <!-- Big stat -->
+        <div class="sb-stat rounded-2xl p-6 text-center col-span-2 relative overflow-hidden">
+          <div class="absolute inset-0 opacity-5" style="background:linear-gradient(135deg,#0ea5e9,#10b981);"></div>
+          <div class="relative">
+            <div class="font-black mb-1 sb-gradient-text" style="font-size:3.5rem;line-height:1;">100+</div>
+            <div class="text-sm sb-text-muted font-semibold">Pilihan Menu Lezat</div>
+          </div>
+        </div>
+        <!-- Rating -->
+        <div class="sb-stat rounded-2xl p-5 text-center">
+          <div class="text-3xl font-black sb-text-dark mb-1">4.8</div>
+          <div class="sb-rating">★★★★★</div>
+          <div class="text-xs sb-text-muted mt-1">Rating</div>
+        </div>
+        <!-- Tenants -->
+        <div class="sb-stat rounded-2xl p-5 text-center">
+          <div class="text-3xl font-black sb-text-dark mb-1">10</div>
+          <div class="text-xs sb-text-muted">🏪 Tenant</div>
+          <div class="text-xs sb-text-muted">Aktif</div>
+        </div>
+        <!-- Time -->
+        <div class="sb-stat rounded-2xl p-5 text-center col-span-2">
+          <div class="text-2xl font-black sb-text-accent mb-1">~15 mnt</div>
+          <div class="text-xs sb-text-muted">⏱️ Estimasi Waktu Siap</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── SECTION HEADER ─── -->
+    <div class="mb-6" id="sb-tenants">
+      <span class="sb-section-label">Semua Tenant</span>
+      <h2 class="text-2xl font-black sb-text-dark mt-1">Pilih Favoritmu</h2>
+    </div>
+
+    <!-- ─── FILTER CHIPS ─── -->
+    <div class="flex gap-2.5 overflow-x-auto pb-3 mb-8 scrollbar-hide">
+      {% for emoji,label,cuisine in cuisine_list %}
+      <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+        class="cuisine-filter-btn flex items-center gap-2 px-5 py-2.5 text-sm font-semibold whitespace-nowrap rounded-xl transition-all"
+        style="background:white;color:#64748b;border:1.5px solid rgba(14,165,233,0.15);">
+        {{ emoji }} {{ label }}
+      </button>
+      {% endfor %}
+    </div>
+
+    <!-- ─── TENANT GRID ─── -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/" class="sb-card cursor-pointer stagger-item tenant-card-item" data-cuisine="{{ tenant.cuisine_type }}">
+        <!-- Image -->
+        <div class="relative h-36 overflow-hidden">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-5xl" style="background:linear-gradient(135deg,#e0f2fe,#d1fae5);">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <!-- Gradient overlay -->
+          <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(15,23,42,0.55) 0%, transparent 55%);"></div>
+          <!-- Badges top -->
+          <div class="absolute top-2.5 left-2.5">
+            <span class="sb-stall-badge">No. {{ forloop.counter }}</span>
+          </div>
+          <div class="absolute top-2.5 right-2.5">
+            {% if tenant.is_open %}
+            <span class="sb-open">OPEN</span>
+            {% else %}
+            <span style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);color:#dc2626;font-size:0.65rem;font-weight:800;padding:3px 10px;border-radius:100px;">TUTUP</span>
+            {% endif %}
+          </div>
+          <!-- Tenant name over image -->
+          <div class="absolute bottom-2.5 left-2.5 right-2.5">
+            <p class="text-white font-bold text-xs leading-tight drop-shadow-md">{{ tenant.name }}</p>
+          </div>
+        </div>
+
+        <!-- Card body -->
+        <div class="p-3.5">
+          <div class="flex items-center justify-between mb-2.5">
+            <div>
+              <span class="text-xs sb-text-muted">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</span>
+            </div>
+            <div class="flex items-center gap-1 sb-rating text-xs">
+              ★ <span class="sb-text-dark font-bold">{{ tenant.rating }}</span>
+            </div>
+          </div>
+          <button class="sb-order-btn w-full text-center">Pesan Sekarang →</button>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- ─── FEATURE STRIP ─── -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14">
+      <div class="sb-feature">
+        <div class="sb-feature-icon" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);">💳</div>
+        <div>
+          <div class="text-sm font-bold sb-text-dark">Multi Pembayaran</div>
+          <div class="text-xs sb-text-muted">QRIS · GoPay · OVO · Cash</div>
+        </div>
+      </div>
+      <div class="sb-feature">
+        <div class="sb-feature-icon" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);">⚡</div>
+        <div>
+          <div class="text-sm font-bold sb-text-dark">Pesan Instan</div>
+          <div class="text-xs sb-text-muted">Tanpa antre panjang</div>
+        </div>
+      </div>
+      <div class="sb-feature">
+        <div class="sb-feature-icon" style="background:linear-gradient(135deg,#e0f2fe,#bae6fd);">📱</div>
+        <div>
+          <div class="text-sm font-bold sb-text-dark">Struk Digital</div>
+          <div class="text-xs sb-text-muted">Ramah lingkungan</div>
+        </div>
+      </div>
+      <div class="sb-feature">
+        <div class="sb-feature-icon" style="background:linear-gradient(135deg,#d1fae5,#a7f3d0);">⭐</div>
+        <div>
+          <div class="text-sm font-bold sb-text-dark">Kualitas Terjamin</div>
+          <div class="text-xs sb-text-muted">Rating 4.8 dari pelanggan</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /max-w -->
+</div><!-- /sb-bg -->
+</div><!-- /theme-body -->
+
 <!-- ==================== THEME 5: NIGHT MARKET ==================== -->
 <div class="theme-body" id="theme-nightmarket-body">
 <div class="nm-bg min-h-screen relative overflow-hidden">
@@ -2055,6 +2518,17 @@ body.theme-nightmarket {
           <div class="text-white/40 text-xs">Glassmorphism space</div>
         </div>
       </button>
+
+      <!-- Soft Breeze Theme -->
+      <button onclick="switchTheme('softbreeze')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-softbreeze"
+        style="background:linear-gradient(135deg,#f0f9ff,#ecfdf5);border:1.5px solid rgba(14,165,233,0.35);">
+        <span class="text-xl">🌤️</span>
+        <div class="text-left">
+          <div class="text-sm font-bold leading-none mb-0.5" style="background:linear-gradient(90deg,#0ea5e9,#06b6d4,#10b981);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Soft Breeze</div>
+          <div class="text-slate-400 text-xs">Bright · Clean · Modern</div>
+        </div>
+      </button>
+
     </div>
   </div>
 
@@ -2123,6 +2597,12 @@ const THEMES = {
     bodyId: 'theme-aurora-body',
     filterActive: 'background:rgba(0,255,163,0.15);border:1px solid rgba(0,255,163,0.5);color:#00ffa3;box-shadow:0 0 20px rgba(0,255,163,0.2);backdrop-filter:blur(10px);',
     filterDefault: 'background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(10px);',
+  },
+  softbreeze: {
+    bodyClass: 'theme-softbreeze',
+    bodyId: 'theme-softbreeze-body',
+    filterActive: 'background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:white;border:none;box-shadow:0 4px 16px rgba(14,165,233,0.35);border-radius:10px;',
+    filterDefault: 'background:white;color:#64748b;border:1.5px solid rgba(14,165,233,0.15);border-radius:10px;',
   },
 };
 
@@ -2226,13 +2706,17 @@ function updateNavForTheme(theme) {
   const nav = document.querySelector('nav');
   if (!nav) return;
 
-  if (theme === 'fresh' || theme === 'japanese') {
-    nav.style.background = theme === 'japanese' 
-      ? 'rgba(253,246,232,0.95)' 
-      : 'rgba(255,255,255,0.95)';
+  if (theme === 'fresh' || theme === 'japanese' || theme === 'softbreeze') {
+    nav.style.background = theme === 'japanese'
+      ? 'rgba(253,246,232,0.95)'
+      : theme === 'softbreeze'
+        ? 'rgba(240,249,255,0.97)'
+        : 'rgba(255,255,255,0.95)';
     nav.style.borderBottom = theme === 'japanese'
       ? '1px solid rgba(220,38,38,0.15)'
-      : '1px solid rgba(0,0,0,0.06)';
+      : theme === 'softbreeze'
+        ? '1px solid rgba(14,165,233,0.15)'
+        : '1px solid rgba(0,0,0,0.06)';
     nav.querySelectorAll('.font-black, .font-semibold, .font-medium').forEach(el => {
       if (!el.closest('button[onclick="toggleCart()"]')) {
         el.style.color = theme === 'japanese' ? '#1c1c1c' : '#1a1a2e';
