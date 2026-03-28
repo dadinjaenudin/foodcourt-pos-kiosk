@@ -1682,6 +1682,402 @@ body.theme-sunset {
 body.theme-sunset::-webkit-scrollbar { width:6px; }
 body.theme-sunset::-webkit-scrollbar-track { background:#fdf8f2; }
 body.theme-sunset::-webkit-scrollbar-thumb { background:linear-gradient(#d97706,#fb923c); border-radius:3px; }
+
+/* =====================================================
+   THEME 12: BENTO CLOUD
+   Layout: Bento Grid (asymmetric modular tiles)
+   Palette: Soft lavender · violet · dusty indigo
+   Inspired by Apple/Procreate bento grid trend 2025
+===================================================== */
+body.theme-bento {
+  background: #f5f3ff;
+  overflow-x: hidden;
+}
+.bt-bg {
+  background: linear-gradient(150deg, #fdfcff 0%, #f0ebff 35%, #faf5ff 70%, #fdfeff 100%);
+  min-height: 100vh; position: relative;
+}
+.bt-topbar {
+  height: 4px;
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa, #c4b5fd, #818cf8, #8b5cf6);
+  background-size: 200% 100%;
+  animation: btBar 4s linear infinite;
+  position: fixed; top:0; left:0; right:0; z-index:999;
+}
+@keyframes btBar { 0%{background-position:0%} 100%{background-position:200%} }
+
+.bt-gradient-text {
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 50%, #6366f1 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.bt-text-dark  { color: #1e1b4b; }
+.bt-text-muted { color: #6b7280; }
+.bt-text-accent { color: #7c3aed; }
+
+/* Bento tile base */
+.bt-tile {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 1px solid rgba(124,58,237,0.1);
+  box-shadow: 0 2px 16px rgba(124,58,237,0.07), 0 1px 4px rgba(0,0,0,0.04);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+}
+.bt-tile:hover {
+  box-shadow: 0 16px 48px rgba(124,58,237,0.16), 0 6px 20px rgba(0,0,0,0.06);
+  transform: translateY(-6px);
+  border-color: rgba(124,58,237,0.25);
+}
+.bt-tile::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg,#8b5cf6,#a78bfa,#6366f1);
+  opacity:0; transition:opacity 0.3s;
+}
+.bt-tile:hover::before { opacity:1; }
+
+/* Bento hero tile (large) */
+.bt-hero-tile {
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 60%, #6366f1 100%);
+  border-radius: 28px;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  color: white;
+}
+.bt-hero-tile::after {
+  content:'';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.15), transparent 60%);
+}
+
+/* Bento stat tile */
+.bt-stat-tile {
+  background: white;
+  border-radius: 22px;
+  border: 1px solid rgba(124,58,237,0.1);
+  box-shadow: 0 2px 12px rgba(124,58,237,0.06);
+  padding: 24px;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center;
+}
+
+/* Pill */
+.bt-pill {
+  background: rgba(139,92,246,0.1);
+  border: 1px solid rgba(139,92,246,0.25);
+  color: #7c3aed;
+  border-radius: 100px; padding: 5px 14px;
+  font-size: 0.75rem; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+
+/* Tenant card for bento */
+.bt-card {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid rgba(124,58,237,0.1);
+  box-shadow: 0 2px 14px rgba(124,58,237,0.07);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+}
+.bt-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#8b5cf6,#a78bfa,#6366f1); opacity:0; transition:opacity 0.3s; }
+.bt-card:hover::before { opacity:1; }
+.bt-card:hover { box-shadow:0 16px 48px rgba(124,58,237,0.18); transform:translateY(-7px); border-color:rgba(124,58,237,0.22); }
+
+/* Buttons */
+.bt-btn { background:linear-gradient(135deg,#7c3aed,#8b5cf6); color:white; border-radius:12px; padding:10px 24px; font-weight:700; font-size:0.85rem; box-shadow:0 4px 16px rgba(124,58,237,0.3); transition:all 0.3s ease; border:none; cursor:pointer; }
+.bt-btn:hover { box-shadow:0 8px 28px rgba(124,58,237,0.42); transform:translateY(-2px); }
+.bt-order-btn { background:linear-gradient(135deg,#7c3aed,#8b5cf6); color:white; border-radius:10px; padding:7px 14px; font-size:0.72rem; font-weight:700; box-shadow:0 3px 10px rgba(124,58,237,0.28); transition:all 0.25s ease; }
+.bt-order-btn:hover { box-shadow:0 6px 20px rgba(124,58,237,0.42); transform:translateY(-2px); }
+.bt-stall { background:linear-gradient(135deg,#7c3aed,#8b5cf6); color:white; font-size:0.6rem; font-weight:800; padding:2px 8px; border-radius:100px; }
+.bt-open  { background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); color:#059669; font-size:0.6rem; font-weight:800; padding:2px 8px; border-radius:100px; }
+.bt-section-label { color:#7c3aed; font-weight:700; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; }
+.bt-rating { color:#f59e0b; }
+
+/* Bento grid layout: variable sized tiles */
+.bt-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.bt-span2 { grid-column: span 2; }
+.bt-span3 { grid-column: span 3; }
+.bt-span4 { grid-column: span 4; }
+
+/* Tenant bento 2-col grid */
+.bt-tenant-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+@media(min-width:768px) {
+  .bt-tenant-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media(min-width:1024px) {
+  .bt-tenant-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+/* Feature strip tiles */
+.bt-feature-tile {
+  background: white;
+  border: 1px solid rgba(124,58,237,0.1);
+  border-radius: 18px;
+  padding: 20px;
+  display: flex; align-items: center; gap: 14px;
+  box-shadow: 0 2px 10px rgba(124,58,237,0.05);
+}
+.bt-fi { width:46px; height:46px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+
+body.theme-bento::-webkit-scrollbar { width:6px; }
+body.theme-bento::-webkit-scrollbar-track { background:#f5f3ff; }
+body.theme-bento::-webkit-scrollbar-thumb { background:linear-gradient(#8b5cf6,#6366f1); border-radius:3px; }
+
+/* =====================================================
+   THEME 13: SIDEBAR FLOW
+   Layout: 2-Column (Left sidebar category + Right content)
+   Palette: Soft teal · ocean mint · clean white
+   Inspired by food delivery app / sidebar nav design
+===================================================== */
+body.theme-sidebar {
+  background: #f0fdfa;
+  overflow-x: hidden;
+}
+.sf-bg {
+  background: #f0fdfa;
+  min-height: 100vh; position: relative;
+}
+.sf-topbar {
+  height: 4px;
+  background: linear-gradient(90deg, #0d9488, #14b8a6, #06b6d4, #14b8a6, #0d9488);
+  background-size: 200% 100%;
+  animation: sfBar 4s linear infinite;
+  position: fixed; top:0; left:0; right:0; z-index:999;
+}
+@keyframes sfBar { 0%{background-position:0%} 100%{background-position:200%} }
+
+/* Layout: fixed left sidebar + scrollable right */
+.sf-layout {
+  display: flex;
+  gap: 0;
+  min-height: calc(100vh - 120px);
+}
+/* Left sidebar */
+.sf-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: white;
+  border-right: 1px solid rgba(13,148,136,0.12);
+  padding: 24px 16px;
+  position: sticky;
+  top: 120px;
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+  border-radius: 0 0 0 0;
+}
+.sf-sidebar::-webkit-scrollbar { width:3px; }
+.sf-sidebar::-webkit-scrollbar-thumb { background:#ccfbf1; border-radius:2px; }
+
+/* Sidebar category button */
+.sf-cat-btn {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; text-align: left;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.82rem; font-weight: 600;
+  color: #64748b;
+  transition: all 0.2s ease;
+  border: none; background: transparent; cursor: pointer;
+  margin-bottom: 4px;
+}
+.sf-cat-btn:hover { background: rgba(13,148,136,0.07); color: #0d9488; }
+.sf-cat-btn.sf-active { background: linear-gradient(135deg,#0d9488,#14b8a6); color:white; box-shadow:0 4px 14px rgba(13,148,136,0.25); }
+
+/* Right content area */
+.sf-content { flex: 1; padding: 0 28px 40px 28px; min-width: 0; }
+
+/* Hero strip in content area */
+.sf-hero-strip {
+  background: linear-gradient(135deg, #0d9488, #14b8a6, #06b6d4);
+  border-radius: 22px;
+  padding: 32px 36px;
+  color: white;
+  position: relative; overflow: hidden;
+  margin-bottom: 28px;
+}
+.sf-hero-strip::after {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(circle at 85% 50%, rgba(255,255,255,0.15), transparent 50%);
+}
+
+/* Tenant cards (2-col grid) */
+.sf-card {
+  background: white;
+  border-radius: 18px;
+  border: 1px solid rgba(13,148,136,0.1);
+  box-shadow: 0 2px 12px rgba(13,148,136,0.07);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+}
+.sf-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#0d9488,#14b8a6,#06b6d4); opacity:0; transition:opacity 0.3s; }
+.sf-card:hover::before { opacity:1; }
+.sf-card:hover { box-shadow:0 14px 42px rgba(13,148,136,0.18); transform:translateY(-6px); border-color:rgba(13,148,136,0.22); }
+
+/* 2-column tenant grid in sidebar layout */
+.sf-tenant-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+@media(min-width:900px) { .sf-tenant-grid { grid-template-columns: repeat(3, 1fr); } }
+@media(min-width:1200px) { .sf-tenant-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.sf-gradient-text {
+  background: linear-gradient(135deg, #0d9488, #06b6d4);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.sf-text-dark  { color: #0f172a; }
+.sf-text-muted { color: #64748b; }
+.sf-text-accent { color: #0d9488; }
+.sf-order-btn { background:linear-gradient(135deg,#0d9488,#14b8a6); color:white; border-radius:10px; padding:7px 14px; font-size:0.72rem; font-weight:700; box-shadow:0 3px 10px rgba(13,148,136,0.28); transition:all 0.25s ease; }
+.sf-order-btn:hover { box-shadow:0 6px 20px rgba(13,148,136,0.42); transform:translateY(-2px); }
+.sf-stall { background:linear-gradient(135deg,#0d9488,#14b8a6); color:white; font-size:0.6rem; font-weight:800; padding:2px 8px; border-radius:100px; }
+.sf-open  { background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); color:#059669; font-size:0.6rem; font-weight:800; padding:2px 8px; border-radius:100px; }
+.sf-rating { color:#f59e0b; }
+.sf-section-label { color:#0d9488; font-weight:700; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; }
+.sf-stat { background:rgba(255,255,255,0.9); border-radius:14px; padding:12px 16px; border:1px solid rgba(255,255,255,0.3); }
+.sf-pill { background:rgba(13,148,136,0.1); border:1px solid rgba(13,148,136,0.25); color:#0d9488; border-radius:100px; padding:5px 14px; font-size:0.75rem; font-weight:700; display:inline-flex; align-items:center; gap:5px; }
+
+body.theme-sidebar::-webkit-scrollbar { width:6px; }
+body.theme-sidebar::-webkit-scrollbar-track { background:#f0fdfa; }
+body.theme-sidebar::-webkit-scrollbar-thumb { background:linear-gradient(#0d9488,#06b6d4); border-radius:3px; }
+
+/* =====================================================
+   THEME 14: MAGAZINE ROW
+   Layout: Editorial horizontal scroll per kategori
+   Palette: Warm rose · coral · soft ivory
+   Inspired by Netflix/Airbnb category row pattern
+===================================================== */
+body.theme-magazine {
+  background: #fff8f6;
+  overflow-x: hidden;
+}
+.mg-bg {
+  background: linear-gradient(160deg, #ffffff 0%, #fff1ee 40%, #fdf8f5 100%);
+  min-height: 100vh; position: relative;
+}
+.mg-topbar {
+  height: 4px;
+  background: linear-gradient(90deg, #f43f5e, #fb7185, #f97316, #fb7185, #f43f5e);
+  background-size: 200% 100%;
+  animation: mgBar 4s linear infinite;
+  position: fixed; top:0; left:0; right:0; z-index:999;
+}
+@keyframes mgBar { 0%{background-position:0%} 100%{background-position:200%} }
+
+/* Big hero section with featured tenant */
+.mg-hero {
+  background: linear-gradient(135deg, #be123c, #f43f5e, #f97316);
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+  min-height: 280px;
+  color: white;
+}
+.mg-hero::after {
+  content:''; position:absolute; inset:0;
+  background: linear-gradient(to right, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+}
+
+/* Section header row */
+.mg-section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.mg-section-title { font-size: 1.2rem; font-weight: 800; color: #1c0510; }
+.mg-section-label { color:#f43f5e; font-weight:700; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:2px; }
+.mg-see-all { font-size:0.8rem; font-weight:700; color:#f43f5e; cursor:pointer; }
+
+/* Horizontal scroll row */
+.mg-row {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.mg-row::-webkit-scrollbar { display:none; }
+
+/* Horizontal card */
+.mg-card {
+  flex-shrink: 0;
+  width: 200px;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid rgba(244,63,94,0.1);
+  box-shadow: 0 2px 14px rgba(244,63,94,0.07);
+  overflow: hidden;
+  scroll-snap-align: start;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+  cursor: pointer;
+}
+.mg-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#f43f5e,#fb7185,#f97316); opacity:0; transition:opacity 0.3s; }
+.mg-card:hover::before { opacity:1; }
+.mg-card:hover { box-shadow:0 14px 42px rgba(244,63,94,0.18); transform:translateY(-7px); }
+
+/* Wide card for featured */
+.mg-card-wide { width: 260px; }
+
+/* Top 5x2 tenant feature grid */
+.mg-top-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-bottom: 36px;
+}
+@media(max-width:1024px) { .mg-top-grid { grid-template-columns: repeat(3,1fr); } }
+@media(max-width:768px)  { .mg-top-grid { grid-template-columns: repeat(2,1fr); } }
+
+.mg-top-card {
+  background: white;
+  border-radius: 18px;
+  border: 1px solid rgba(244,63,94,0.1);
+  box-shadow: 0 2px 12px rgba(244,63,94,0.07);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative; cursor: pointer;
+}
+.mg-top-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#f43f5e,#f97316); opacity:0; transition:opacity 0.3s; }
+.mg-top-card:hover::before { opacity:1; }
+.mg-top-card:hover { box-shadow:0 14px 42px rgba(244,63,94,0.16); transform:translateY(-6px); }
+
+.mg-gradient-text {
+  background: linear-gradient(135deg, #be123c, #f43f5e, #f97316);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.mg-text-dark  { color: #1c0510; }
+.mg-text-muted { color: #9d6a78; }
+.mg-text-accent { color: #f43f5e; }
+.mg-order-btn { background:linear-gradient(135deg,#f43f5e,#fb7185); color:white; border-radius:10px; padding:7px 14px; font-size:0.72rem; font-weight:700; box-shadow:0 3px 10px rgba(244,63,94,0.28); transition:all 0.25s ease; }
+.mg-order-btn:hover { box-shadow:0 6px 20px rgba(244,63,94,0.42); transform:translateY(-2px); }
+.mg-stall { background:linear-gradient(135deg,#f43f5e,#fb7185); color:white; font-size:0.6rem; font-weight:800; padding:2px 8px; border-radius:100px; }
+.mg-open  { background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); color:#059669; font-size:0.6rem; font-weight:800; padding:2px 8px; border-radius:100px; }
+.mg-rating { color:#f59e0b; }
+.mg-pill { background:rgba(244,63,94,0.09); border:1px solid rgba(244,63,94,0.22); color:#be123c; border-radius:100px; padding:5px 14px; font-size:0.75rem; font-weight:700; display:inline-flex; align-items:center; gap:5px; }
+
+/* Stats row */
+.mg-stat-row { display:flex; gap:14px; flex-wrap:wrap; margin-bottom:28px; }
+.mg-stat-chip { background:white; border:1px solid rgba(244,63,94,0.1); border-radius:14px; padding:14px 20px; display:flex; align-items:center; gap:10px; box-shadow:0 2px 10px rgba(244,63,94,0.06); flex:1; min-width:140px; }
+
+body.theme-magazine::-webkit-scrollbar { width:6px; }
+body.theme-magazine::-webkit-scrollbar-track { background:#fff8f6; }
+body.theme-magazine::-webkit-scrollbar-thumb { background:linear-gradient(#f43f5e,#f97316); border-radius:3px; }
 </style>
 {% endblock %}
 
@@ -3015,6 +3411,389 @@ body.theme-sunset::-webkit-scrollbar-thumb { background:linear-gradient(#d97706,
 </div>
 </div>
 
+<!-- ==================== THEME 12: BENTO CLOUD ==================== -->
+<div class="theme-body" id="theme-bento-body">
+<div class="bt-topbar"></div>
+<div class="bt-bg relative overflow-hidden" style="padding-top:4px;">
+  <div class="relative z-10 max-w-screen-xl mx-auto px-6 pt-12 pb-16">
+
+    <!-- ─── BENTO HERO SECTION: Asymmetric modular tiles ─── -->
+    <div class="bt-grid-layout mb-5">
+
+      <!-- Hero tile (spans 2 cols, 1 row) -->
+      <div class="bt-hero-tile bt-span2 relative z-10" style="padding:36px 40px;">
+        <div class="relative z-10">
+          <div class="bt-pill mb-4" style="background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.35);color:white;">
+            <span class="w-2 h-2 bg-green-300 rounded-full open-pulse"></span>
+            Buka · 10 Tenant Aktif
+          </div>
+          <h1 class="font-black leading-[1.1] text-white mb-3" style="font-size:clamp(2.2rem,4vw,3.5rem);">
+            Food Court<br>Grand Galaxy ✨
+          </h1>
+          <p class="text-white/75 text-sm mb-5 max-w-sm leading-relaxed">
+            10 tenant premium dalam satu food court modern. Pesan sekarang, nikmati setiap gigitan.
+          </p>
+          <button onclick="document.getElementById('bt-tenants').scrollIntoView({behavior:'smooth'})"
+            class="bg-white text-purple-700 font-bold px-6 py-3 rounded-2xl text-sm hover:bg-purple-50 transition-all shadow-lg">
+            Mulai Pesan →
+          </button>
+        </div>
+        <!-- Decorative circle -->
+        <div style="position:absolute;right:-30px;top:-30px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.1);z-index:0;"></div>
+        <div style="position:absolute;right:40px;bottom:-40px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,0.08);z-index:0;"></div>
+      </div>
+
+      <!-- Stat tile: 100+ menu -->
+      <div class="bt-stat-tile">
+        <div class="font-black bt-gradient-text mb-1" style="font-size:2.8rem;line-height:1;">100+</div>
+        <div class="text-xs bt-text-muted font-semibold">Pilihan Menu</div>
+      </div>
+
+      <!-- Stat tile: rating -->
+      <div class="bt-stat-tile">
+        <div class="text-3xl font-black bt-text-dark mb-1">4.8</div>
+        <div class="bt-rating text-sm mb-1">★★★★★</div>
+        <div class="text-xs bt-text-muted">Rating</div>
+      </div>
+
+      <!-- Stat tile: tenants (spans 1) -->
+      <div class="bt-stat-tile">
+        <div class="text-4xl mb-2">🏪</div>
+        <div class="text-2xl font-black bt-text-dark mb-1">10</div>
+        <div class="text-xs bt-text-muted font-medium">Tenant Aktif</div>
+      </div>
+
+      <!-- Info tile: payment methods -->
+      <div class="bt-tile" style="padding:20px 24px;display:flex;flex-direction:column;justify-content:center;">
+        <div class="bt-section-label mb-2">Pembayaran</div>
+        <div class="flex flex-wrap gap-2">
+          <span style="background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:8px;padding:4px 10px;font-size:0.72rem;font-weight:700;">QRIS</span>
+          <span style="background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:8px;padding:4px 10px;font-size:0.72rem;font-weight:700;">GoPay</span>
+          <span style="background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:8px;padding:4px 10px;font-size:0.72rem;font-weight:700;">OVO</span>
+          <span style="background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:8px;padding:4px 10px;font-size:0.72rem;font-weight:700;">DANA</span>
+          <span style="background:rgba(124,58,237,0.08);color:#7c3aed;border-radius:8px;padding:4px 10px;font-size:0.72rem;font-weight:700;">Cash</span>
+        </div>
+      </div>
+
+      <!-- Info tile: time -->
+      <div class="bt-tile" style="padding:20px 24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+        <div class="text-3xl mb-1">⏱️</div>
+        <div class="text-xl font-black bt-text-accent">~15 mnt</div>
+        <div class="text-xs bt-text-muted mt-1">Estimasi Siap</div>
+      </div>
+
+    </div>
+
+    <!-- ─── FILTER CHIPS ─── -->
+    <div class="flex gap-2 overflow-x-auto pb-2 mb-6" id="bt-tenants">
+      {% for emoji,label,cuisine in cuisine_list %}
+      <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+        class="cuisine-filter-btn flex items-center gap-1.5 px-4 py-2 text-xs font-semibold whitespace-nowrap rounded-xl transition-all"
+        style="background:white;color:#6b7280;border:1.5px solid rgba(124,58,237,0.15);">
+        {{ emoji }} {{ label }}
+      </button>
+      {% endfor %}
+    </div>
+
+    <!-- ─── TENANT BENTO GRID (2-col on mobile, 5-col on desktop) ─── -->
+    <div class="mb-4">
+      <span class="bt-section-label">Semua Tenant</span>
+      <h2 class="text-xl font-black bt-text-dark mt-0.5 mb-5">Pilih Favoritmu</h2>
+    </div>
+
+    <div class="bt-tenant-grid">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/" class="bt-card stagger-item tenant-card-item" data-cuisine="{{ tenant.cuisine_type }}">
+        <div class="relative h-32 overflow-hidden">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-4xl" style="background:linear-gradient(135deg,#f0ebff,#e0e7ff);">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(30,27,75,0.6) 0%,transparent 55%);"></div>
+          <div class="absolute top-2 left-2"><span class="bt-stall">No.{{ forloop.counter }}</span></div>
+          <div class="absolute top-2 right-2">{% if tenant.is_open %}<span class="bt-open">OPEN</span>{% endif %}</div>
+          <div class="absolute bottom-2 left-2 right-2"><p class="text-white font-bold text-xs leading-tight drop-shadow">{{ tenant.name }}</p></div>
+        </div>
+        <div class="p-3">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs bt-text-muted">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</span>
+            <span class="bt-rating text-xs">★ <span class="bt-text-dark font-bold">{{ tenant.rating }}</span></span>
+          </div>
+          <button class="bt-order-btn w-full text-center">Pesan →</button>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- Feature strip -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+      <div class="bt-feature-tile"><div class="bt-fi" style="background:linear-gradient(135deg,#f0ebff,#e0e7ff);">💳</div><div><div class="text-sm font-bold bt-text-dark">Multi Payment</div><div class="text-xs bt-text-muted">QRIS · GoPay · OVO</div></div></div>
+      <div class="bt-feature-tile"><div class="bt-fi" style="background:linear-gradient(135deg,#e0e7ff,#ddd6fe);">⚡</div><div><div class="text-sm font-bold bt-text-dark">Pesan Cepat</div><div class="text-xs bt-text-muted">Tanpa antre panjang</div></div></div>
+      <div class="bt-feature-tile"><div class="bt-fi" style="background:linear-gradient(135deg,#f0ebff,#e0e7ff);">📱</div><div><div class="text-sm font-bold bt-text-dark">Struk Digital</div><div class="text-xs bt-text-muted">Eco friendly</div></div></div>
+      <div class="bt-feature-tile"><div class="bt-fi" style="background:linear-gradient(135deg,#e0e7ff,#ddd6fe);">⭐</div><div><div class="text-sm font-bold bt-text-dark">Kualitas Terjamin</div><div class="text-xs bt-text-muted">Rating 4.8/5</div></div></div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ==================== THEME 13: SIDEBAR FLOW ==================== -->
+<div class="theme-body" id="theme-sidebar-body">
+<div class="sf-topbar"></div>
+<div class="sf-bg" style="padding-top:4px;">
+
+  <!-- Top hero strip -->
+  <div class="max-w-screen-xl mx-auto px-6 pt-10 pb-4">
+    <div class="sf-hero-strip relative z-10">
+      <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <div>
+          <div class="sf-pill mb-3" style="background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.35);color:white;">
+            <span class="w-2 h-2 bg-green-300 rounded-full open-pulse"></span>
+            Buka · 10 Tenant Aktif
+          </div>
+          <h1 class="text-white font-black leading-tight mb-2" style="font-size:clamp(1.8rem,4vw,2.8rem);">
+            Food Court Grand Galaxy 🍽️
+          </h1>
+          <p class="text-white/80 text-sm max-w-lg">10 pilihan kuliner premium • QRIS & digital payment • Estimasi siap ~15 menit</p>
+        </div>
+        <!-- Mini stats -->
+        <div class="flex gap-3 flex-shrink-0">
+          <div class="sf-stat text-center"><div class="text-2xl font-black text-white">100+</div><div class="text-white/70 text-xs">Menu</div></div>
+          <div class="sf-stat text-center"><div class="text-2xl font-black text-white">4.8★</div><div class="text-white/70 text-xs">Rating</div></div>
+          <div class="sf-stat text-center"><div class="text-2xl font-black text-white">~15'</div><div class="text-white/70 text-xs">Siap</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2-column layout: sidebar + content -->
+  <div class="max-w-screen-xl mx-auto px-6 pb-16">
+    <div class="sf-layout">
+
+      <!-- LEFT SIDEBAR: Category nav -->
+      <div class="sf-sidebar hidden lg:block">
+        <div class="sf-section-label mb-3">Kategori</div>
+        {% for emoji,label,cuisine in cuisine_list %}
+        <button onclick="sfFilterCuisine('{{ cuisine }}', this)"
+          class="sf-cat-btn {% if forloop.first %}sf-active{% endif %}">
+          <span class="text-base">{{ emoji }}</span>
+          <span>{{ label }}</span>
+        </button>
+        {% endfor %}
+
+        <!-- Sidebar info box -->
+        <div style="margin-top:20px;background:linear-gradient(135deg,rgba(13,148,136,0.08),rgba(6,182,212,0.05));border:1px solid rgba(13,148,136,0.15);border-radius:16px;padding:16px;">
+          <div class="sf-section-label mb-2">Info</div>
+          <div class="text-xs sf-text-muted leading-relaxed">
+            <div class="mb-1.5">🕐 10:00 – 22:00 WIB</div>
+            <div class="mb-1.5">💳 QRIS · GoPay · OVO</div>
+            <div class="mb-1.5">⭐ Rating 4.8/5</div>
+            <div>📱 Struk digital</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT CONTENT: Tenant grid (2-col) -->
+      <div class="sf-content pt-6">
+
+        <!-- Mobile filter chips (visible on small screens only) -->
+        <div class="lg:hidden flex gap-2 overflow-x-auto pb-3 mb-5">
+          {% for emoji,label,cuisine in cuisine_list %}
+          <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+            class="cuisine-filter-btn flex items-center gap-1.5 px-4 py-2 text-xs font-semibold whitespace-nowrap rounded-xl transition-all"
+            style="background:white;color:#64748b;border:1.5px solid rgba(13,148,136,0.15);">
+            {{ emoji }} {{ label }}
+          </button>
+          {% endfor %}
+        </div>
+
+        <div class="flex items-center justify-between mb-5">
+          <div>
+            <span class="sf-section-label">Semua Tenant</span>
+            <h2 class="text-xl font-black sf-text-dark mt-0.5">Pilih Favoritmu</h2>
+          </div>
+          <span class="text-xs sf-text-muted bg-white px-3 py-1.5 rounded-full border" style="border-color:rgba(13,148,136,0.15);">10 Tenant</span>
+        </div>
+
+        <!-- 2-column (→4-col on wide) tenant grid -->
+        <div class="sf-tenant-grid" id="sf-tenant-container">
+          {% for tenant in tenants %}
+          <a href="/tenant/{{ tenant.slug }}/" class="sf-card stagger-item tenant-card-item" data-cuisine="{{ tenant.cuisine_type }}">
+            <div class="relative h-36 overflow-hidden">
+              {% if tenant.logo %}
+              <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img">
+              {% else %}
+              <div class="w-full h-full flex items-center justify-center text-5xl" style="background:linear-gradient(135deg,#ccfbf1,#cffafe);">{{ tenant.icon_emoji }}</div>
+              {% endif %}
+              <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(15,23,42,0.55) 0%,transparent 55%);"></div>
+              <div class="absolute top-2 left-2"><span class="sf-stall">No.{{ forloop.counter }}</span></div>
+              <div class="absolute top-2 right-2">{% if tenant.is_open %}<span class="sf-open">OPEN</span>{% endif %}</div>
+              <div class="absolute bottom-2 left-2 right-2"><p class="text-white font-bold text-xs leading-tight drop-shadow">{{ tenant.name }}</p></div>
+            </div>
+            <div class="p-3.5">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs sf-text-muted">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</span>
+                <span class="sf-rating text-xs">★ <span class="sf-text-dark font-bold">{{ tenant.rating }}</span></span>
+              </div>
+              <p class="text-xs sf-text-muted mb-2.5 line-clamp-1">{{ tenant.description|default:"Kuliner lezat pilihan terbaik" }}</p>
+              <button class="sf-order-btn w-full text-center">Pesan Sekarang →</button>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div><!-- /sf-content -->
+    </div><!-- /sf-layout -->
+  </div>
+
+</div>
+</div>
+
+<!-- ==================== THEME 14: MAGAZINE ROW ==================== -->
+<div class="theme-body" id="theme-magazine-body">
+<div class="mg-topbar"></div>
+<div class="mg-bg relative overflow-hidden" style="padding-top:4px;">
+  <div class="relative z-10 max-w-screen-xl mx-auto px-6 pt-12 pb-16">
+
+    <!-- ─── HERO BANNER ─── -->
+    <div class="mg-hero mb-8 relative" style="min-height:220px;">
+      <!-- Background image of first tenant or gradient -->
+      <div class="absolute inset-0" style="background:url('') center/cover;opacity:0.3;border-radius:28px;"></div>
+      <div class="relative z-10 p-8 flex flex-col justify-end h-full" style="min-height:220px;">
+        <div class="mg-pill mb-3" style="background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.35);color:white;width:fit-content;">
+          <span class="w-2 h-2 bg-green-300 rounded-full open-pulse"></span>
+          Buka Sekarang · 10 Tenant
+        </div>
+        <h1 class="text-white font-black mb-2" style="font-size:clamp(1.8rem,4vw,3rem);line-height:1.1;">
+          Food Court<br>Grand Galaxy 🌟
+        </h1>
+        <p class="text-white/80 text-sm max-w-md mb-4">Temukan kuliner favoritmu dari 10 tenant premium. Pesan mudah, bayar digital.</p>
+        <div class="flex gap-3 flex-wrap">
+          <button onclick="document.getElementById('mg-all-tenants').scrollIntoView({behavior:'smooth'})"
+            class="bg-white font-bold px-6 py-2.5 rounded-xl text-sm" style="color:#be123c;">
+            Lihat Semua Tenant →
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── STATS ROW ─── -->
+    <div class="mg-stat-row">
+      <div class="mg-stat-chip"><span class="text-2xl">🍽️</span><div><div class="text-lg font-black mg-text-dark">100+</div><div class="text-xs mg-text-muted">Pilihan Menu</div></div></div>
+      <div class="mg-stat-chip"><span class="text-2xl">⭐</span><div><div class="text-lg font-black mg-text-dark">4.8/5</div><div class="text-xs mg-text-muted">Rating</div></div></div>
+      <div class="mg-stat-chip"><span class="text-2xl">🏪</span><div><div class="text-lg font-black mg-text-dark">10</div><div class="text-xs mg-text-muted">Tenant Aktif</div></div></div>
+      <div class="mg-stat-chip"><span class="text-2xl">⏱️</span><div><div class="text-lg font-black mg-text-dark">~15'</div><div class="text-xs mg-text-muted">Estimasi Siap</div></div></div>
+      <div class="mg-stat-chip"><span class="text-2xl">💳</span><div><div class="text-sm font-black mg-text-dark">QRIS & Digital</div><div class="text-xs mg-text-muted">6 metode bayar</div></div></div>
+    </div>
+
+    <!-- ─── HORIZONTAL SCROLL ROWS per cuisine ─── -->
+    {% for emoji,label,cuisine in cuisine_list %}
+    {% if not forloop.first %}
+    <div class="mb-8">
+      <div class="mg-section-header">
+        <div>
+          <div class="mg-section-label">{{ label }}</div>
+          <div class="mg-section-title">{{ emoji }} {{ label }}</div>
+        </div>
+        <span class="mg-see-all">Lihat semua →</span>
+      </div>
+      <div class="mg-row">
+        {% for tenant in tenants %}
+        {% if tenant.cuisine_type == cuisine %}
+        <a href="/tenant/{{ tenant.slug }}/" class="mg-card">
+          <div class="relative" style="height:120px;overflow:hidden;">
+            {% if tenant.logo %}
+            <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img">
+            {% else %}
+            <div class="w-full h-full flex items-center justify-center text-4xl" style="background:linear-gradient(135deg,#ffe4e6,#fff1f2);">{{ tenant.icon_emoji }}</div>
+            {% endif %}
+            <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(28,5,16,0.55) 0%,transparent 60%);"></div>
+            <div class="absolute top-2 left-2"><span class="mg-stall">No.{{ forloop.counter }}</span></div>
+            <div class="absolute top-2 right-2">{% if tenant.is_open %}<span class="mg-open">OPEN</span>{% endif %}</div>
+          </div>
+          <div class="p-3">
+            <div class="text-sm font-bold mg-text-dark mb-1 truncate">{{ tenant.name }}</div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs mg-text-muted">{{ tenant.cuisine_type|title }}</span>
+              <span class="mg-rating text-xs">★ {{ tenant.rating }}</span>
+            </div>
+            <button class="mg-order-btn w-full text-center">Pesan →</button>
+          </div>
+        </a>
+        {% endif %}
+        {% endfor %}
+        <!-- Fallback if no tenant in category -->
+        {% for tenant in tenants %}
+        <a href="/tenant/{{ tenant.slug }}/" class="mg-card">
+          <div class="relative" style="height:120px;overflow:hidden;">
+            {% if tenant.logo %}
+            <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img">
+            {% else %}
+            <div class="w-full h-full flex items-center justify-center text-4xl" style="background:linear-gradient(135deg,#ffe4e6,#fff1f2);">{{ tenant.icon_emoji }}</div>
+            {% endif %}
+            <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(28,5,16,0.55) 0%,transparent 60%);"></div>
+          </div>
+          <div class="p-3">
+            <div class="text-sm font-bold mg-text-dark mb-1 truncate">{{ tenant.name }}</div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs mg-text-muted">{{ tenant.cuisine_type|title }}</span>
+              <span class="mg-rating text-xs">★ {{ tenant.rating }}</span>
+            </div>
+            <button class="mg-order-btn w-full text-center">Pesan →</button>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    <!-- ─── ALL TENANTS GRID ─── -->
+    <div class="mb-4" id="mg-all-tenants">
+      <div class="mg-section-label">Semua Tenant</div>
+      <h2 class="text-xl font-black mg-text-dark mt-0.5 mb-5">Pilih Favoritmu 🍴</h2>
+    </div>
+
+    <!-- Filter chips -->
+    <div class="flex gap-2 overflow-x-auto pb-3 mb-6">
+      {% for emoji,label,cuisine in cuisine_list %}
+      <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+        class="cuisine-filter-btn flex items-center gap-1.5 px-4 py-2 text-xs font-semibold whitespace-nowrap rounded-xl transition-all"
+        style="background:white;color:#9d6a78;border:1.5px solid rgba(244,63,94,0.15);">
+        {{ emoji }} {{ label }}
+      </button>
+      {% endfor %}
+    </div>
+
+    <div class="mg-top-grid">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/" class="mg-top-card stagger-item tenant-card-item" data-cuisine="{{ tenant.cuisine_type }}">
+        <div class="relative h-32 overflow-hidden">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-4xl" style="background:linear-gradient(135deg,#ffe4e6,#fff1f2);">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(28,5,16,0.55) 0%,transparent 55%);"></div>
+          <div class="absolute top-2 left-2"><span class="mg-stall">No.{{ forloop.counter }}</span></div>
+          <div class="absolute top-2 right-2">{% if tenant.is_open %}<span class="mg-open">OPEN</span>{% endif %}</div>
+          <div class="absolute bottom-2 left-2 right-2"><p class="text-white font-bold text-xs leading-tight drop-shadow">{{ tenant.name }}</p></div>
+        </div>
+        <div class="p-3">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs mg-text-muted">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</span>
+            <span class="mg-rating text-xs">★ <span class="mg-text-dark font-bold">{{ tenant.rating }}</span></span>
+          </div>
+          <button class="mg-order-btn w-full text-center">Pesan →</button>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+</div>
+
 <!-- ==================== THEME 5: NIGHT MARKET ==================== -->
 <div class="theme-body" id="theme-nightmarket-body">
 <div class="nm-bg min-h-screen relative overflow-hidden">
@@ -3248,6 +4027,37 @@ body.theme-sunset::-webkit-scrollbar-thumb { background:linear-gradient(#d97706,
         </div>
       </button>
 
+      <!-- ── NEW LAYOUT THEMES ── -->
+      <div class="col-span-2 mt-1 mb-1" style="height:1px;background:linear-gradient(90deg,transparent,rgba(124,58,237,0.2),transparent);"></div>
+      <div class="col-span-2 text-center text-xs font-bold text-slate-400 tracking-widest uppercase mb-1">Layout Baru ✨</div>
+
+      <button onclick="switchTheme('bento')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-bento"
+        style="background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1.5px solid rgba(124,58,237,0.3);">
+        <span class="text-xl">⬛</span>
+        <div class="text-left">
+          <div class="text-sm font-bold leading-none mb-0.5" style="background:linear-gradient(90deg,#7c3aed,#8b5cf6,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Bento Cloud</div>
+          <div class="text-slate-400 text-xs">Lavender · Violet · Bento Grid</div>
+        </div>
+      </button>
+
+      <button onclick="switchTheme('sidebar')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-sidebar"
+        style="background:linear-gradient(135deg,#f0fdfa,#ccfbf1);border:1.5px solid rgba(13,148,136,0.3);">
+        <span class="text-xl">📋</span>
+        <div class="text-left">
+          <div class="text-sm font-bold leading-none mb-0.5" style="background:linear-gradient(90deg,#0d9488,#14b8a6,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Sidebar Flow</div>
+          <div class="text-slate-400 text-xs">Teal · Mint · 2-Column</div>
+        </div>
+      </button>
+
+      <button onclick="switchTheme('magazine')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-magazine"
+        style="background:linear-gradient(135deg,#fff8f6,#ffe4e6);border:1.5px solid rgba(244,63,94,0.3);">
+        <span class="text-xl">🗞️</span>
+        <div class="text-left">
+          <div class="text-sm font-bold leading-none mb-0.5" style="background:linear-gradient(90deg,#be123c,#f43f5e,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Magazine Row</div>
+          <div class="text-slate-400 text-xs">Rose · Coral · Horizontal Scroll</div>
+        </div>
+      </button>
+
     </div>
   </div>
 
@@ -3341,6 +4151,24 @@ const THEMES = {
     filterActive: 'background:linear-gradient(135deg,#d97706,#f59e0b);color:white;border:none;box-shadow:0 4px 16px rgba(217,119,6,0.32);border-radius:10px;',
     filterDefault: 'background:white;color:#92704a;border:1.5px solid rgba(217,119,6,0.15);border-radius:10px;',
   },
+  bento: {
+    bodyClass: 'theme-bento',
+    bodyId: 'theme-bento-body',
+    filterActive: 'background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:white;border:none;box-shadow:0 4px 16px rgba(124,58,237,0.32);border-radius:10px;',
+    filterDefault: 'background:white;color:#7c3aed;border:1.5px solid rgba(124,58,237,0.18);border-radius:10px;',
+  },
+  sidebar: {
+    bodyClass: 'theme-sidebar',
+    bodyId: 'theme-sidebar-body',
+    filterActive: 'background:linear-gradient(135deg,#0d9488,#14b8a6);color:white;border:none;box-shadow:0 4px 16px rgba(13,148,136,0.32);border-radius:10px;',
+    filterDefault: 'background:white;color:#0d9488;border:1.5px solid rgba(13,148,136,0.18);border-radius:10px;',
+  },
+  magazine: {
+    bodyClass: 'theme-magazine',
+    bodyId: 'theme-magazine-body',
+    filterActive: 'background:linear-gradient(135deg,#be123c,#f43f5e);color:white;border:none;box-shadow:0 4px 16px rgba(244,63,94,0.32);border-radius:10px;',
+    filterDefault: 'background:white;color:#be123c;border:1.5px solid rgba(244,63,94,0.18);border-radius:10px;',
+  },
 };
 
 let currentTheme = localStorage.getItem('kiosk-theme') || 'yogya';
@@ -3401,6 +4229,22 @@ function filterCuisine(cuisine) {
   });
 }
 
+// Sidebar theme category filter (updates sidebar buttons + card visibility)
+function sfFilterCuisine(cuisine, btnEl) {
+  // Update sidebar button active state
+  document.querySelectorAll('.sf-cat-btn').forEach(b => b.classList.remove('sf-active'));
+  if (btnEl) btnEl.classList.add('sf-active');
+
+  // Filter tenant cards inside sidebar layout
+  const sfContainer = document.getElementById('sf-tenant-container');
+  if (sfContainer) {
+    sfContainer.querySelectorAll('.tenant-card-item').forEach(card => {
+      const match = cuisine === 'all' || card.dataset.cuisine === cuisine;
+      card.style.display = match ? '' : 'none';
+    });
+  }
+}
+
 function triggerStagger() {
   const items = document.querySelectorAll(`#${THEMES[currentTheme].bodyId} .stagger-item`);
   items.forEach((item, i) => {
@@ -3443,7 +4287,7 @@ function updateNavForTheme(theme) {
   const nav = document.querySelector('nav');
   if (!nav) return;
 
-  const lightThemes = ['fresh','japanese','softbreeze','sakura','sage','sunset'];
+  const lightThemes = ['fresh','japanese','softbreeze','sakura','sage','sunset','bento','sidebar','magazine'];
   if (lightThemes.includes(theme)) {
     const navBg = {
       japanese:   'rgba(253,246,232,0.96)',
@@ -3452,6 +4296,9 @@ function updateNavForTheme(theme) {
       sage:       'rgba(244,247,242,0.97)',
       sunset:     'rgba(253,248,242,0.97)',
       fresh:      'rgba(255,255,255,0.95)',
+      bento:      'rgba(245,243,255,0.97)',
+      sidebar:    'rgba(240,253,250,0.97)',
+      magazine:   'rgba(255,248,246,0.97)',
     };
     const navBorder = {
       japanese:   '1px solid rgba(220,38,38,0.15)',
@@ -3460,6 +4307,9 @@ function updateNavForTheme(theme) {
       sage:       '1px solid rgba(74,124,63,0.12)',
       sunset:     '1px solid rgba(217,119,6,0.12)',
       fresh:      '1px solid rgba(0,0,0,0.06)',
+      bento:      '1px solid rgba(124,58,237,0.12)',
+      sidebar:    '1px solid rgba(13,148,136,0.12)',
+      magazine:   '1px solid rgba(244,63,94,0.12)',
     };
     nav.style.background   = navBg[theme]     || 'rgba(255,255,255,0.95)';
     nav.style.borderBottom = navBorder[theme] || '1px solid rgba(0,0,0,0.06)';
