@@ -1359,6 +1359,329 @@ body.theme-softbreeze::-webkit-scrollbar-thumb {
   background: linear-gradient(#0ea5e9, #10b981);
   border-radius: 3px;
 }
+
+/* ================================================
+   THEME 9: SAKURA BLUSH
+   Soft rose pink · warm cream · delicate elegant
+================================================ */
+body.theme-sakura {
+  background: #fdf6f8;
+  overflow-x: hidden;
+}
+.sk-bg {
+  background: linear-gradient(150deg, #fff9fb 0%, #fce7ef 40%, #fdf4f0 75%, #fff8f2 100%);
+  min-height: 100vh;
+  position: relative;
+}
+.sk-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+}
+/* Top accent bar */
+.sk-topbar {
+  height: 4px;
+  background: linear-gradient(90deg, #f9a8c9, #fda4af, #fb923c, #fda4af, #f9a8c9);
+  background-size: 200% 100%;
+  animation: skBar 5s linear infinite;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+}
+@keyframes skBar { 0%{background-position:0%} 100%{background-position:200%} }
+
+/* Typography */
+.sk-gradient-text {
+  background: linear-gradient(135deg, #e11d6a 0%, #f43f8e 50%, #fb923c 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.sk-text-dark  { color: #1c0510; }
+.sk-text-muted { color: #9d6a78; }
+.sk-text-accent { color: #e11d6a; }
+
+/* Pill badge */
+.sk-pill {
+  background: rgba(225,29,106,0.08);
+  border: 1px solid rgba(225,29,106,0.22);
+  color: #be185d;
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+
+/* Cards */
+.sk-card {
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(225,29,106,0.1);
+  border-radius: 22px;
+  box-shadow: 0 4px 24px rgba(225,29,106,0.07), 0 1px 4px rgba(0,0,0,0.04);
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  overflow: hidden; position: relative;
+}
+.sk-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg,#f9a8c9,#fda4af,#fb923c);
+  opacity:0; transition: opacity 0.3s;
+}
+.sk-card:hover::before { opacity:1; }
+.sk-card:hover {
+  box-shadow: 0 20px 60px rgba(225,29,106,0.15), 0 8px 24px rgba(0,0,0,0.05);
+  transform: translateY(-8px);
+  border-color: rgba(225,29,106,0.2);
+}
+.sk-stat {
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(225,29,106,0.1);
+  border-radius: 20px;
+  box-shadow: 0 2px 14px rgba(225,29,106,0.06);
+}
+
+/* Buttons */
+.sk-btn-primary {
+  background: linear-gradient(135deg, #e11d6a, #f43f8e);
+  color: white; border-radius: 14px; padding: 13px 30px;
+  font-weight: 700; font-size: 0.92rem;
+  box-shadow: 0 6px 24px rgba(225,29,106,0.32);
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  border: none; cursor: pointer;
+}
+.sk-btn-primary:hover { box-shadow: 0 12px 40px rgba(225,29,106,0.42); transform: translateY(-3px); }
+.sk-btn-secondary {
+  background: white; color: #e11d6a;
+  border: 2px solid rgba(225,29,106,0.25);
+  border-radius: 14px; padding: 11px 30px;
+  font-weight: 700; font-size: 0.92rem;
+  transition: all 0.3s ease; cursor: pointer;
+}
+.sk-btn-secondary:hover { background: rgba(225,29,106,0.05); border-color: #e11d6a; }
+
+/* Filter chips */
+.sk-chip-active  { background: linear-gradient(135deg,#e11d6a,#f43f8e)!important; color:white!important; border:none!important; box-shadow:0 4px 14px rgba(225,29,106,0.3); }
+.sk-chip-default { background:white!important; color:#9d6a78!important; border:1.5px solid rgba(225,29,106,0.15)!important; }
+
+/* Order button & badges */
+.sk-order-btn { background: linear-gradient(135deg,#e11d6a,#f43f8e); color:white; border-radius:10px; padding:7px 16px; font-size:0.75rem; font-weight:700; box-shadow:0 3px 10px rgba(225,29,106,0.28); transition:all 0.25s ease; }
+.sk-order-btn:hover { box-shadow:0 6px 20px rgba(225,29,106,0.4); transform:translateY(-2px); }
+.sk-stall { background:linear-gradient(135deg,#e11d6a,#f43f8e); color:white; font-size:0.62rem; font-weight:800; padding:3px 9px; border-radius:100px; }
+.sk-open  { background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); color:#059669; font-size:0.62rem; font-weight:800; padding:3px 9px; border-radius:100px; }
+.sk-rating { color:#f59e0b; }
+.sk-section-label { color:#e11d6a; font-weight:700; font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase; }
+.sk-feature { background:rgba(255,255,255,0.9); border:1px solid rgba(225,29,106,0.1); border-radius:16px; padding:16px 20px; display:flex; align-items:center; gap:12px; box-shadow:0 2px 10px rgba(225,29,106,0.05); }
+.sk-fi { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+
+@keyframes skFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 33%{transform:translateY(-10px) rotate(1.5deg);} 66%{transform:translateY(-5px) rotate(-1deg);} }
+.sk-float { animation: skFloat 7s ease-in-out infinite; }
+.sk-float2 { animation: skFloat 9s ease-in-out infinite 2s; }
+.sk-float3 { animation: skFloat 11s ease-in-out infinite 4s; }
+
+body.theme-sakura::-webkit-scrollbar { width: 6px; }
+body.theme-sakura::-webkit-scrollbar-track { background: #fdf6f8; }
+body.theme-sakura::-webkit-scrollbar-thumb { background: linear-gradient(#e11d6a, #fb923c); border-radius: 3px; }
+
+/* ================================================
+   THEME 10: SAGE GARDEN
+   Dusty sage green · warm sand · natural organic
+================================================ */
+body.theme-sage {
+  background: #f4f7f2;
+  overflow-x: hidden;
+}
+.sg-bg {
+  background: linear-gradient(150deg, #f9fbf7 0%, #edf2e8 35%, #f7f3ed 70%, #fdf9f4 100%);
+  min-height: 100vh; position: relative;
+}
+.sg-blob { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; }
+
+.sg-topbar {
+  height: 4px;
+  background: linear-gradient(90deg, #6b9e5e, #8aba7d, #c8a97d, #8aba7d, #6b9e5e);
+  background-size: 200% 100%;
+  animation: sgBar 5s linear infinite;
+  position: fixed; top:0; left:0; right:0; z-index:999;
+}
+@keyframes sgBar { 0%{background-position:0%} 100%{background-position:200%} }
+
+.sg-gradient-text {
+  background: linear-gradient(135deg, #4a7c3f 0%, #6b9e5e 45%, #8a7355 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.sg-text-dark  { color: #1a2417; }
+.sg-text-muted { color: #6b7a60; }
+.sg-text-accent { color: #4a7c3f; }
+
+.sg-pill {
+  background: rgba(74,124,63,0.09);
+  border: 1px solid rgba(74,124,63,0.24);
+  color: #3a6630;
+  border-radius: 100px; padding: 6px 16px;
+  font-size: 0.78rem; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+
+.sg-card {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(74,124,63,0.1);
+  border-radius: 22px;
+  box-shadow: 0 4px 24px rgba(74,124,63,0.07), 0 1px 4px rgba(0,0,0,0.04);
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  overflow: hidden; position: relative;
+}
+.sg-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg,#6b9e5e,#8aba7d,#c8a97d);
+  opacity:0; transition:opacity 0.3s;
+}
+.sg-card:hover::before { opacity:1; }
+.sg-card:hover {
+  box-shadow: 0 20px 60px rgba(74,124,63,0.14), 0 8px 24px rgba(0,0,0,0.05);
+  transform: translateY(-8px);
+  border-color: rgba(74,124,63,0.22);
+}
+.sg-stat {
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(74,124,63,0.1);
+  border-radius: 20px;
+  box-shadow: 0 2px 14px rgba(74,124,63,0.06);
+}
+
+.sg-btn-primary {
+  background: linear-gradient(135deg, #4a7c3f, #6b9e5e);
+  color: white; border-radius: 14px; padding: 13px 30px;
+  font-weight: 700; font-size: 0.92rem;
+  box-shadow: 0 6px 24px rgba(74,124,63,0.3);
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  border: none; cursor: pointer;
+}
+.sg-btn-primary:hover { box-shadow:0 12px 40px rgba(74,124,63,0.4); transform:translateY(-3px); }
+.sg-btn-secondary {
+  background: white; color: #4a7c3f;
+  border: 2px solid rgba(74,124,63,0.25);
+  border-radius: 14px; padding: 11px 30px;
+  font-weight: 700; font-size: 0.92rem;
+  transition: all 0.3s ease; cursor: pointer;
+}
+.sg-btn-secondary:hover { background:rgba(74,124,63,0.05); border-color:#4a7c3f; }
+
+.sg-order-btn { background:linear-gradient(135deg,#4a7c3f,#6b9e5e); color:white; border-radius:10px; padding:7px 16px; font-size:0.75rem; font-weight:700; box-shadow:0 3px 10px rgba(74,124,63,0.25); transition:all 0.25s ease; }
+.sg-order-btn:hover { box-shadow:0 6px 20px rgba(74,124,63,0.38); transform:translateY(-2px); }
+.sg-stall { background:linear-gradient(135deg,#4a7c3f,#6b9e5e); color:white; font-size:0.62rem; font-weight:800; padding:3px 9px; border-radius:100px; }
+.sg-open  { background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); color:#059669; font-size:0.62rem; font-weight:800; padding:3px 9px; border-radius:100px; }
+.sg-rating { color:#c8a97d; }
+.sg-section-label { color:#4a7c3f; font-weight:700; font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase; }
+.sg-feature { background:rgba(255,255,255,0.88); border:1px solid rgba(74,124,63,0.1); border-radius:16px; padding:16px 20px; display:flex; align-items:center; gap:12px; box-shadow:0 2px 10px rgba(74,124,63,0.05); }
+.sg-fi { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+
+@keyframes sgFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 33%{transform:translateY(-12px) rotate(-1.5deg);} 66%{transform:translateY(-6px) rotate(1deg);} }
+.sg-float  { animation: sgFloat 8s ease-in-out infinite; }
+.sg-float2 { animation: sgFloat 10s ease-in-out infinite 2.5s; }
+.sg-float3 { animation: sgFloat 12s ease-in-out infinite 5s; }
+
+body.theme-sage::-webkit-scrollbar { width:6px; }
+body.theme-sage::-webkit-scrollbar-track { background:#f4f7f2; }
+body.theme-sage::-webkit-scrollbar-thumb { background:linear-gradient(#4a7c3f,#c8a97d); border-radius:3px; }
+
+/* ================================================
+   THEME 11: SUNSET AMBER
+   Warm peach · deep amber · ivory · exotic warm
+================================================ */
+body.theme-sunset {
+  background: #fdf8f2;
+  overflow-x: hidden;
+}
+.su-bg {
+  background: linear-gradient(150deg, #fffbf5 0%, #fff0dc 30%, #fde8d5 65%, #fdf5ee 100%);
+  min-height: 100vh; position: relative;
+}
+.su-blob { position:absolute; border-radius:50%; filter:blur(90px); pointer-events:none; }
+
+.su-topbar {
+  height: 4px;
+  background: linear-gradient(90deg, #f59e0b, #fb923c, #ef4444, #fb923c, #f59e0b);
+  background-size: 200% 100%;
+  animation: suBar 4s linear infinite;
+  position: fixed; top:0; left:0; right:0; z-index:999;
+}
+@keyframes suBar { 0%{background-position:0%} 100%{background-position:200%} }
+
+.su-gradient-text {
+  background: linear-gradient(135deg, #d97706 0%, #f59e0b 40%, #fb923c 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.su-text-dark  { color: #1c1108; }
+.su-text-muted { color: #92704a; }
+.su-text-accent { color: #d97706; }
+
+.su-pill {
+  background: rgba(217,119,6,0.09);
+  border: 1px solid rgba(217,119,6,0.25);
+  color: #b45309;
+  border-radius: 100px; padding: 6px 16px;
+  font-size: 0.78rem; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+
+.su-card {
+  background: rgba(255,255,255,0.94);
+  border: 1px solid rgba(217,119,6,0.11);
+  border-radius: 22px;
+  box-shadow: 0 4px 24px rgba(217,119,6,0.08), 0 1px 4px rgba(0,0,0,0.04);
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  overflow: hidden; position: relative;
+}
+.su-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg,#f59e0b,#fb923c,#ef4444);
+  opacity:0; transition:opacity 0.3s;
+}
+.su-card:hover::before { opacity:1; }
+.su-card:hover {
+  box-shadow: 0 20px 60px rgba(217,119,6,0.16), 0 8px 24px rgba(0,0,0,0.05);
+  transform: translateY(-8px);
+  border-color: rgba(217,119,6,0.22);
+}
+.su-stat {
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(217,119,6,0.11);
+  border-radius: 20px;
+  box-shadow: 0 2px 14px rgba(217,119,6,0.07);
+}
+
+.su-btn-primary {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  color: white; border-radius: 14px; padding: 13px 30px;
+  font-weight: 700; font-size: 0.92rem;
+  box-shadow: 0 6px 24px rgba(217,119,6,0.32);
+  transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  border: none; cursor: pointer;
+}
+.su-btn-primary:hover { box-shadow:0 12px 40px rgba(217,119,6,0.45); transform:translateY(-3px); }
+.su-btn-secondary {
+  background: white; color: #d97706;
+  border: 2px solid rgba(217,119,6,0.25);
+  border-radius: 14px; padding: 11px 30px;
+  font-weight: 700; font-size: 0.92rem;
+  transition: all 0.3s ease; cursor: pointer;
+}
+.su-btn-secondary:hover { background:rgba(217,119,6,0.05); border-color:#d97706; }
+
+.su-order-btn { background:linear-gradient(135deg,#d97706,#f59e0b); color:white; border-radius:10px; padding:7px 16px; font-size:0.75rem; font-weight:700; box-shadow:0 3px 10px rgba(217,119,6,0.28); transition:all 0.25s ease; }
+.su-order-btn:hover { box-shadow:0 6px 20px rgba(217,119,6,0.42); transform:translateY(-2px); }
+.su-stall { background:linear-gradient(135deg,#d97706,#f59e0b); color:white; font-size:0.62rem; font-weight:800; padding:3px 9px; border-radius:100px; }
+.su-open  { background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); color:#059669; font-size:0.62rem; font-weight:800; padding:3px 9px; border-radius:100px; }
+.su-rating { color:#f59e0b; }
+.su-section-label { color:#d97706; font-weight:700; font-size:0.72rem; letter-spacing:0.15em; text-transform:uppercase; }
+.su-feature { background:rgba(255,255,255,0.9); border:1px solid rgba(217,119,6,0.1); border-radius:16px; padding:16px 20px; display:flex; align-items:center; gap:12px; box-shadow:0 2px 10px rgba(217,119,6,0.06); }
+.su-fi { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+
+@keyframes suFloat { 0%,100%{transform:translateY(0) rotate(0deg);} 33%{transform:translateY(-14px) rotate(2deg);} 66%{transform:translateY(-7px) rotate(-1.5deg);} }
+.su-float  { animation: suFloat 7s ease-in-out infinite; }
+.su-float2 { animation: suFloat 9s ease-in-out infinite 2s; }
+.su-float3 { animation: suFloat 11s ease-in-out infinite 4.5s; }
+
+body.theme-sunset::-webkit-scrollbar { width:6px; }
+body.theme-sunset::-webkit-scrollbar-track { background:#fdf8f2; }
+body.theme-sunset::-webkit-scrollbar-thumb { background:linear-gradient(#d97706,#fb923c); border-radius:3px; }
 </style>
 {% endblock %}
 
@@ -2326,6 +2649,372 @@ body.theme-softbreeze::-webkit-scrollbar-thumb {
 </div><!-- /sb-bg -->
 </div><!-- /theme-body -->
 
+<!-- ==================== THEME 9: SAKURA BLUSH ==================== -->
+<div class="theme-body" id="theme-sakura-body">
+<div class="sk-topbar"></div>
+<div class="sk-bg relative overflow-hidden" style="padding-top:4px;">
+
+  <!-- Blobs -->
+  <div class="sk-blob sk-float"  style="width:400px;height:400px;background:radial-gradient(circle,rgba(244,63,142,0.22),rgba(251,146,60,0.1));top:-80px;right:-60px;"></div>
+  <div class="sk-blob sk-float2" style="width:340px;height:340px;background:radial-gradient(circle,rgba(249,168,201,0.25),transparent);bottom:80px;left:-70px;"></div>
+  <div class="sk-blob sk-float3" style="width:220px;height:220px;background:radial-gradient(circle,rgba(251,146,60,0.18),transparent);top:50%;right:8%;"></div>
+
+  <div class="relative z-10 max-w-screen-xl mx-auto px-6 pt-14 pb-16">
+
+    <!-- Hero -->
+    <div class="flex flex-col lg:flex-row items-center gap-12 mb-16">
+      <div class="flex-1 text-center lg:text-left">
+        <div class="sk-pill mb-6">
+          <span class="w-2 h-2 bg-emerald-500 rounded-full open-pulse"></span>
+          Buka Sekarang · 10 Tenant Aktif
+        </div>
+        <h1 class="font-black leading-[1.05] mb-5 tracking-tight" style="font-size:clamp(3rem,7vw,5.8rem);">
+          <span class="sk-text-dark">Cita Rasa</span><br>
+          <span class="sk-gradient-text">Istimewa</span><br>
+          <span class="sk-text-dark">Untukmu</span><span style="color:#e11d6a;">.</span>
+        </h1>
+        <p class="text-base sk-text-muted mb-9 max-w-md leading-relaxed lg:mx-0 mx-auto">
+          Nikmati kelezatan 10 tenant premium dalam satu tempat. Pengalaman kuliner yang memanjakan selera.
+        </p>
+        <div class="flex gap-4 justify-center lg:justify-start flex-wrap">
+          <button onclick="document.getElementById('sk-tenants').scrollIntoView({behavior:'smooth'})" class="sk-btn-primary">Jelajahi Menu 🌸</button>
+          <button class="sk-btn-secondary">Info &amp; Promo ✨</button>
+        </div>
+        <div class="flex flex-wrap items-center gap-5 mt-9 justify-center lg:justify-start">
+          <div class="flex items-center gap-2 text-sm sk-text-muted"><span class="text-rose-400 font-bold">✓</span><span>Pembayaran Aman</span></div>
+          <div class="flex items-center gap-2 text-sm sk-text-muted"><span class="text-pink-400 font-bold">⚡</span><span>Pesan Cepat</span></div>
+          <div class="flex items-center gap-2 text-sm sk-text-muted"><span class="text-orange-400 font-bold">🎯</span><span>100% Fresh</span></div>
+          <div class="flex items-center gap-2 text-sm sk-text-muted"><span class="text-rose-300 font-bold">📱</span><span>QRIS &amp; Digital</span></div>
+        </div>
+      </div>
+      <!-- Stats -->
+      <div class="flex-shrink-0 grid grid-cols-2 gap-4 w-full max-w-xs">
+        <div class="sk-stat rounded-2xl p-6 text-center col-span-2 relative overflow-hidden">
+          <div class="absolute inset-0 opacity-5" style="background:linear-gradient(135deg,#e11d6a,#fb923c);"></div>
+          <div class="relative">
+            <div class="font-black mb-1 sk-gradient-text" style="font-size:3.5rem;line-height:1;">100+</div>
+            <div class="text-sm sk-text-muted font-semibold">Pilihan Menu Lezat</div>
+          </div>
+        </div>
+        <div class="sk-stat rounded-2xl p-5 text-center">
+          <div class="text-3xl font-black sk-text-dark mb-1">4.8</div>
+          <div class="sk-rating">★★★★★</div>
+          <div class="text-xs sk-text-muted mt-1">Rating</div>
+        </div>
+        <div class="sk-stat rounded-2xl p-5 text-center">
+          <div class="text-3xl font-black sk-text-dark mb-1">10</div>
+          <div class="text-xs sk-text-muted">🏪 Tenant</div>
+          <div class="text-xs sk-text-muted">Aktif</div>
+        </div>
+        <div class="sk-stat rounded-2xl p-5 text-center col-span-2">
+          <div class="text-2xl font-black sk-text-accent mb-1">~15 mnt</div>
+          <div class="text-xs sk-text-muted">⏱️ Estimasi Waktu Siap</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section header -->
+    <div class="mb-6" id="sk-tenants">
+      <span class="sk-section-label">Semua Tenant</span>
+      <h2 class="text-2xl font-black sk-text-dark mt-1">Pilih Favoritmu</h2>
+    </div>
+
+    <!-- Filters -->
+    <div class="flex gap-2.5 overflow-x-auto pb-3 mb-8">
+      {% for emoji,label,cuisine in cuisine_list %}
+      <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+        class="cuisine-filter-btn flex items-center gap-2 px-5 py-2.5 text-sm font-semibold whitespace-nowrap rounded-xl transition-all"
+        style="background:white;color:#9d6a78;border:1.5px solid rgba(225,29,106,0.15);">
+        {{ emoji }} {{ label }}
+      </button>
+      {% endfor %}
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/" class="sk-card cursor-pointer stagger-item tenant-card-item" data-cuisine="{{ tenant.cuisine_type }}">
+        <div class="relative h-36 overflow-hidden">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-5xl" style="background:linear-gradient(135deg,#fce7ef,#fff0e6);">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(28,5,16,0.55) 0%,transparent 55%);"></div>
+          <div class="absolute top-2.5 left-2.5"><span class="sk-stall">No. {{ forloop.counter }}</span></div>
+          <div class="absolute top-2.5 right-2.5">
+            {% if tenant.is_open %}<span class="sk-open">OPEN</span>{% else %}<span style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);color:#dc2626;font-size:0.62rem;font-weight:800;padding:3px 9px;border-radius:100px;">TUTUP</span>{% endif %}
+          </div>
+          <div class="absolute bottom-2.5 left-2.5 right-2.5">
+            <p class="text-white font-bold text-xs leading-tight drop-shadow-md">{{ tenant.name }}</p>
+          </div>
+        </div>
+        <div class="p-3.5">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-xs sk-text-muted">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</span>
+            <div class="flex items-center gap-1 sk-rating text-xs">★ <span class="sk-text-dark font-bold">{{ tenant.rating }}</span></div>
+          </div>
+          <button class="sk-order-btn w-full text-center">Pesan Sekarang →</button>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- Features -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14">
+      <div class="sk-feature"><div class="sk-fi" style="background:linear-gradient(135deg,#fce7ef,#fecdd3);">💳</div><div><div class="text-sm font-bold sk-text-dark">Multi Pembayaran</div><div class="text-xs sk-text-muted">QRIS · GoPay · OVO · Cash</div></div></div>
+      <div class="sk-feature"><div class="sk-fi" style="background:linear-gradient(135deg,#fde8d5,#fed7aa);">⚡</div><div><div class="text-sm font-bold sk-text-dark">Pesan Instan</div><div class="text-xs sk-text-muted">Tanpa antre panjang</div></div></div>
+      <div class="sk-feature"><div class="sk-fi" style="background:linear-gradient(135deg,#fce7ef,#fecdd3);">📱</div><div><div class="text-sm font-bold sk-text-dark">Struk Digital</div><div class="text-xs sk-text-muted">Ramah lingkungan</div></div></div>
+      <div class="sk-feature"><div class="sk-fi" style="background:linear-gradient(135deg,#fde8d5,#fed7aa);">⭐</div><div><div class="text-sm font-bold sk-text-dark">Kualitas Terjamin</div><div class="text-xs sk-text-muted">Rating 4.8 dari pelanggan</div></div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== THEME 10: SAGE GARDEN ==================== -->
+<div class="theme-body" id="theme-sage-body">
+<div class="sg-topbar"></div>
+<div class="sg-bg relative overflow-hidden" style="padding-top:4px;">
+
+  <!-- Blobs -->
+  <div class="sg-blob sg-float"  style="width:420px;height:420px;background:radial-gradient(circle,rgba(107,158,94,0.2),rgba(200,169,125,0.1));top:-80px;right:-60px;"></div>
+  <div class="sg-blob sg-float2" style="width:360px;height:360px;background:radial-gradient(circle,rgba(138,186,125,0.18),transparent);bottom:80px;left:-70px;"></div>
+  <div class="sg-blob sg-float3" style="width:240px;height:240px;background:radial-gradient(circle,rgba(200,169,125,0.2),transparent);top:45%;right:5%;"></div>
+
+  <div class="relative z-10 max-w-screen-xl mx-auto px-6 pt-14 pb-16">
+
+    <!-- Hero -->
+    <div class="flex flex-col lg:flex-row items-center gap-12 mb-16">
+      <div class="flex-1 text-center lg:text-left">
+        <div class="sg-pill mb-6">
+          <span class="w-2 h-2 bg-emerald-500 rounded-full open-pulse"></span>
+          Buka Sekarang · 10 Tenant Aktif
+        </div>
+        <h1 class="font-black leading-[1.05] mb-5 tracking-tight" style="font-size:clamp(3rem,7vw,5.8rem);">
+          <span class="sg-text-dark">Alami &amp;</span><br>
+          <span class="sg-gradient-text">Segar</span><br>
+          <span class="sg-text-dark">Tiap Hari</span><span style="color:#4a7c3f;">.</span>
+        </h1>
+        <p class="text-base sg-text-muted mb-9 max-w-md leading-relaxed lg:mx-0 mx-auto">
+          10 tenant pilihan dengan cita rasa autentik. Dari masakan nusantara hingga kuliner mancanegara, semua ada.
+        </p>
+        <div class="flex gap-4 justify-center lg:justify-start flex-wrap">
+          <button onclick="document.getElementById('sg-tenants').scrollIntoView({behavior:'smooth'})" class="sg-btn-primary">Jelajahi Menu 🌿</button>
+          <button class="sg-btn-secondary">Info &amp; Promo ✨</button>
+        </div>
+        <div class="flex flex-wrap items-center gap-5 mt-9 justify-center lg:justify-start">
+          <div class="flex items-center gap-2 text-sm sg-text-muted"><span class="text-green-600 font-bold">✓</span><span>Pembayaran Aman</span></div>
+          <div class="flex items-center gap-2 text-sm sg-text-muted"><span class="text-emerald-500 font-bold">⚡</span><span>Pesan Cepat</span></div>
+          <div class="flex items-center gap-2 text-sm sg-text-muted"><span class="font-bold" style="color:#c8a97d;">🌾</span><span>100% Alami</span></div>
+          <div class="flex items-center gap-2 text-sm sg-text-muted"><span class="text-teal-600 font-bold">📱</span><span>QRIS &amp; Digital</span></div>
+        </div>
+      </div>
+      <!-- Stats -->
+      <div class="flex-shrink-0 grid grid-cols-2 gap-4 w-full max-w-xs">
+        <div class="sg-stat rounded-2xl p-6 text-center col-span-2 relative overflow-hidden">
+          <div class="absolute inset-0 opacity-5" style="background:linear-gradient(135deg,#4a7c3f,#c8a97d);"></div>
+          <div class="relative">
+            <div class="font-black mb-1 sg-gradient-text" style="font-size:3.5rem;line-height:1;">100+</div>
+            <div class="text-sm sg-text-muted font-semibold">Pilihan Menu Lezat</div>
+          </div>
+        </div>
+        <div class="sg-stat rounded-2xl p-5 text-center">
+          <div class="text-3xl font-black sg-text-dark mb-1">4.8</div>
+          <div class="sg-rating">★★★★★</div>
+          <div class="text-xs sg-text-muted mt-1">Rating</div>
+        </div>
+        <div class="sg-stat rounded-2xl p-5 text-center">
+          <div class="text-3xl font-black sg-text-dark mb-1">10</div>
+          <div class="text-xs sg-text-muted">🏪 Tenant</div>
+          <div class="text-xs sg-text-muted">Aktif</div>
+        </div>
+        <div class="sg-stat rounded-2xl p-5 text-center col-span-2">
+          <div class="text-2xl font-black sg-text-accent mb-1">~15 mnt</div>
+          <div class="text-xs sg-text-muted">⏱️ Estimasi Waktu Siap</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section header -->
+    <div class="mb-6" id="sg-tenants">
+      <span class="sg-section-label">Semua Tenant</span>
+      <h2 class="text-2xl font-black sg-text-dark mt-1">Pilih Favoritmu</h2>
+    </div>
+
+    <!-- Filters -->
+    <div class="flex gap-2.5 overflow-x-auto pb-3 mb-8">
+      {% for emoji,label,cuisine in cuisine_list %}
+      <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+        class="cuisine-filter-btn flex items-center gap-2 px-5 py-2.5 text-sm font-semibold whitespace-nowrap rounded-xl transition-all"
+        style="background:white;color:#6b7a60;border:1.5px solid rgba(74,124,63,0.15);">
+        {{ emoji }} {{ label }}
+      </button>
+      {% endfor %}
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/" class="sg-card cursor-pointer stagger-item tenant-card-item" data-cuisine="{{ tenant.cuisine_type }}">
+        <div class="relative h-36 overflow-hidden">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-5xl" style="background:linear-gradient(135deg,#edf2e8,#f7f3ed);">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(26,36,23,0.55) 0%,transparent 55%);"></div>
+          <div class="absolute top-2.5 left-2.5"><span class="sg-stall">No. {{ forloop.counter }}</span></div>
+          <div class="absolute top-2.5 right-2.5">
+            {% if tenant.is_open %}<span class="sg-open">OPEN</span>{% else %}<span style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);color:#dc2626;font-size:0.62rem;font-weight:800;padding:3px 9px;border-radius:100px;">TUTUP</span>{% endif %}
+          </div>
+          <div class="absolute bottom-2.5 left-2.5 right-2.5">
+            <p class="text-white font-bold text-xs leading-tight drop-shadow-md">{{ tenant.name }}</p>
+          </div>
+        </div>
+        <div class="p-3.5">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-xs sg-text-muted">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</span>
+            <div class="flex items-center gap-1 sg-rating text-xs">★ <span class="sg-text-dark font-bold">{{ tenant.rating }}</span></div>
+          </div>
+          <button class="sg-order-btn w-full text-center">Pesan Sekarang →</button>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- Features -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14">
+      <div class="sg-feature"><div class="sg-fi" style="background:linear-gradient(135deg,#edf2e8,#d1e8cb);">💳</div><div><div class="text-sm font-bold sg-text-dark">Multi Pembayaran</div><div class="text-xs sg-text-muted">QRIS · GoPay · OVO · Cash</div></div></div>
+      <div class="sg-feature"><div class="sg-fi" style="background:linear-gradient(135deg,#f7f3ed,#ede4d3);">⚡</div><div><div class="text-sm font-bold sg-text-dark">Pesan Instan</div><div class="text-xs sg-text-muted">Tanpa antre panjang</div></div></div>
+      <div class="sg-feature"><div class="sg-fi" style="background:linear-gradient(135deg,#edf2e8,#d1e8cb);">📱</div><div><div class="text-sm font-bold sg-text-dark">Struk Digital</div><div class="text-xs sg-text-muted">Ramah lingkungan</div></div></div>
+      <div class="sg-feature"><div class="sg-fi" style="background:linear-gradient(135deg,#f7f3ed,#ede4d3);">⭐</div><div><div class="text-sm font-bold sg-text-dark">Kualitas Terjamin</div><div class="text-xs sg-text-muted">Rating 4.8 dari pelanggan</div></div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== THEME 11: SUNSET AMBER ==================== -->
+<div class="theme-body" id="theme-sunset-body">
+<div class="su-topbar"></div>
+<div class="su-bg relative overflow-hidden" style="padding-top:4px;">
+
+  <!-- Blobs -->
+  <div class="su-blob su-float"  style="width:440px;height:440px;background:radial-gradient(circle,rgba(251,146,60,0.22),rgba(245,158,11,0.1));top:-90px;right:-60px;"></div>
+  <div class="su-blob su-float2" style="width:360px;height:360px;background:radial-gradient(circle,rgba(252,211,77,0.2),transparent);bottom:80px;left:-70px;"></div>
+  <div class="su-blob su-float3" style="width:240px;height:240px;background:radial-gradient(circle,rgba(239,68,68,0.12),transparent);top:55%;right:6%;"></div>
+
+  <div class="relative z-10 max-w-screen-xl mx-auto px-6 pt-14 pb-16">
+
+    <!-- Hero -->
+    <div class="flex flex-col lg:flex-row items-center gap-12 mb-16">
+      <div class="flex-1 text-center lg:text-left">
+        <div class="su-pill mb-6">
+          <span class="w-2 h-2 bg-emerald-500 rounded-full open-pulse"></span>
+          Buka Sekarang · 10 Tenant Aktif
+        </div>
+        <h1 class="font-black leading-[1.05] mb-5 tracking-tight" style="font-size:clamp(3rem,7vw,5.8rem);">
+          <span class="su-text-dark">Hangat &amp;</span><br>
+          <span class="su-gradient-text">Lezat</span><br>
+          <span class="su-text-dark">Tiap Saat</span><span style="color:#d97706;">.</span>
+        </h1>
+        <p class="text-base su-text-muted mb-9 max-w-md leading-relaxed lg:mx-0 mx-auto">
+          10 pilihan kuliner terbaik yang menghangatkan hari. Cita rasa autentik dari berbagai penjuru dunia.
+        </p>
+        <div class="flex gap-4 justify-center lg:justify-start flex-wrap">
+          <button onclick="document.getElementById('su-tenants').scrollIntoView({behavior:'smooth'})" class="su-btn-primary">Jelajahi Menu 🌅</button>
+          <button class="su-btn-secondary">Info &amp; Promo ✨</button>
+        </div>
+        <div class="flex flex-wrap items-center gap-5 mt-9 justify-center lg:justify-start">
+          <div class="flex items-center gap-2 text-sm su-text-muted"><span class="text-amber-500 font-bold">✓</span><span>Pembayaran Aman</span></div>
+          <div class="flex items-center gap-2 text-sm su-text-muted"><span class="text-orange-400 font-bold">⚡</span><span>Pesan Cepat</span></div>
+          <div class="flex items-center gap-2 text-sm su-text-muted"><span class="text-yellow-500 font-bold">🌟</span><span>100% Fresh</span></div>
+          <div class="flex items-center gap-2 text-sm su-text-muted"><span class="text-amber-400 font-bold">📱</span><span>QRIS &amp; Digital</span></div>
+        </div>
+      </div>
+      <!-- Stats -->
+      <div class="flex-shrink-0 grid grid-cols-2 gap-4 w-full max-w-xs">
+        <div class="su-stat rounded-2xl p-6 text-center col-span-2 relative overflow-hidden">
+          <div class="absolute inset-0 opacity-5" style="background:linear-gradient(135deg,#d97706,#fb923c);"></div>
+          <div class="relative">
+            <div class="font-black mb-1 su-gradient-text" style="font-size:3.5rem;line-height:1;">100+</div>
+            <div class="text-sm su-text-muted font-semibold">Pilihan Menu Lezat</div>
+          </div>
+        </div>
+        <div class="su-stat rounded-2xl p-5 text-center">
+          <div class="text-3xl font-black su-text-dark mb-1">4.8</div>
+          <div class="su-rating">★★★★★</div>
+          <div class="text-xs su-text-muted mt-1">Rating</div>
+        </div>
+        <div class="su-stat rounded-2xl p-5 text-center">
+          <div class="text-3xl font-black su-text-dark mb-1">10</div>
+          <div class="text-xs su-text-muted">🏪 Tenant</div>
+          <div class="text-xs su-text-muted">Aktif</div>
+        </div>
+        <div class="su-stat rounded-2xl p-5 text-center col-span-2">
+          <div class="text-2xl font-black su-text-accent mb-1">~15 mnt</div>
+          <div class="text-xs su-text-muted">⏱️ Estimasi Waktu Siap</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section header -->
+    <div class="mb-6" id="su-tenants">
+      <span class="su-section-label">Semua Tenant</span>
+      <h2 class="text-2xl font-black su-text-dark mt-1">Pilih Favoritmu</h2>
+    </div>
+
+    <!-- Filters -->
+    <div class="flex gap-2.5 overflow-x-auto pb-3 mb-8">
+      {% for emoji,label,cuisine in cuisine_list %}
+      <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+        class="cuisine-filter-btn flex items-center gap-2 px-5 py-2.5 text-sm font-semibold whitespace-nowrap rounded-xl transition-all"
+        style="background:white;color:#92704a;border:1.5px solid rgba(217,119,6,0.15);">
+        {{ emoji }} {{ label }}
+      </button>
+      {% endfor %}
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/" class="su-card cursor-pointer stagger-item tenant-card-item" data-cuisine="{{ tenant.cuisine_type }}">
+        <div class="relative h-36 overflow-hidden">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-5xl" style="background:linear-gradient(135deg,#fff0dc,#fde8d5);">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(28,17,8,0.55) 0%,transparent 55%);"></div>
+          <div class="absolute top-2.5 left-2.5"><span class="su-stall">No. {{ forloop.counter }}</span></div>
+          <div class="absolute top-2.5 right-2.5">
+            {% if tenant.is_open %}<span class="su-open">OPEN</span>{% else %}<span style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);color:#dc2626;font-size:0.62rem;font-weight:800;padding:3px 9px;border-radius:100px;">TUTUP</span>{% endif %}
+          </div>
+          <div class="absolute bottom-2.5 left-2.5 right-2.5">
+            <p class="text-white font-bold text-xs leading-tight drop-shadow-md">{{ tenant.name }}</p>
+          </div>
+        </div>
+        <div class="p-3.5">
+          <div class="flex items-center justify-between mb-2.5">
+            <span class="text-xs su-text-muted">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</span>
+            <div class="flex items-center gap-1 su-rating text-xs">★ <span class="su-text-dark font-bold">{{ tenant.rating }}</span></div>
+          </div>
+          <button class="su-order-btn w-full text-center">Pesan Sekarang →</button>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- Features -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-14">
+      <div class="su-feature"><div class="su-fi" style="background:linear-gradient(135deg,#fff0dc,#fed7aa);">💳</div><div><div class="text-sm font-bold su-text-dark">Multi Pembayaran</div><div class="text-xs su-text-muted">QRIS · GoPay · OVO · Cash</div></div></div>
+      <div class="su-feature"><div class="su-fi" style="background:linear-gradient(135deg,#fde8d5,#fecba1);">⚡</div><div><div class="text-sm font-bold su-text-dark">Pesan Instan</div><div class="text-xs su-text-muted">Tanpa antre panjang</div></div></div>
+      <div class="su-feature"><div class="su-fi" style="background:linear-gradient(135deg,#fff0dc,#fed7aa);">📱</div><div><div class="text-sm font-bold su-text-dark">Struk Digital</div><div class="text-xs su-text-muted">Ramah lingkungan</div></div></div>
+      <div class="su-feature"><div class="su-fi" style="background:linear-gradient(135deg,#fde8d5,#fecba1);">⭐</div><div><div class="text-sm font-bold su-text-dark">Kualitas Terjamin</div><div class="text-xs su-text-muted">Rating 4.8 dari pelanggan</div></div></div>
+    </div>
+  </div>
+</div>
+</div>
+
 <!-- ==================== THEME 5: NIGHT MARKET ==================== -->
 <div class="theme-body" id="theme-nightmarket-body">
 <div class="nm-bg min-h-screen relative overflow-hidden">
@@ -2525,7 +3214,37 @@ body.theme-softbreeze::-webkit-scrollbar-thumb {
         <span class="text-xl">🌤️</span>
         <div class="text-left">
           <div class="text-sm font-bold leading-none mb-0.5" style="background:linear-gradient(90deg,#0ea5e9,#06b6d4,#10b981);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Soft Breeze</div>
-          <div class="text-slate-400 text-xs">Bright · Clean · Modern</div>
+          <div class="text-slate-400 text-xs">Bright · Sky Blue · Mint</div>
+        </div>
+      </button>
+
+      <!-- Sakura Blush Theme -->
+      <button onclick="switchTheme('sakura')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-sakura"
+        style="background:linear-gradient(135deg,#fff9fb,#fce7ef);border:1.5px solid rgba(225,29,106,0.3);">
+        <span class="text-xl">🌸</span>
+        <div class="text-left">
+          <div class="text-sm font-bold leading-none mb-0.5" style="background:linear-gradient(90deg,#e11d6a,#f43f8e,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Sakura Blush</div>
+          <div class="text-slate-400 text-xs">Soft Rose · Warm Cream</div>
+        </div>
+      </button>
+
+      <!-- Sage Garden Theme -->
+      <button onclick="switchTheme('sage')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-sage"
+        style="background:linear-gradient(135deg,#f9fbf7,#edf2e8);border:1.5px solid rgba(74,124,63,0.3);">
+        <span class="text-xl">🪴</span>
+        <div class="text-left">
+          <div class="text-sm font-bold leading-none mb-0.5" style="background:linear-gradient(90deg,#4a7c3f,#6b9e5e,#c8a97d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Sage Garden</div>
+          <div class="text-slate-400 text-xs">Dusty Green · Sand Beige</div>
+        </div>
+      </button>
+
+      <!-- Sunset Amber Theme -->
+      <button onclick="switchTheme('sunset')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-sunset"
+        style="background:linear-gradient(135deg,#fffbf5,#fff0dc);border:1.5px solid rgba(217,119,6,0.3);">
+        <span class="text-xl">🌅</span>
+        <div class="text-left">
+          <div class="text-sm font-bold leading-none mb-0.5" style="background:linear-gradient(90deg,#d97706,#f59e0b,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Sunset Amber</div>
+          <div class="text-slate-400 text-xs">Warm Peach · Deep Amber</div>
         </div>
       </button>
 
@@ -2603,6 +3322,24 @@ const THEMES = {
     bodyId: 'theme-softbreeze-body',
     filterActive: 'background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:white;border:none;box-shadow:0 4px 16px rgba(14,165,233,0.35);border-radius:10px;',
     filterDefault: 'background:white;color:#64748b;border:1.5px solid rgba(14,165,233,0.15);border-radius:10px;',
+  },
+  sakura: {
+    bodyClass: 'theme-sakura',
+    bodyId: 'theme-sakura-body',
+    filterActive: 'background:linear-gradient(135deg,#e11d6a,#f43f8e);color:white;border:none;box-shadow:0 4px 16px rgba(225,29,106,0.3);border-radius:10px;',
+    filterDefault: 'background:white;color:#9d6a78;border:1.5px solid rgba(225,29,106,0.15);border-radius:10px;',
+  },
+  sage: {
+    bodyClass: 'theme-sage',
+    bodyId: 'theme-sage-body',
+    filterActive: 'background:linear-gradient(135deg,#4a7c3f,#6b9e5e);color:white;border:none;box-shadow:0 4px 16px rgba(74,124,63,0.3);border-radius:10px;',
+    filterDefault: 'background:white;color:#6b7a60;border:1.5px solid rgba(74,124,63,0.15);border-radius:10px;',
+  },
+  sunset: {
+    bodyClass: 'theme-sunset',
+    bodyId: 'theme-sunset-body',
+    filterActive: 'background:linear-gradient(135deg,#d97706,#f59e0b);color:white;border:none;box-shadow:0 4px 16px rgba(217,119,6,0.32);border-radius:10px;',
+    filterDefault: 'background:white;color:#92704a;border:1.5px solid rgba(217,119,6,0.15);border-radius:10px;',
   },
 };
 
@@ -2706,17 +3443,26 @@ function updateNavForTheme(theme) {
   const nav = document.querySelector('nav');
   if (!nav) return;
 
-  if (theme === 'fresh' || theme === 'japanese' || theme === 'softbreeze') {
-    nav.style.background = theme === 'japanese'
-      ? 'rgba(253,246,232,0.95)'
-      : theme === 'softbreeze'
-        ? 'rgba(240,249,255,0.97)'
-        : 'rgba(255,255,255,0.95)';
-    nav.style.borderBottom = theme === 'japanese'
-      ? '1px solid rgba(220,38,38,0.15)'
-      : theme === 'softbreeze'
-        ? '1px solid rgba(14,165,233,0.15)'
-        : '1px solid rgba(0,0,0,0.06)';
+  const lightThemes = ['fresh','japanese','softbreeze','sakura','sage','sunset'];
+  if (lightThemes.includes(theme)) {
+    const navBg = {
+      japanese:   'rgba(253,246,232,0.96)',
+      softbreeze: 'rgba(240,249,255,0.97)',
+      sakura:     'rgba(253,246,248,0.97)',
+      sage:       'rgba(244,247,242,0.97)',
+      sunset:     'rgba(253,248,242,0.97)',
+      fresh:      'rgba(255,255,255,0.95)',
+    };
+    const navBorder = {
+      japanese:   '1px solid rgba(220,38,38,0.15)',
+      softbreeze: '1px solid rgba(14,165,233,0.15)',
+      sakura:     '1px solid rgba(225,29,106,0.12)',
+      sage:       '1px solid rgba(74,124,63,0.12)',
+      sunset:     '1px solid rgba(217,119,6,0.12)',
+      fresh:      '1px solid rgba(0,0,0,0.06)',
+    };
+    nav.style.background   = navBg[theme]     || 'rgba(255,255,255,0.95)';
+    nav.style.borderBottom = navBorder[theme] || '1px solid rgba(0,0,0,0.06)';
     nav.querySelectorAll('.font-black, .font-semibold, .font-medium').forEach(el => {
       if (!el.closest('button[onclick="toggleCart()"]')) {
         el.style.color = theme === 'japanese' ? '#1c1c1c' : '#1a1a2e';
