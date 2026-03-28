@@ -1,0 +1,111 @@
+{% if products %}
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 animate-fade-in">
+    {% for product in products %}
+    <div class="product-card glass-card rounded-2xl overflow-hidden group relative" id="product-{{ product.id }}">
+        
+        <!-- Product Image -->
+        <div class="relative h-52 overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" 
+                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            {% else %}
+            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-500/10 to-pink-500/10">
+                <span class="text-7xl">🍽️</span>
+            </div>
+            {% endif %}
+            
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            
+            <!-- Tags -->
+            <div class="absolute top-3 left-3 flex flex-wrap gap-1">
+                {% if product.is_bestseller %}
+                <span class="tag-best text-xs px-2 py-0.5 rounded-full font-semibold">⭐ Bestseller</span>
+                {% endif %}
+                {% if product.is_featured %}
+                <span class="tag-featured text-xs px-2 py-0.5 rounded-full font-semibold">✨ Featured</span>
+                {% endif %}
+            </div>
+            
+            <!-- Right tags -->
+            <div class="absolute top-3 right-3 flex flex-col gap-1">
+                {% if product.is_spicy %}
+                <span class="tag-spicy text-xs px-2 py-0.5 rounded-full font-semibold">🌶️ Spicy</span>
+                {% endif %}
+                {% if product.is_vegetarian %}
+                <span class="tag-veg text-xs px-2 py-0.5 rounded-full font-semibold">🥬 Veg</span>
+                {% endif %}
+            </div>
+            
+            <!-- Prep time badge -->
+            <div class="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span class="glass px-2 py-1 rounded-lg text-xs text-white/70">
+                    ⏱️ ~{{ product.preparation_time }} menit
+                </span>
+            </div>
+        </div>
+        
+        <!-- Product Info -->
+        <div class="p-4">
+            <div class="mb-2">
+                <h3 class="font-bold text-base text-white mb-1 line-clamp-1">{{ product.name }}</h3>
+                <p class="text-white/50 text-xs leading-relaxed line-clamp-2">{{ product.description }}</p>
+            </div>
+            
+            <!-- Calories if available -->
+            {% if product.calories %}
+            <div class="text-white/30 text-xs mb-2">🔥 {{ product.calories }} kcal</div>
+            {% endif %}
+            
+            <!-- Price & Add Button -->
+            <div class="flex items-center justify-between mt-3 pt-3 border-t border-white/10">
+                <div>
+                    <div class="text-orange-400 font-black text-lg">
+                        Rp {{ product.price|floatformat:0 }}
+                    </div>
+                </div>
+                
+                <button 
+                    class="add-to-cart-btn gradient-btn glow-btn px-4 py-2 rounded-xl font-bold text-sm flex items-center gap-2 ripple"
+                    hx-post="/htmx/cart/add/"
+                    hx-target="#cart-content"
+                    hx-swap="innerHTML"
+                    hx-vals='{"product_id": "{{ product.id }}", "quantity": "1"}'
+                    hx-on::after-request="animateAddToCart(this)"
+                >
+                    <span class="text-base leading-none">+</span>
+                    <span>Tambah</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Quantity Controller (shown when in cart) -->
+        <div class="qty-controller hidden absolute bottom-4 right-4 flex items-center gap-2 glass rounded-xl p-1">
+            <button class="w-7 h-7 rounded-lg bg-white/10 hover:bg-red-500/30 transition-all font-bold text-sm flex items-center justify-center number-btn">−</button>
+            <span class="w-6 text-center font-bold text-sm qty-display">1</span>
+            <button class="w-7 h-7 rounded-lg bg-white/10 hover:bg-green-500/30 transition-all font-bold text-sm flex items-center justify-center number-btn">+</button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<div class="flex flex-col items-center justify-center py-20 text-center animate-fade-in">
+    <div class="text-7xl mb-4 opacity-50">🔍</div>
+    <h3 class="text-xl font-bold text-white/50 mb-2">Menu Tidak Ditemukan</h3>
+    <p class="text-white/30 text-sm">Coba kata kunci lain atau pilih kategori berbeda</p>
+</div>
+{% endif %}
+
+<script>
+function animateAddToCart(btn) {
+    btn.innerHTML = '<span>✓</span><span>Ditambahkan!</span>';
+    btn.classList.add('bg-green-500/20', 'border-green-500/30');
+    btn.classList.remove('gradient-btn');
+    setTimeout(() => {
+        btn.innerHTML = '<span class="text-base leading-none">+</span><span>Tambah</span>';
+        btn.classList.remove('bg-green-500/20', 'border-green-500/30');
+        btn.classList.add('gradient-btn');
+    }, 1500);
+}
+</script>

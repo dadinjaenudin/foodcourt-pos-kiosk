@@ -1,0 +1,147 @@
+{% if cart.items %}
+
+<!-- Cart Items -->
+<div class="flex-1 overflow-y-auto p-4 space-y-3 scrollbar-thin">
+    {% for item in cart.items %}
+    <div class="cart-item glass rounded-xl p-3 flex items-center gap-3 cart-item-enter">
+        <!-- Item Image -->
+        <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-gray-800">
+            {% if item.image %}
+            <img src="{{ item.image }}" alt="{{ item.name }}" class="w-full h-full object-cover">
+            {% else %}
+            <div class="w-full h-full flex items-center justify-center text-2xl">🍽️</div>
+            {% endif %}
+        </div>
+        
+        <!-- Item Info -->
+        <div class="flex-1 min-w-0">
+            <div class="font-semibold text-sm text-white line-clamp-1">{{ item.name }}</div>
+            <div class="text-white/40 text-xs">{{ item.tenant_name }}</div>
+            <div class="text-orange-400 font-bold text-sm">Rp {{ item.price|floatformat:0 }}</div>
+        </div>
+        
+        <!-- Quantity Controls -->
+        <div class="flex flex-col items-end gap-2">
+            <button 
+                class="text-white/30 hover:text-red-400 transition-colors text-xs"
+                hx-post="/htmx/cart/remove/{{ item.product_id }}/"
+                hx-target="#cart-content"
+                hx-swap="innerHTML"
+            >✕</button>
+            
+            <div class="flex items-center gap-1">
+                <button 
+                    class="w-6 h-6 rounded-lg bg-white/10 hover:bg-red-500/30 transition-all text-sm font-bold flex items-center justify-center number-btn"
+                    hx-post="/htmx/cart/update/"
+                    hx-target="#cart-content"
+                    hx-swap="innerHTML"
+                    hx-vals='{"product_id": "{{ item.product_id }}", "quantity": "{{ item.quantity|add:"-1" }}"}'
+                >−</button>
+                
+                <span class="w-6 text-center font-bold text-sm qty-display">{{ item.quantity }}</span>
+                
+                <button 
+                    class="w-6 h-6 rounded-lg bg-white/10 hover:bg-green-500/30 transition-all text-sm font-bold flex items-center justify-center number-btn"
+                    hx-post="/htmx/cart/update/"
+                    hx-target="#cart-content"
+                    hx-swap="innerHTML"
+                    hx-vals='{"product_id": "{{ item.product_id }}", "quantity": "{{ item.quantity|add:"1" }}"}'
+                >+</button>
+            </div>
+            
+            <div class="text-white/60 text-xs font-semibold">Rp {{ item.total|floatformat:0 }}</div>
+        </div>
+    </div>
+    {% endfor %}
+    
+    <!-- Clear Cart Button -->
+    <button 
+        class="w-full text-center text-xs text-red-400/70 hover:text-red-400 py-2 transition-colors"
+        hx-post="/htmx/cart/clear/"
+        hx-target="#cart-content"
+        hx-swap="innerHTML"
+        hx-confirm="Hapus semua item dari keranjang?"
+    >
+        🗑️ Hapus Semua
+    </button>
+</div>
+
+<!-- Cart Summary -->
+<div class="p-4 border-t border-white/10 space-y-3">
+    <!-- Summary Lines -->
+    <div class="space-y-2 text-sm">
+        <div class="flex justify-between text-white/60">
+            <span>Subtotal</span>
+            <span>Rp {{ cart.subtotal|floatformat:0 }}</span>
+        </div>
+        <div class="flex justify-between text-white/60">
+            <span>PPN 11%</span>
+            <span>Rp {{ cart.tax|floatformat:0 }}</span>
+        </div>
+        <div class="flex justify-between text-white/60">
+            <span>Service Charge 5%</span>
+            <span>Rp {{ cart.service|floatformat:0 }}</span>
+        </div>
+        <div class="flex justify-between font-black text-lg pt-2 border-t border-white/10">
+            <span class="text-white">Total</span>
+            <span class="text-orange-400">Rp {{ cart.total|floatformat:0 }}</span>
+        </div>
+    </div>
+    
+    <!-- Checkout Button -->
+    <button 
+        class="w-full gradient-btn glow-btn py-4 rounded-xl font-black text-white flex items-center justify-center gap-3 text-base ripple"
+        hx-get="/htmx/checkout/"
+        hx-target="#checkout-modal-content"
+        hx-swap="innerHTML"
+        onclick="openCheckoutModal()"
+    >
+        <span>🛍️</span>
+        <span>Pesan Sekarang</span>
+        <span class="glass px-2 py-0.5 rounded-lg text-sm">{{ cart.count }} item</span>
+    </button>
+    
+    <div class="flex items-center justify-center gap-4 text-xs text-white/30">
+        <span>💳 Card</span>
+        <span>📱 QRIS</span>
+        <span>💵 Cash</span>
+        <span>🟢 GoPay</span>
+    </div>
+</div>
+
+{% else %}
+
+<!-- Empty Cart -->
+<div class="flex flex-col items-center justify-center h-full p-8 text-center">
+    <div class="text-7xl mb-6 opacity-30">🛒</div>
+    <h3 class="font-bold text-lg text-white/40 mb-2">Keranjang Kosong</h3>
+    <p class="text-white/25 text-sm">Pilih tenant dan tambahkan menu favorit Anda</p>
+    <button onclick="toggleCart()" class="mt-6 glass px-6 py-3 rounded-xl text-sm font-semibold text-orange-400 border border-orange-500/30 hover:bg-orange-500/10 transition-all">
+        Mulai Belanja
+    </button>
+</div>
+
+{% endif %}
+
+<!-- Checkout Modal -->
+<div id="checkout-modal" class="fixed inset-0 modal-backdrop z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-dark rounded-3xl w-full max-w-lg border border-white/10 overflow-hidden">
+        <div id="checkout-modal-content">
+            <!-- Loaded via HTMX -->
+        </div>
+    </div>
+</div>
+
+<script>
+function openCheckoutModal() {
+    setTimeout(() => {
+        document.getElementById('checkout-modal').classList.remove('hidden');
+        document.getElementById('checkout-modal').classList.add('flex');
+    }, 100);
+}
+
+function closeCheckoutModal() {
+    document.getElementById('checkout-modal').classList.add('hidden');
+    document.getElementById('checkout-modal').classList.remove('flex');
+}
+</script>

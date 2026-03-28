@@ -1,0 +1,168 @@
+{% load pos_filters %}
+<!-- Checkout Form -->
+<div class="p-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h2 class="text-xl font-black text-white">Checkout</h2>
+            <p class="text-white/50 text-sm">Lengkapi data pesanan Anda</p>
+        </div>
+        <button onclick="closeCheckoutModal()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/60 transition-all">✕</button>
+    </div>
+    
+    <!-- Order Summary -->
+    <div class="glass rounded-2xl p-4 mb-5">
+        <div class="text-xs text-white/40 uppercase tracking-wider mb-3">Ringkasan Pesanan</div>
+        {% for item in cart.items %}
+        <div class="flex justify-between text-sm text-white/70 mb-1">
+            <span>{{ item.name }} <span class="text-white/40">×{{ item.quantity }}</span></span>
+            <span class="text-white/80">Rp {{ item.total|floatformat:0 }}</span>
+        </div>
+        {% endfor %}
+        <div class="border-t border-white/10 mt-3 pt-3 flex justify-between font-black">
+            <span class="text-white">Total</span>
+            <span class="text-orange-400 text-lg">Rp {{ cart.total|floatformat:0 }}</span>
+        </div>
+    </div>
+    
+    <!-- Form -->
+    <form 
+        hx-post="/htmx/order/place/"
+        hx-swap="none"
+        class="space-y-4"
+    >
+        {% csrf_token %}
+        
+        <!-- Customer Name -->
+        <div>
+            <label class="text-xs text-white/50 uppercase tracking-wider mb-2 block">Nama Pemesan *</label>
+            <input 
+                type="text" 
+                name="customer_name" 
+                placeholder="Masukkan nama Anda..."
+                required
+                class="w-full glass border border-white/10 px-4 py-3 rounded-xl text-white placeholder-white/30 focus:border-orange-500/50 focus:outline-none transition-all text-sm"
+            >
+        </div>
+        
+        <!-- Table Number -->
+        <div>
+            <label class="text-xs text-white/50 uppercase tracking-wider mb-2 block">Nomor Meja</label>
+            <div class="grid grid-cols-5 gap-2" id="table-grid">
+                <button type="button" onclick="selectTable('1')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">1</button>
+                <button type="button" onclick="selectTable('2')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">2</button>
+                <button type="button" onclick="selectTable('3')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">3</button>
+                <button type="button" onclick="selectTable('4')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">4</button>
+                <button type="button" onclick="selectTable('5')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">5</button>
+                <button type="button" onclick="selectTable('6')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">6</button>
+                <button type="button" onclick="selectTable('7')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">7</button>
+                <button type="button" onclick="selectTable('8')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">8</button>
+                <button type="button" onclick="selectTable('9')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">9</button>
+                <button type="button" onclick="selectTable('10')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">10</button>
+                <button type="button" onclick="selectTable('11')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">11</button>
+                <button type="button" onclick="selectTable('12')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">12</button>
+                <button type="button" onclick="selectTable('13')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">13</button>
+                <button type="button" onclick="selectTable('14')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">14</button>
+                <button type="button" onclick="selectTable('15')" class="table-btn py-2 rounded-xl text-sm font-bold glass border border-white/10 hover:border-orange-500/50 hover:text-orange-400 transition-all text-white/70">15</button>
+            </div>
+            <input type="hidden" name="table_number" id="table-number-input" value="">
+        </div>
+        
+        <!-- Payment Method -->
+        <div>
+            <label class="text-xs text-white/50 uppercase tracking-wider mb-2 block">Metode Pembayaran *</label>
+            <div class="grid grid-cols-2 gap-2">
+                <button type="button" onclick="selectPayment('cash', this)" 
+                    class="payment-btn py-3 px-4 rounded-xl glass border border-white/10 text-sm font-semibold flex items-center gap-2 hover:border-orange-500/50 transition-all text-white/70 justify-center">
+                    💵 Cash
+                </button>
+                <button type="button" onclick="selectPayment('card', this)"
+                    class="payment-btn py-3 px-4 rounded-xl glass border border-white/10 text-sm font-semibold flex items-center gap-2 hover:border-orange-500/50 transition-all text-white/70 justify-center">
+                    💳 Card
+                </button>
+                <button type="button" onclick="selectPayment('qris', this)"
+                    class="payment-btn py-3 px-4 rounded-xl glass border border-white/10 text-sm font-semibold flex items-center gap-2 hover:border-orange-500/50 transition-all text-white/70 justify-center">
+                    📱 QRIS
+                </button>
+                <button type="button" onclick="selectPayment('gopay', this)"
+                    class="payment-btn py-3 px-4 rounded-xl glass border border-white/10 text-sm font-semibold flex items-center gap-2 hover:border-orange-500/50 transition-all text-white/70 justify-center">
+                    🟢 GoPay
+                </button>
+                <button type="button" onclick="selectPayment('ovo', this)"
+                    class="payment-btn py-3 px-4 rounded-xl glass border border-white/10 text-sm font-semibold flex items-center gap-2 hover:border-orange-500/50 transition-all text-white/70 justify-center">
+                    💜 OVO
+                </button>
+                <button type="button" onclick="selectPayment('dana', this)"
+                    class="payment-btn py-3 px-4 rounded-xl glass border border-white/10 text-sm font-semibold flex items-center gap-2 hover:border-orange-500/50 transition-all text-white/70 justify-center">
+                    🔵 DANA
+                </button>
+            </div>
+            <input type="hidden" name="payment_method" id="payment-method-input" value="" required>
+        </div>
+        
+        <!-- Notes -->
+        <div>
+            <label class="text-xs text-white/50 uppercase tracking-wider mb-2 block">Catatan Pesanan</label>
+            <textarea 
+                name="notes" 
+                placeholder="Contoh: tidak pakai bawang, less spicy..."
+                rows="2"
+                class="w-full glass border border-white/10 px-4 py-3 rounded-xl text-white placeholder-white/30 focus:border-orange-500/50 focus:outline-none transition-all text-sm resize-none"
+            ></textarea>
+        </div>
+        
+        <!-- Submit Button -->
+        <button 
+            type="submit"
+            id="submit-order-btn"
+            class="w-full gradient-btn glow-btn py-4 rounded-xl font-black text-white text-base flex items-center justify-center gap-3 ripple"
+            onclick="validateAndSubmit(event)"
+        >
+            <span>🎉</span>
+            <span>Konfirmasi Pesanan</span>
+            <span class="text-white/70">· Rp {{ cart.total|floatformat:0 }}</span>
+        </button>
+    </form>
+</div>
+
+<script>
+function selectTable(num) {
+    document.querySelectorAll('.table-btn').forEach(btn => {
+        btn.classList.remove('border-orange-500/50', 'text-orange-400', 'bg-orange-500/20');
+        btn.classList.add('border-white/10', 'text-white/70');
+    });
+    event.target.classList.add('border-orange-500/50', 'text-orange-400', 'bg-orange-500/20');
+    event.target.classList.remove('border-white/10', 'text-white/70');
+    document.getElementById('table-number-input').value = num;
+}
+
+function selectPayment(method, btn) {
+    document.querySelectorAll('.payment-btn').forEach(b => {
+        b.classList.remove('border-orange-500/50', 'text-orange-400', 'bg-orange-500/20');
+        b.classList.add('border-white/10', 'text-white/70');
+    });
+    btn.classList.add('border-orange-500/50', 'text-orange-400', 'bg-orange-500/20');
+    btn.classList.remove('border-white/10', 'text-white/70');
+    document.getElementById('payment-method-input').value = method;
+}
+
+function validateAndSubmit(e) {
+    const name = document.querySelector('[name="customer_name"]').value;
+    const payment = document.getElementById('payment-method-input').value;
+    
+    if (!name.trim()) {
+        e.preventDefault();
+        alert('Mohon isi nama pemesan!');
+        return;
+    }
+    if (!payment) {
+        e.preventDefault();
+        alert('Mohon pilih metode pembayaran!');
+        return;
+    }
+    
+    const btn = document.getElementById('submit-order-btn');
+    btn.innerHTML = '<div class="spinner"></div><span>Memproses...</span>';
+    btn.disabled = true;
+}
+</script>

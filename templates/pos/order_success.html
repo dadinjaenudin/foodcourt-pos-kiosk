@@ -1,0 +1,146 @@
+{% extends 'pos/base.html' %}
+
+{% block title %}Pesanan Berhasil - {{ order.order_number }}{% endblock %}
+
+{% block content %}
+
+<div class="min-h-screen flex items-center justify-center px-6 py-20">
+    <div class="max-w-md w-full text-center animate-bounce-in">
+        
+        <!-- Success Animation -->
+        <div class="relative mb-8">
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-40 h-40 rounded-full bg-green-500/10 animate-ping"></div>
+            </div>
+            <div class="relative w-32 h-32 rounded-full bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center mx-auto shadow-2xl" style="box-shadow: 0 0 60px rgba(34, 197, 94, 0.5);">
+                <span class="text-6xl">✅</span>
+            </div>
+        </div>
+        
+        <!-- Success Message -->
+        <h1 class="text-3xl font-black text-white mb-2">Pesanan Dikonfirmasi!</h1>
+        <p class="text-white/60 mb-6">Pesanan Anda sedang diproses oleh tim dapur</p>
+        
+        <!-- Order Card -->
+        <div class="glass-card rounded-3xl p-6 mb-6 text-left">
+            <div class="flex items-center justify-between mb-4">
+                <div class="text-white/50 text-sm">No. Pesanan</div>
+                <div class="font-black text-orange-400 text-lg">{{ order.order_number }}</div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <div class="text-white/40 text-xs mb-1">Nama</div>
+                    <div class="font-semibold text-sm">{{ order.customer_name|default:"Guest" }}</div>
+                </div>
+                <div>
+                    <div class="text-white/40 text-xs mb-1">Meja</div>
+                    <div class="font-semibold text-sm">{{ order.table_number|default:"Takeaway" }}</div>
+                </div>
+                <div>
+                    <div class="text-white/40 text-xs mb-1">Tenant</div>
+                    <div class="font-semibold text-sm">{{ order.tenant.name }}</div>
+                </div>
+                <div>
+                    <div class="text-white/40 text-xs mb-1">Pembayaran</div>
+                    <div class="font-semibold text-sm capitalize">{{ order.payment_method }}</div>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-4 flex justify-between items-center">
+                <span class="text-white/50 text-sm">Total Pembayaran</span>
+                <span class="text-orange-400 font-black text-xl">Rp {{ order.total|floatformat:0 }}</span>
+            </div>
+        </div>
+        
+        <!-- Status Progress -->
+        <div class="glass rounded-2xl p-4 mb-6">
+            <div class="text-xs text-white/40 uppercase tracking-wider mb-3">Status Pesanan</div>
+            <div class="flex items-center justify-between relative">
+                <div class="absolute left-0 right-0 top-4 h-0.5 bg-white/10">
+                    <div class="h-full bg-gradient-to-r from-green-500 to-orange-500 w-1/3 transition-all"></div>
+                </div>
+                
+                <div class="relative flex flex-col items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-sm">✓</div>
+                    <span class="text-xs text-green-400 font-semibold">Dikonfirmasi</span>
+                </div>
+                <div class="relative flex flex-col items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-orange-500/30 border border-orange-500/50 flex items-center justify-center text-sm animate-pulse-ring">👨‍🍳</div>
+                    <span class="text-xs text-orange-400 font-semibold">Dimasak</span>
+                </div>
+                <div class="relative flex flex-col items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-sm text-white/40">🍽️</div>
+                    <span class="text-xs text-white/40">Siap</span>
+                </div>
+                <div class="relative flex flex-col items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-sm text-white/40">🎉</div>
+                    <span class="text-xs text-white/40">Selesai</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Estimated Time -->
+        <div class="glass rounded-2xl p-4 mb-8 flex items-center justify-center gap-3 border border-orange-500/20">
+            <div class="text-4xl">⏱️</div>
+            <div>
+                <div class="font-black text-xl text-orange-400">~15-20 Menit</div>
+                <div class="text-white/50 text-sm">Estimasi waktu penyajian</div>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex gap-3">
+            <a href="/receipt/{{ order.order_number }}/" 
+               class="flex-1 glass border border-white/10 py-3 rounded-xl font-semibold text-sm hover:bg-white/10 transition-all flex items-center justify-center gap-2">
+                🧾 Struk
+            </a>
+            <a href="/" 
+               class="flex-1 gradient-btn glow-btn py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2">
+                🏠 Pesan Lagi
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+<!-- Confetti Effect -->
+<script>
+// Simple confetti
+function createConfetti() {
+    const colors = ['#f97316', '#ef4444', '#8b5cf6', '#06b6d4', '#22c55e', '#eab308'];
+    for (let i = 0; i < 60; i++) {
+        setTimeout(() => {
+            const conf = document.createElement('div');
+            conf.style.cssText = `
+                position: fixed;
+                top: -10px;
+                left: ${Math.random() * 100}vw;
+                width: ${Math.random() * 10 + 5}px;
+                height: ${Math.random() * 10 + 5}px;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+                pointer-events: none;
+                z-index: 9999;
+                animation: confettiFall ${Math.random() * 2 + 1.5}s ease-in forwards;
+            `;
+            document.body.appendChild(conf);
+            setTimeout(() => conf.remove(), 3000);
+        }, i * 30);
+    }
+}
+
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes confettiFall {
+        to {
+            transform: translateY(100vh) rotate(${Math.random() * 720}deg);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+createConfetti();
+</script>
+
+{% endblock %}

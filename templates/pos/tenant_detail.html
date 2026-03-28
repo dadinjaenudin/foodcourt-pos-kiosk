@@ -1,0 +1,230 @@
+{% extends 'pos/base.html' %}
+
+{% block title %}{{ tenant.name }} - FoodCourt Grand Galaxy{% endblock %}
+
+{% block content %}
+
+<!-- Tenant Hero Banner -->
+<div class="relative h-72 overflow-hidden">
+    {% if tenant.logo %}
+    <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover">
+    {% else %}
+    <div class="w-full h-full" style="background: linear-gradient(135deg, {{ tenant.banner_color }}, {{ tenant.secondary_color }})">
+        <div class="flex items-center justify-center h-full text-9xl">{{ tenant.icon_emoji }}</div>
+    </div>
+    {% endif %}
+    
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent"></div>
+    
+    <!-- Tenant Info Overlay -->
+    <div class="absolute bottom-0 left-0 right-0 p-8">
+        <div class="max-w-screen-2xl mx-auto flex items-end justify-between">
+            <div>
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-5xl">{{ tenant.icon_emoji }}</span>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs px-2 py-0.5 rounded-full text-white/70 border border-white/20 bg-white/10">
+                                {{ tenant.cuisine_type|title }}
+                            </span>
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-white/10 border border-white/20 text-white/70">
+                                Stall #{{ tenant.stall_number }}
+                            </span>
+                            {% if tenant.is_open %}
+                            <span class="text-xs px-2 py-1 bg-green-500/20 border border-green-500/30 rounded-full text-green-400 font-semibold flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 bg-green-400 rounded-full open-badge"></span>
+                                BUKA
+                            </span>
+                            {% endif %}
+                        </div>
+                        <h1 class="text-3xl md:text-4xl font-black text-white">{{ tenant.name }}</h1>
+                    </div>
+                </div>
+                <p class="text-white/60 max-w-lg text-sm">{{ tenant.description }}</p>
+            </div>
+            
+            <div class="hidden md:flex flex-col items-end gap-2">
+                <div class="flex items-center gap-2 glass px-4 py-2 rounded-xl">
+                    <span class="text-yellow-400 text-xl">⭐</span>
+                    <span class="font-bold text-xl">{{ tenant.rating }}</span>
+                </div>
+                <div class="text-white/40 text-xs">{{ tenant.total_orders }}+ pesanan</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="max-w-screen-2xl mx-auto px-6 py-8">
+    <div class="flex gap-8">
+        
+        <!-- Sidebar Categories -->
+        <div class="hidden lg:block w-56 flex-shrink-0">
+            <div class="glass-card rounded-2xl p-4 sticky top-24">
+                <h3 class="text-sm font-bold text-white/50 uppercase tracking-wider mb-4">Kategori</h3>
+                
+                <button 
+                    class="category-btn w-full text-left px-4 py-3 rounded-xl mb-2 text-sm font-semibold transition-all active-category bg-orange-500/20 border border-orange-500/30 text-orange-400"
+                    onclick="filterCategory('', this)"
+                    hx-get="/htmx/tenant/{{ tenant.slug }}/products/"
+                    hx-target="#product-grid"
+                    hx-swap="innerHTML"
+                    hx-indicator="#loading"
+                >
+                    🍽️ Semua Menu
+                </button>
+                
+                {% for category in categories %}
+                <button 
+                    class="category-btn w-full text-left px-4 py-3 rounded-xl mb-2 text-sm font-medium transition-all hover:bg-white/10 text-white/70"
+                    onclick="filterCategory('{{ category.id }}', this)"
+                    hx-get="/htmx/tenant/{{ tenant.slug }}/products/?category={{ category.id }}"
+                    hx-target="#product-grid"
+                    hx-swap="innerHTML"
+                    hx-indicator="#loading"
+                >
+                    {{ category.name }}
+                </button>
+                {% endfor %}
+                
+                <div class="mt-6 pt-4 border-t border-white/10">
+                    <h3 class="text-sm font-bold text-white/50 uppercase tracking-wider mb-3">Info</h3>
+                    <div class="space-y-2 text-xs text-white/50">
+                        <div class="flex items-center gap-2">
+                            <span>🕐</span>
+                            <span>{{ tenant.opening_time|time:"H:i" }} - {{ tenant.closing_time|time:"H:i" }}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 bg-red-500/30 border border-red-500/50 rounded"></span>
+                            <span>🌶️ Pedas</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 bg-green-500/30 border border-green-500/50 rounded"></span>
+                            <span>🥬 Vegetarian</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 bg-yellow-500/30 border border-yellow-500/50 rounded"></span>
+                            <span>⭐ Bestseller</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Products Area -->
+        <div class="flex-1 min-w-0">
+            
+            <!-- Search & Filter Bar -->
+            <div class="flex items-center gap-4 mb-6">
+                <div class="flex-1 relative">
+                    <input 
+                        type="text" 
+                        placeholder="Cari menu..."
+                        class="w-full glass px-5 py-3 pl-11 rounded-xl text-white placeholder-white/30 border border-white/10 focus:border-orange-500/50 focus:outline-none transition-all"
+                        hx-get="/htmx/tenant/{{ tenant.slug }}/products/"
+                        hx-trigger="keyup changed delay:500ms"
+                        hx-target="#product-grid"
+                        hx-swap="innerHTML"
+                        name="search"
+                        hx-indicator="#loading"
+                    >
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-white/40">🔍</span>
+                </div>
+                
+                <!-- Mobile Category Scroll -->
+                <div class="lg:hidden flex gap-2 overflow-x-auto pb-1">
+                    <button 
+                        class="whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium glass border border-orange-500/50 text-orange-400"
+                        hx-get="/htmx/tenant/{{ tenant.slug }}/products/"
+                        hx-target="#product-grid"
+                        hx-swap="innerHTML"
+                    >Semua</button>
+                    {% for category in categories %}
+                    <button 
+                        class="whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium glass border border-white/10 text-white/70"
+                        hx-get="/htmx/tenant/{{ tenant.slug }}/products/?category={{ category.id }}"
+                        hx-target="#product-grid"
+                        hx-swap="innerHTML"
+                    >{{ category.name }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Featured Items -->
+            {% if featured %}
+            <div class="mb-8">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="text-orange-400 text-lg">⭐</span>
+                    <h2 class="text-lg font-bold">Menu Unggulan</h2>
+                    <span class="text-white/30 text-sm">· Rekomendasi chef</span>
+                </div>
+                
+                <div class="flex gap-4 overflow-x-auto pb-2 scrollbar-thin">
+                    {% for product in featured %}
+                    <div class="flex-shrink-0 w-56 glass-card rounded-2xl overflow-hidden group cursor-pointer"
+                         onclick="quickAdd({{ product.id }}, '{{ product.name|escapejs }}', {{ product.price }})">
+                        <div class="relative h-32">
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            {% else %}
+                            <div class="w-full h-full bg-gradient-to-br from-orange-500/20 to-pink-500/20 flex items-center justify-center text-4xl">🍽️</div>
+                            {% endif %}
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div class="absolute top-2 left-2">
+                                <span class="tag-featured text-xs px-2 py-0.5 rounded-full font-semibold">✨ Featured</span>
+                            </div>
+                        </div>
+                        <div class="p-3">
+                            <div class="font-semibold text-sm mb-1 line-clamp-1">{{ product.name }}</div>
+                            <div class="text-orange-400 font-bold text-sm">Rp {{ product.price|floatformat:0 }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Loading Indicator -->
+            <div id="loading" class="htmx-indicator flex items-center justify-center py-8">
+                <div class="spinner"></div>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="product-grid"
+                 hx-get="/htmx/tenant/{{ tenant.slug }}/products/"
+                 hx-trigger="load"
+                 hx-swap="innerHTML"
+                 hx-indicator="#loading">
+                <div class="flex items-center justify-center py-20">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+function filterCategory(categoryId, btn) {
+    // Update active state
+    document.querySelectorAll('.category-btn').forEach(b => {
+        b.classList.remove('active-category', 'bg-orange-500/20', 'border-orange-500/30', 'text-orange-400');
+        b.classList.add('text-white/70');
+    });
+    btn.classList.add('bg-orange-500/20', 'border', 'border-orange-500/30', 'text-orange-400');
+    btn.classList.remove('text-white/70');
+}
+
+function quickAdd(productId, name, price) {
+    // Quick add via HTMX
+    htmx.ajax('POST', '/htmx/cart/add/', {
+        target: '#cart-content',
+        swap: 'innerHTML',
+        values: { product_id: productId, quantity: 1 }
+    });
+}
+</script>
+
+{% endblock %}

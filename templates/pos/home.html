@@ -1,0 +1,2373 @@
+{% extends 'pos/base.html' %}
+
+{% block title %}Food Court Grand Galaxy - Pilih Tenant Favorit Anda{% endblock %}
+
+{% block extra_head %}
+<style>
+/* ========================
+   THEME SYSTEM
+======================== */
+:root {
+  --theme: 'neon';
+}
+
+/* Hide all theme bodies initially */
+.theme-body { display: none !important; }
+.theme-body.active { display: block !important; }
+
+/* Theme Switcher Panel */
+#theme-switcher {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9999;
+}
+
+.theme-pill {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  border: 2px solid transparent;
+}
+
+.theme-pill.selected {
+  transform: scale(1.15);
+  border-color: white;
+  box-shadow: 0 0 20px rgba(255,255,255,0.5);
+}
+
+/* ========================
+   THEME 1: NEON CYBERPUNK
+======================== */
+body.theme-neon {
+  background: #050510;
+  overflow-x: hidden;
+}
+
+.neon-grid {
+  background-image:
+    linear-gradient(rgba(0,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.neon-glow-cyan { text-shadow: 0 0 20px #00ffff, 0 0 60px #00ffff88; }
+.neon-glow-pink { text-shadow: 0 0 20px #ff00ff, 0 0 60px #ff00ff88; }
+
+.neon-card {
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(0,255,255,0.2);
+  box-shadow: 0 0 30px rgba(0,255,255,0.05), inset 0 0 30px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+}
+
+.neon-card:hover {
+  border-color: rgba(0,255,255,0.6);
+  box-shadow: 0 0 40px rgba(0,255,255,0.2), 0 0 80px rgba(255,0,255,0.1);
+  transform: translateY(-8px);
+}
+
+.neon-btn {
+  background: transparent;
+  border: 1px solid #00ffff;
+  color: #00ffff;
+  box-shadow: 0 0 15px rgba(0,255,255,0.3), inset 0 0 15px rgba(0,255,255,0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.neon-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,255,255,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.neon-btn:hover::before { left: 100%; }
+.neon-btn:hover {
+  box-shadow: 0 0 30px rgba(0,255,255,0.6), 0 0 60px rgba(0,255,255,0.3);
+  background: rgba(0,255,255,0.1);
+}
+
+@keyframes scanline {
+  0% { top: -5%; }
+  100% { top: 105%; }
+}
+
+.scanline {
+  position: fixed;
+  left: 0; width: 100%;
+  height: 2px;
+  background: linear-gradient(transparent, rgba(0,255,255,0.15), transparent);
+  animation: scanline 4s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes neonFlicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.6; }
+  94% { opacity: 1; }
+  96% { opacity: 0.8; }
+  97% { opacity: 1; }
+}
+
+.neon-title-1 { animation: neonFlicker 5s infinite; }
+
+@keyframes floatParticle {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+  50% { transform: translateY(-40px) rotate(180deg); opacity: 1; }
+}
+
+/* ========================
+   THEME 0: YOGYA GROUP BRAND
+======================== */
+body.theme-yogya {
+  background: #fff8f0;
+  overflow-x: hidden;
+}
+
+/* Yogya Brand Colors:
+   Primary Orange: #FF6B00 / #FF7A00
+   Secondary Yellow: #FFB800 / #FFC107
+   Accent Red: #E8001D
+   White: #FFFFFF
+   Dark: #1A1A1A
+*/
+
+.yogya-primary { color: #FF6B00; }
+.yogya-dark { color: #1A1A1A; }
+.yogya-muted { color: #6B6B6B; }
+
+.yogya-bg {
+  background: linear-gradient(160deg, #fff8f0 0%, #fff3e5 30%, #ffffff 60%, #fff9ee 100%);
+  position: relative;
+}
+
+.yogya-hero-wave {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Orange gradient banner */
+.yogya-banner {
+  background: linear-gradient(135deg, #FF6B00 0%, #FF8C00 40%, #FFB800 80%, #FFC107 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.yogya-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -20%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.yogya-banner::after {
+  content: '';
+  position: absolute;
+  bottom: -30%; left: -10%;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(255,255,200,0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Yogya text gradient */
+.yogya-text-gradient {
+  background: linear-gradient(135deg, #FF6B00, #FF8C00, #E8001D);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.yogya-yellow-gradient {
+  background: linear-gradient(135deg, #FFB800, #FFC107, #FFCD38);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card style */
+.yogya-card {
+  background: #ffffff;
+  border: 1px solid rgba(255,107,0,0.08);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(255,107,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+  overflow: hidden;
+  position: relative;
+}
+
+.yogya-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #FF6B00, #FFB800);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.yogya-card:hover {
+  border-color: rgba(255,107,0,0.2);
+  box-shadow: 0 12px 40px rgba(255,107,0,0.15), 0 4px 12px rgba(0,0,0,0.06);
+  transform: translateY(-6px);
+}
+
+.yogya-card:hover::after {
+  transform: scaleX(1);
+}
+
+/* Yogya Badge */
+.yogya-badge {
+  background: linear-gradient(135deg, #FF6B00, #FF8C00);
+  color: white;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+.yogya-badge-yellow {
+  background: linear-gradient(135deg, #FFB800, #FFC107);
+  color: #1A1A1A;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+/* Yogya Button */
+.yogya-btn {
+  background: linear-gradient(135deg, #FF6B00, #FF8C00);
+  color: white;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 12px 28px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(255,107,0,0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.yogya-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.yogya-btn:hover { 
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255,107,0,0.5);
+}
+.yogya-btn:hover::before { opacity: 1; }
+.yogya-btn:active { transform: scale(0.97); }
+
+.yogya-btn-yellow {
+  background: linear-gradient(135deg, #FFB800, #FFC107);
+  color: #1A1A1A;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 12px 28px;
+  box-shadow: 0 4px 20px rgba(255,184,0,0.4);
+  transition: all 0.3s ease;
+}
+.yogya-btn-yellow:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,184,0,0.55); }
+
+/* Stat boxes */
+.yogya-stat {
+  background: white;
+  border: 1px solid rgba(255,107,0,0.1);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(255,107,0,0.05);
+  transition: all 0.25s ease;
+}
+.yogya-stat:hover {
+  border-color: rgba(255,107,0,0.25);
+  box-shadow: 0 6px 24px rgba(255,107,0,0.12);
+  transform: translateY(-3px);
+}
+
+/* Stripe decoration */
+.yogya-stripe {
+  height: 5px;
+  background: repeating-linear-gradient(
+    -45deg,
+    #FF6B00,
+    #FF6B00 8px,
+    #FFB800 8px,
+    #FFB800 16px
+  );
+}
+
+/* Yogya filter button */
+.yogya-filter-active {
+  background: linear-gradient(135deg, #FF6B00, #FF8C00) !important;
+  color: white !important;
+  box-shadow: 0 4px 15px rgba(255,107,0,0.35);
+}
+
+/* Open pulse orange */
+@keyframes yogyaPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,0,0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(255,107,0,0); }
+}
+.yogya-open-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: yogyaPulse 2s infinite;
+}
+
+/* Floating decorative circles */
+@keyframes yogyaFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+.yogya-float { animation: yogyaFloat 6s ease-in-out infinite; }
+.yogya-float-2 { animation: yogyaFloat 8s ease-in-out infinite 1s; }
+.yogya-float-3 { animation: yogyaFloat 7s ease-in-out infinite 2s; }
+
+/* Yogya orange divider */
+.yogya-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #FF6B00, #FFB800, transparent);
+  border-radius: 999px;
+}
+
+/* Section header badge */
+.yogya-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(255,107,0,0.1), rgba(255,184,0,0.08));
+  border: 1px solid rgba(255,107,0,0.2);
+  color: #FF6B00;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* Horizontal card for grid option */
+.yogya-hcard {
+  display: flex;
+  background: white;
+  border: 1px solid rgba(255,107,0,0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  transition: all 0.3s ease;
+}
+.yogya-hcard:hover {
+  box-shadow: 0 8px 30px rgba(255,107,0,0.12);
+  border-color: rgba(255,107,0,0.18);
+  transform: translateX(4px);
+}
+
+/* Brand stripe top bar */
+.yogya-topbar {
+  background: linear-gradient(90deg, #FF6B00, #FF8C00, #FFB800, #FFC107, #FFB800, #FF8C00, #FF6B00);
+  background-size: 200% 100%;
+  height: 4px;
+  animation: yogyaTopbar 4s linear infinite;
+}
+
+@keyframes yogyaTopbar {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ========================
+   THEME 7: AURORA BOREALIS
+   Deep space dark with
+   living aurora gradient,
+   frosted glass cards,
+   micro-animation details
+======================== */
+body.theme-aurora {
+  background: #02040e;
+  overflow-x: hidden;
+}
+
+/* === AURORA ANIMATED BACKGROUND === */
+.aurora-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Aurora orb blobs */
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  mix-blend-mode: screen;
+  opacity: 0.55;
+}
+
+@keyframes auroraOrb1 {
+  0%   { transform: translate(0,0) scale(1); }
+  33%  { transform: translate(8vw,-6vh) scale(1.15); }
+  66%  { transform: translate(-5vw,10vh) scale(0.9); }
+  100% { transform: translate(0,0) scale(1); }
+}
+@keyframes auroraOrb2 {
+  0%   { transform: translate(0,0) scale(1); }
+  33%  { transform: translate(-10vw,8vh) scale(1.2); }
+  66%  { transform: translate(6vw,-10vh) scale(0.85); }
+  100% { transform: translate(0,0) scale(1); }
+}
+@keyframes auroraOrb3 {
+  0%   { transform: translate(0,0) scale(1) rotate(0deg); }
+  50%  { transform: translate(5vw,5vh) scale(1.1) rotate(15deg); }
+  100% { transform: translate(0,0) scale(1) rotate(0deg); }
+}
+@keyframes auroraOrb4 {
+  0%   { transform: translate(0,0) scale(0.9); }
+  40%  { transform: translate(-8vw,-4vh) scale(1.15); }
+  80%  { transform: translate(4vw,8vh) scale(1); }
+  100% { transform: translate(0,0) scale(0.9); }
+}
+
+.aurora-blob-1 {
+  width: 70vw; height: 70vw;
+  max-width: 900px; max-height: 900px;
+  background: radial-gradient(circle at 40% 40%, #00ffa3 0%, #00d4aa 30%, transparent 70%);
+  top: -20%; left: -15%;
+  animation: auroraOrb1 18s ease-in-out infinite;
+}
+.aurora-blob-2 {
+  width: 60vw; height: 60vw;
+  max-width: 800px; max-height: 800px;
+  background: radial-gradient(circle at 60% 50%, #7c3aed 0%, #4f46e5 35%, transparent 70%);
+  top: 10%; right: -20%;
+  animation: auroraOrb2 22s ease-in-out infinite;
+}
+.aurora-blob-3 {
+  width: 50vw; height: 50vw;
+  max-width: 700px; max-height: 700px;
+  background: radial-gradient(circle at 50% 50%, #06b6d4 0%, #0891b2 40%, transparent 70%);
+  bottom: 0%; left: 20%;
+  animation: auroraOrb3 26s ease-in-out infinite;
+}
+.aurora-blob-4 {
+  width: 40vw; height: 40vw;
+  max-width: 550px; max-height: 550px;
+  background: radial-gradient(circle at 50% 50%, #f0abfc 0%, #c084fc 40%, transparent 70%);
+  top: 50%; right: 10%;
+  animation: auroraOrb4 20s ease-in-out infinite;
+}
+
+/* === STARFIELD === */
+.aurora-stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 40% 8%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 22%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 55%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(2px 2px at 85% 12%, rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 75%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 80%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 50% 65%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 85%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 33% 90%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 5% 50%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 40%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 18% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 55% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 95%, rgba(255,255,255,0.4) 0%, transparent 100%);
+}
+
+/* === GLASS CARD === */
+.aurora-card {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  box-shadow:
+    0 8px 32px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -1px 0 rgba(0,0,0,0.2);
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+}
+
+.aurora-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    rgba(0,255,163,0.03) 0%,
+    rgba(124,58,237,0.02) 50%,
+    rgba(6,182,212,0.03) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  border-radius: inherit;
+}
+
+.aurora-card:hover {
+  border-color: rgba(0,255,163,0.3);
+  box-shadow:
+    0 16px 60px rgba(0,0,0,0.5),
+    0 0 30px rgba(0,255,163,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.2),
+    inset 0 -1px 0 rgba(0,0,0,0.2);
+  transform: translateY(-8px) scale(1.01);
+}
+
+.aurora-card:hover::before {
+  opacity: 1;
+}
+
+/* === AURORA TEXT EFFECTS === */
+.aurora-text {
+  background: linear-gradient(135deg, #00ffa3, #00d4ff, #7c3aed, #f0abfc);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: auroraTextShift 8s ease infinite;
+}
+
+@keyframes auroraTextShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.aurora-text-cyan {
+  color: #00e5ff;
+  text-shadow: 0 0 30px rgba(0,229,255,0.5), 0 0 60px rgba(0,229,255,0.2);
+}
+
+.aurora-text-green {
+  color: #00ffa3;
+  text-shadow: 0 0 30px rgba(0,255,163,0.5), 0 0 60px rgba(0,255,163,0.2);
+}
+
+/* === AURORA BADGE === */
+.aurora-badge {
+  background: rgba(0,255,163,0.12);
+  border: 1px solid rgba(0,255,163,0.35);
+  color: #00ffa3;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  backdrop-filter: blur(10px);
+}
+
+.aurora-badge-purple {
+  background: rgba(124,58,237,0.15);
+  border: 1px solid rgba(124,58,237,0.35);
+  color: #c084fc;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  backdrop-filter: blur(10px);
+}
+
+/* === AURORA BUTTON === */
+.aurora-btn {
+  background: linear-gradient(135deg, rgba(0,255,163,0.2), rgba(0,212,255,0.15));
+  border: 1px solid rgba(0,255,163,0.4);
+  color: #00ffa3;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 9px 18px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.aurora-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,255,163,0.15), transparent);
+  transition: left 0.5s ease;
+}
+
+.aurora-btn:hover {
+  background: linear-gradient(135deg, rgba(0,255,163,0.3), rgba(0,212,255,0.25));
+  border-color: rgba(0,255,163,0.7);
+  box-shadow: 0 0 25px rgba(0,255,163,0.3), 0 4px 20px rgba(0,0,0,0.3);
+  color: #00ffc8;
+}
+
+.aurora-btn:hover::before { left: 100%; }
+
+.aurora-btn-primary {
+  background: linear-gradient(135deg, #00c87a, #00a3ff);
+  border: none;
+  color: #001a0d;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 20px rgba(0,200,122,0.4), 0 0 40px rgba(0,200,122,0.15);
+  transition: all 0.3s ease;
+}
+
+.aurora-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,200,122,0.55), 0 0 60px rgba(0,200,122,0.2);
+}
+
+/* === AURORA STATS === */
+.aurora-stat {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  text-align: center;
+  padding: 20px 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.aurora-stat::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,163,0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.aurora-stat:hover {
+  border-color: rgba(0,255,163,0.2);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4), 0 0 20px rgba(0,255,163,0.08);
+}
+
+.aurora-stat:hover::after { opacity: 1; }
+
+/* === AURORA FILTER CHIPS === */
+.aurora-filter-active {
+  background: rgba(0,255,163,0.15) !important;
+  border-color: rgba(0,255,163,0.5) !important;
+  color: #00ffa3 !important;
+  box-shadow: 0 0 20px rgba(0,255,163,0.2) !important;
+}
+
+/* === AURORA DIVIDER === */
+.aurora-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,255,163,0.3), rgba(0,212,255,0.3), rgba(124,58,237,0.3), transparent);
+}
+
+/* === AURORA OPEN PULSE === */
+@keyframes auroraOpenPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,163,0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(0,255,163,0); }
+}
+.aurora-open-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #00ffa3;
+  animation: auroraOpenPulse 2s infinite;
+  box-shadow: 0 0 8px rgba(0,255,163,0.8);
+}
+
+/* === FLOATING PARTICLES === */
+@keyframes auroraParticle {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.7; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(-120px) rotate(360deg); opacity: 0; }
+}
+
+/* === IMAGE HOVER TILT === */
+.aurora-img-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px 16px 0 0;
+}
+
+.aurora-img-wrap img {
+  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+.aurora-card:hover .aurora-img-wrap img {
+  transform: scale(1.08);
+}
+
+/* === STALL NUMBER BADGE === */
+.aurora-stall-badge {
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0,255,163,0.3);
+  color: #00ffa3;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+/* === HERO TITLE ANIMATION === */
+@keyframes auroraReveal {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.aurora-reveal-1 { animation: auroraReveal 0.8s ease forwards; opacity: 0; }
+.aurora-reveal-2 { animation: auroraReveal 0.8s ease 0.15s forwards; opacity: 0; }
+.aurora-reveal-3 { animation: auroraReveal 0.8s ease 0.3s forwards; opacity: 0; }
+.aurora-reveal-4 { animation: auroraReveal 0.8s ease 0.45s forwards; opacity: 0; }
+
+/* === HORIZONTAL RULE GLOW === */
+.aurora-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, #00ffa3 30%, #00d4ff 50%, #7c3aed 70%, transparent 100%);
+  opacity: 0.4;
+}
+
+/* === SECTION HEADER === */
+.aurora-section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(0,255,163,0.7);
+}
+
+/* === SCROLLBAR === */
+body.theme-aurora::-webkit-scrollbar { width: 6px; }
+body.theme-aurora::-webkit-scrollbar-track { background: #02040e; }
+body.theme-aurora::-webkit-scrollbar-thumb {
+  background: linear-gradient(#00ffa3, #7c3aed);
+  border-radius: 3px;
+}
+
+/* ========================
+   THEME 2: WARM LUXURY
+======================== */
+body.theme-luxury {
+  background: #0a0604;
+  overflow-x: hidden;
+}
+
+.luxury-bg {
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(212,175,55,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(180,100,20,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(212,175,55,0.04) 0%, transparent 50%);
+}
+
+.gold-text { 
+  background: linear-gradient(135deg, #d4af37, #f5d76e, #c9970c, #f5d76e, #d4af37);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldShimmer 4s linear infinite;
+}
+
+@keyframes goldShimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+.luxury-card {
+  background: linear-gradient(135deg, rgba(20,15,5,0.9), rgba(30,22,8,0.9));
+  border: 1px solid rgba(212,175,55,0.2);
+  transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+  overflow: hidden;
+}
+
+.luxury-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.6), transparent);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.luxury-card:hover::before { transform: scaleX(1); }
+
+.luxury-card:hover {
+  border-color: rgba(212,175,55,0.5);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(212,175,55,0.1);
+  transform: translateY(-6px);
+}
+
+.luxury-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.4), transparent);
+}
+
+.luxury-badge {
+  background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
+  border: 1px solid rgba(212,175,55,0.3);
+  color: #d4af37;
+}
+
+@keyframes luxuryFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-15px) rotate(5deg); }
+  66% { transform: translateY(-8px) rotate(-3deg); }
+}
+
+/* ========================
+   THEME 3: FRESH MODERN
+======================== */
+body.theme-fresh {
+  background: #f8fafb;
+  overflow-x: hidden;
+}
+
+.fresh-bg {
+  background: linear-gradient(160deg, #ffffff 0%, #f0f7ff 40%, #fff5f0 100%);
+}
+
+.fresh-text-dark { color: #1a1a2e; }
+.fresh-text-muted { color: #6b7280; }
+
+.fresh-card {
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+.fresh-card:hover {
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  transform: translateY(-6px);
+  border-color: rgba(249,115,22,0.2);
+}
+
+.fresh-accent { color: #f97316; }
+.fresh-accent-bg { background: #f97316; }
+
+.fresh-pill {
+  background: rgba(249,115,22,0.08);
+  border: 1px solid rgba(249,115,22,0.2);
+  color: #f97316;
+  border-radius: 100px;
+}
+
+.fresh-gradient-text {
+  background: linear-gradient(135deg, #f97316, #e11d48);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.fresh-hero-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.6;
+}
+
+@keyframes freshPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.fresh-stat {
+  background: white;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+/* ========================
+   THEME 4: RETRO JAPANESE
+======================== */
+body.theme-japanese {
+  background: #fdf6e8;
+  overflow-x: hidden;
+}
+
+.jp-bg {
+  background: 
+    radial-gradient(circle at 30% 20%, rgba(220,38,38,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(220,38,38,0.04) 0%, transparent 50%);
+}
+
+.jp-pattern {
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(220,38,38,0.03) 10px,
+      rgba(220,38,38,0.03) 12px
+    );
+}
+
+.jp-card {
+  background: rgba(255,253,245,0.95);
+  border: 2px solid rgba(220,38,38,0.12);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.jp-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, #dc2626, #f97316);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+}
+
+.jp-card:hover::after { transform: scaleX(1); }
+
+.jp-card:hover {
+  border-color: rgba(220,38,38,0.35);
+  box-shadow: 8px 8px 0 rgba(220,38,38,0.1);
+  transform: translate(-4px, -4px);
+}
+
+.jp-red { color: #dc2626; }
+.jp-dark { color: #1c1c1c; }
+
+.jp-title {
+  font-family: 'Georgia', serif;
+  letter-spacing: -0.02em;
+}
+
+.jp-badge {
+  background: #dc2626;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.jp-price { 
+  color: #dc2626;
+  font-weight: 800;
+}
+
+.jp-divider {
+  border: none;
+  height: 2px;
+  background: repeating-linear-gradient(90deg, #dc2626 0, #dc2626 8px, transparent 8px, transparent 14px);
+}
+
+@keyframes jpFloat {
+  0%, 100% { transform: rotate(-5deg) translateY(0); }
+  50% { transform: rotate(-5deg) translateY(-10px); }
+}
+
+.jp-cherry { animation: jpFloat 3s ease-in-out infinite; }
+
+/* ========================
+   THEME 5: NIGHT MARKET
+======================== */
+body.theme-nightmarket {
+  background: #0d0a00;
+  overflow-x: hidden;
+}
+
+.nm-bg {
+  background: 
+    radial-gradient(ellipse at top, rgba(255,140,0,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at bottom left, rgba(255,80,0,0.08) 0%, transparent 50%);
+}
+
+.nm-card {
+  background: rgba(20,15,0,0.8);
+  border: 1px solid rgba(255,160,0,0.15);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nm-card:hover {
+  border-color: rgba(255,160,0,0.4);
+  box-shadow: 0 0 40px rgba(255,140,0,0.15), 0 20px 40px rgba(0,0,0,0.4);
+  transform: translateY(-6px);
+}
+
+.nm-lantern {
+  background: radial-gradient(circle, rgba(255,160,0,0.3) 0%, rgba(255,80,0,0.1) 50%, transparent 70%);
+}
+
+.nm-title { color: #ffb300; text-shadow: 0 0 30px rgba(255,180,0,0.5); }
+.nm-text { color: rgba(255,220,150,0.9); }
+.nm-muted { color: rgba(255,180,80,0.5); }
+
+.nm-btn {
+  background: linear-gradient(135deg, #ff8c00, #ff4500);
+  box-shadow: 0 4px 20px rgba(255,140,0,0.4);
+  transition: all 0.3s ease;
+}
+
+.nm-btn:hover {
+  box-shadow: 0 8px 40px rgba(255,140,0,0.6);
+  transform: translateY(-2px);
+}
+
+.nm-badge {
+  background: rgba(255,140,0,0.15);
+  border: 1px solid rgba(255,140,0,0.3);
+  color: #ffb300;
+}
+
+@keyframes lanternSway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+.lantern-sway { animation: lanternSway 3s ease-in-out infinite; }
+
+@keyframes nmFlicker {
+  0%, 100% { opacity: 1; }
+  85% { opacity: 1; }
+  86% { opacity: 0.7; }
+  87% { opacity: 1; }
+}
+
+.nm-flicker { animation: nmFlicker 4s infinite; }
+
+@keyframes firefly {
+  0% { transform: translate(0,0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+}
+
+/* ========================
+   Common Tenant Card Effects
+======================== */
+.tenant-hover-img { transition: transform 0.5s cubic-bezier(0.4,0,0.2,1); }
+.tenant-hover-img:hover { transform: scale(1.08); }
+
+.open-pulse {
+  animation: openPulse 2s ease-in-out infinite;
+}
+@keyframes openPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+}
+
+/* Stagger animation */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.stagger-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ==================== THEME 1: NEON CYBERPUNK ==================== -->
+<div class="theme-body" id="theme-neon-body">
+<div class="neon-grid min-h-screen relative">
+  <div class="scanline"></div>
+
+  <!-- Floating particles -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div style="position:absolute;top:15%;left:8%;color:#00ffff;font-size:10px;animation:floatParticle 4s ease-in-out infinite;">◆</div>
+    <div style="position:absolute;top:40%;left:3%;color:#ff00ff;font-size:8px;animation:floatParticle 5s ease-in-out infinite 1s;">◆</div>
+    <div style="position:absolute;top:70%;left:12%;color:#00ffff;font-size:12px;animation:floatParticle 3.5s ease-in-out infinite 0.5s;">◆</div>
+    <div style="position:absolute;top:20%;right:6%;color:#ff00ff;font-size:10px;animation:floatParticle 4.5s ease-in-out infinite 2s;">◆</div>
+    <div style="position:absolute;top:55%;right:8%;color:#00ffff;font-size:8px;animation:floatParticle 3s ease-in-out infinite 1.5s;">◆</div>
+    <div style="position:absolute;top:80%;right:15%;color:#7c3aed;font-size:14px;animation:floatParticle 5s ease-in-out infinite 0.8s;">◆</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="relative z-10 max-w-screen-2xl mx-auto px-6 pt-14 pb-8 text-center">
+    <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold tracking-widest uppercase mb-8"
+         style="border:1px solid rgba(0,255,255,0.3);color:#00ffff;background:rgba(0,255,255,0.05);">
+      <span class="w-2 h-2 rounded-full bg-green-400 open-pulse"></span>
+      SYSTEM ONLINE · 10 TENANT ACTIVE
+    </div>
+
+    <h1 class="neon-title-1 text-6xl md:text-8xl font-black leading-none mb-4 tracking-tight">
+      <span style="color:#ffffff;">FOOD</span>
+      <span class="neon-glow-cyan" style="color:#00ffff;"> COURT</span>
+      <br>
+      <span style="font-size:0.55em;letter-spacing:0.2em;color:rgba(255,255,255,0.6);">GRAND GALAXY</span>
+    </h1>
+
+    <p class="text-base mb-10 tracking-widest" style="color:rgba(0,255,255,0.6);">
+      ▸ PILIH TENANT · PESAN MENU · NIKMATI PENGALAMAN
+    </p>
+
+    <!-- Stats Row -->
+    <div class="flex items-center justify-center gap-8 mb-12 flex-wrap">
+      {% for label,val,color in stats_neon %}{% endfor %}
+      <div class="text-center px-6 py-3" style="border-left:1px solid rgba(0,255,255,0.2);">
+        <div class="text-3xl font-black" style="color:#00ffff;">10+</div>
+        <div class="text-xs tracking-widest" style="color:rgba(255,255,255,0.4);">TENANT</div>
+      </div>
+      <div class="text-center px-6 py-3" style="border-left:1px solid rgba(0,255,255,0.2);">
+        <div class="text-3xl font-black" style="color:#ff00ff;">100+</div>
+        <div class="text-xs tracking-widest" style="color:rgba(255,255,255,0.4);">MENU</div>
+      </div>
+      <div class="text-center px-6 py-3" style="border-left:1px solid rgba(0,255,255,0.2);">
+        <div class="text-3xl font-black" style="color:#7c3aed;">4.8★</div>
+        <div class="text-xs tracking-widest" style="color:rgba(255,255,255,0.4);">RATING</div>
+      </div>
+      <div class="text-center px-6 py-3" style="border-left:1px solid rgba(0,255,255,0.2);border-right:1px solid rgba(0,255,255,0.2);">
+        <div class="text-3xl font-black" style="color:#22c55e;">15'</div>
+        <div class="text-xs tracking-widest" style="color:rgba(255,255,255,0.4);">WAIT</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cuisine Filter - Neon Style -->
+  <div class="max-w-screen-2xl mx-auto px-6 mb-8 relative z-10">
+    <div class="flex gap-3 overflow-x-auto pb-2 justify-center flex-wrap">
+      {% for emoji,label,cuisine in cuisine_list %}
+      <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+        class="cuisine-filter-btn px-4 py-2 text-xs font-bold tracking-widest uppercase whitespace-nowrap transition-all rounded-none"
+        style="border:1px solid rgba(0,255,255,0.25);color:rgba(0,255,255,0.6);background:transparent;">
+        {{ emoji }} {{ label }}
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Tenant Grid - Neon -->
+  <div class="max-w-screen-2xl mx-auto px-6 pb-24 relative z-10">
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" id="tenant-grid-neon">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/" class="neon-card rounded-sm overflow-hidden cursor-pointer stagger-item tenant-card-item" data-cuisine="{{ tenant.cuisine_type }}">
+        <div class="relative h-40 overflow-hidden">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img" style="filter:brightness(0.7) saturate(1.3);">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-6xl" style="background:rgba(0,20,30,0.9);">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(0,0,0,0.9),transparent)"></div>
+          <div class="absolute top-2 right-2">
+            {% if tenant.is_open %}<span class="px-2 py-0.5 text-xs font-bold" style="border:1px solid #22c55e;color:#22c55e;background:rgba(34,197,94,0.1);">OPEN</span>{% endif %}
+          </div>
+          <div class="absolute top-2 left-2 text-xs font-bold" style="color:rgba(0,255,255,0.7);">#{{ tenant.stall_number }}</div>
+          <div class="absolute bottom-2 left-3 right-3">
+            <div class="text-sm font-black" style="color:#ffffff;">{{ tenant.name }}</div>
+          </div>
+        </div>
+        <div class="p-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs" style="color:rgba(0,255,255,0.5);">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</span>
+            <span class="text-xs font-bold" style="color:#ffff00;">★ {{ tenant.rating }}</span>
+          </div>
+          <p class="text-xs mt-1 line-clamp-1" style="color:rgba(255,255,255,0.35);">{{ tenant.description }}</p>
+          <div class="mt-3 pt-2 flex justify-end" style="border-top:1px solid rgba(0,255,255,0.1);">
+            <span class="text-xs font-bold neon-btn px-3 py-1 rounded-none" style="border-color:rgba(0,255,255,0.4);color:#00ffff;">▸ ORDER</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== THEME 2: WARM LUXURY ==================== -->
+<div class="theme-body" id="theme-luxury-body">
+<div class="luxury-bg min-h-screen relative">
+  <!-- Decorative elements -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden">
+    <div style="position:absolute;top:-10%;right:-5%;width:600px;height:600px;background:radial-gradient(circle,rgba(212,175,55,0.06),transparent 70%);border-radius:50%;animation:luxuryFloat 8s ease-in-out infinite;"></div>
+    <div style="position:absolute;bottom:-10%;left:-5%;width:500px;height:500px;background:radial-gradient(circle,rgba(180,100,20,0.05),transparent 70%);border-radius:50%;animation:luxuryFloat 10s ease-in-out infinite 2s;"></div>
+  </div>
+
+  <div class="relative z-10 max-w-screen-xl mx-auto px-8 pt-16 pb-8">
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <div class="flex items-center justify-center gap-4 mb-6">
+        <div class="luxury-divider flex-1" style="max-width:120px;"></div>
+        <span class="luxury-badge px-4 py-1 text-xs tracking-widest rounded-full">PREMIUM FOOD COURT</span>
+        <div class="luxury-divider flex-1" style="max-width:120px;"></div>
+      </div>
+
+      <h1 class="font-black mb-3 leading-none" style="font-size:clamp(3rem,8vw,6rem);">
+        <span class="gold-text">Grand Galaxy</span>
+      </h1>
+      <h2 class="text-2xl md:text-3xl tracking-widest font-light mb-6" style="color:rgba(255,255,255,0.5);letter-spacing:0.3em;">FOOD COURT</h2>
+
+      <p class="text-sm tracking-wider mb-10 max-w-lg mx-auto" style="color:rgba(212,175,55,0.6);letter-spacing:0.08em;">
+        Pengalaman kuliner premium dari 10 tenant pilihan dengan cita rasa terbaik dunia
+      </p>
+
+      <!-- Stats elegant -->
+      <div class="flex items-center justify-center gap-0 mb-12">
+        <div class="px-8 py-4 text-center">
+          <div class="text-4xl font-black gold-text">10</div>
+          <div class="text-xs tracking-widest mt-1" style="color:rgba(212,175,55,0.5);">TENANT</div>
+        </div>
+        <div style="width:1px;height:50px;background:linear-gradient(to bottom,transparent,rgba(212,175,55,0.3),transparent);"></div>
+        <div class="px-8 py-4 text-center">
+          <div class="text-4xl font-black gold-text">100+</div>
+          <div class="text-xs tracking-widest mt-1" style="color:rgba(212,175,55,0.5);">MENU</div>
+        </div>
+        <div style="width:1px;height:50px;background:linear-gradient(to bottom,transparent,rgba(212,175,55,0.3),transparent);"></div>
+        <div class="px-8 py-4 text-center">
+          <div class="text-4xl font-black gold-text">4.8</div>
+          <div class="text-xs tracking-widest mt-1" style="color:rgba(212,175,55,0.5);">RATING</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cuisine Filter - Elegant pills -->
+    <div class="flex flex-wrap gap-2 justify-center mb-10">
+      {% for emoji,label,cuisine in cuisine_list %}
+      <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+        class="cuisine-filter-btn px-5 py-2 text-xs tracking-widest uppercase transition-all"
+        style="border:1px solid rgba(212,175,55,0.2);color:rgba(212,175,55,0.6);background:transparent;border-radius:2px;">
+        {{ emoji }} {{ label }}
+      </button>
+      {% endfor %}
+    </div>
+
+    <!-- Tenant Grid - Luxury 4-col -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="tenant-grid-luxury">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/" class="luxury-card rounded-lg overflow-hidden cursor-pointer stagger-item tenant-card-item" data-cuisine="{{ tenant.cuisine_type }}">
+        <div class="relative h-52 overflow-hidden">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img" style="filter:brightness(0.65);">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-7xl" style="background:#0f0b03;">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(5,3,0,0.95) 0%,rgba(5,3,0,0.3) 60%,transparent 100%)"></div>
+
+          <!-- Gold corner accent -->
+          <div class="absolute top-0 left-0 w-8 h-8 border-t border-l" style="border-color:rgba(212,175,55,0.4);"></div>
+          <div class="absolute top-0 right-0 w-8 h-8 border-t border-r" style="border-color:rgba(212,175,55,0.4);"></div>
+
+          <div class="absolute bottom-4 left-4 right-4">
+            <div class="text-xs tracking-widest mb-1" style="color:rgba(212,175,55,0.6);">{{ tenant.stall_number }} · {{ tenant.cuisine_type|upper }}</div>
+            <div class="text-lg font-black text-white">{{ tenant.name }}</div>
+          </div>
+        </div>
+        <div class="p-4">
+          <div class="flex items-center gap-1 mb-2">
+            {% for i in "12345"|make_list %}
+            <span style="color:#d4af37;font-size:10px;">★</span>
+            {% endfor %}
+            <span class="ml-1 text-xs font-bold" style="color:#d4af37;">{{ tenant.rating }}</span>
+            <span class="ml-auto text-xs" style="color:rgba(212,175,55,0.4);">{{ tenant.total_orders }}+ orders</span>
+          </div>
+          <p class="text-xs mb-4 line-clamp-2" style="color:rgba(255,220,150,0.5);line-height:1.6;">{{ tenant.description }}</p>
+          <div class="luxury-divider mb-3"></div>
+          <div class="flex justify-between items-center">
+            <span class="text-xs" style="color:rgba(212,175,55,0.4);">🕐 {{ tenant.opening_time|time:"H:i" }}-{{ tenant.closing_time|time:"H:i" }}</span>
+            <span class="text-xs font-bold tracking-widest gold-text">PESAN →</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== THEME 3: FRESH MODERN ==================== -->
+<div class="theme-body" id="theme-fresh-body">
+<div class="fresh-bg min-h-screen relative">
+  <!-- Background shapes -->
+  <div class="fresh-hero-shape" style="width:500px;height:500px;background:#ff6b3520;top:-100px;right:-100px;animation:freshPulse 6s ease-in-out infinite;"></div>
+  <div class="fresh-hero-shape" style="width:400px;height:400px;background:#3b82f620;bottom:-100px;left:-50px;animation:freshPulse 8s ease-in-out infinite 2s;"></div>
+
+  <div class="relative z-10 max-w-screen-xl mx-auto px-6 pt-12 pb-10">
+
+    <!-- Hero Split Layout -->
+    <div class="flex flex-col lg:flex-row items-center gap-10 mb-14">
+      <!-- Left -->
+      <div class="flex-1 text-center lg:text-left">
+        <div class="fresh-pill inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold mb-6">
+          <span class="w-2 h-2 bg-green-500 rounded-full open-pulse"></span>
+          Buka Sekarang · 10 Tenant Aktif
+        </div>
+
+        <h1 class="font-black leading-none mb-5" style="font-size:clamp(2.8rem,7vw,5.5rem);">
+          <span class="fresh-text-dark">Pesan</span><br>
+          <span class="fresh-gradient-text">Makanan</span><br>
+          <span class="fresh-text-dark">Favorit<span class="fresh-accent">.</span></span>
+        </h1>
+
+        <p class="text-base mb-8 max-w-md fresh-text-muted leading-relaxed">
+          10 tenant terbaik dalam satu food court. Dari kuliner Asia hingga Barat, semuanya ada di sini.
+        </p>
+
+        <div class="flex gap-4 justify-center lg:justify-start">
+          <button onclick="document.getElementById('fresh-tenants').scrollIntoView({behavior:'smooth'})"
+            class="fresh-accent-bg text-white px-8 py-4 rounded-2xl font-bold text-base shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">
+            Mulai Pesan 🍽️
+          </button>
+          <button class="fresh-text-dark px-8 py-4 rounded-2xl font-bold text-base border-2 hover:border-orange-400 transition-all" style="border-color:rgba(0,0,0,0.1);">
+            Lihat Menu
+          </button>
+        </div>
+
+        <!-- Trust badges -->
+        <div class="flex items-center gap-6 mt-8 justify-center lg:justify-start">
+          <div class="flex items-center gap-2 fresh-text-muted text-sm">
+            <span>✅</span><span>Pembayaran Aman</span>
+          </div>
+          <div class="flex items-center gap-2 fresh-text-muted text-sm">
+            <span>⚡</span><span>Cepat & Mudah</span>
+          </div>
+          <div class="flex items-center gap-2 fresh-text-muted text-sm">
+            <span>🎯</span><span>100% Fresh</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right - Stats cards -->
+      <div class="flex-shrink-0 grid grid-cols-2 gap-4">
+        <div class="fresh-stat rounded-3xl p-6 text-center col-span-2">
+          <div class="text-5xl font-black fresh-accent mb-1">100+</div>
+          <div class="text-sm fresh-text-muted font-medium">Pilihan Menu Lezat</div>
+        </div>
+        <div class="fresh-stat rounded-3xl p-6 text-center">
+          <div class="text-4xl font-black fresh-text-dark mb-1">4.8</div>
+          <div class="text-xs fresh-text-muted">⭐ Rating</div>
+        </div>
+        <div class="fresh-stat rounded-3xl p-6 text-center">
+          <div class="text-4xl font-black fresh-text-dark mb-1">~15'</div>
+          <div class="text-xs fresh-text-muted">⏱️ Estimasi</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Chips -->
+    <div class="flex gap-3 overflow-x-auto pb-3 mb-8" id="fresh-tenants">
+      {% for emoji,label,cuisine in cuisine_list %}
+      <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+        class="cuisine-filter-btn flex items-center gap-2 px-5 py-2.5 text-sm font-semibold whitespace-nowrap rounded-xl transition-all"
+        style="background:#f3f4f6;color:#374151;">
+        {{ emoji }} {{ label }}
+      </button>
+      {% endfor %}
+    </div>
+
+    <!-- Tenant Grid - Fresh 5-col bento -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/" class="fresh-card rounded-3xl overflow-hidden cursor-pointer stagger-item tenant-card-item" data-cuisine="{{ tenant.cuisine_type }}">
+        <div class="relative h-36 overflow-hidden rounded-t-3xl">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-5xl bg-orange-50">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          {% if tenant.is_open %}
+          <div class="absolute top-3 right-3">
+            <span class="px-2 py-1 text-xs font-bold bg-green-500 text-white rounded-full">OPEN</span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="p-4">
+          <div class="fresh-text-dark font-bold text-sm mb-1">{{ tenant.name }}</div>
+          <div class="fresh-text-muted text-xs mb-2">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</div>
+          <div class="flex items-center justify-between">
+            <span class="text-xs fresh-text-muted">⭐ {{ tenant.rating }}</span>
+            <span class="text-xs font-bold fresh-accent">Pesan →</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== THEME 4: RETRO JAPANESE ==================== -->
+<div class="theme-body" id="theme-japanese-body">
+<div class="jp-bg jp-pattern min-h-screen">
+
+  <div class="max-w-screen-xl mx-auto px-6 pt-12 pb-12 relative z-10">
+
+    <!-- Japanese Header -->
+    <div class="text-center mb-12">
+      <!-- Decorative top -->
+      <div class="flex items-center justify-center gap-4 mb-6">
+        <div class="jp-cherry text-4xl select-none">🌸</div>
+        <div style="flex:1;max-width:200px;height:2px;background:linear-gradient(90deg,transparent,#dc2626,transparent);"></div>
+        <div class="jp-cherry text-4xl select-none" style="animation-delay:1s;">🌸</div>
+      </div>
+
+      <div class="text-xs font-bold tracking-widest mb-3 jp-red" style="letter-spacing:0.3em;">フードコート · FOOD COURT</div>
+
+      <h1 class="jp-title jp-dark font-black leading-none mb-3" style="font-size:clamp(3rem,9vw,6.5rem);">
+        Grand<span class="jp-red">.</span>
+      </h1>
+      <h2 class="jp-title font-black jp-dark mb-4" style="font-size:clamp(1.8rem,5vw,3.5rem);letter-spacing:0.15em;">
+        GALAXY
+      </h2>
+
+      <div class="jp-divider max-w-xs mx-auto mb-6"></div>
+
+      <p class="text-sm jp-dark opacity-60 max-w-md mx-auto leading-relaxed mb-8">
+        10 tenant kuliner terbaik dalam suasana yang hangat dan autentik.<br>
+        <span class="jp-red font-semibold">いらっしゃいませ — Selamat Datang</span>
+      </p>
+
+      <!-- Japanese-style stats boxes -->
+      <div class="flex items-stretch justify-center gap-0 mb-10 flex-wrap">
+        <div class="text-center px-8 py-5" style="border:2px solid rgba(220,38,38,0.15);">
+          <div class="text-4xl font-black jp-red mb-1">10</div>
+          <div class="text-xs tracking-widest jp-dark opacity-50">TENANT</div>
+        </div>
+        <div class="text-center px-8 py-5" style="border:2px solid rgba(220,38,38,0.15);border-left:none;">
+          <div class="text-4xl font-black jp-red mb-1">100</div>
+          <div class="text-xs tracking-widest jp-dark opacity-50">MENU</div>
+        </div>
+        <div class="text-center px-8 py-5" style="border:2px solid rgba(220,38,38,0.15);border-left:none;">
+          <div class="text-4xl font-black jp-red mb-1">4.8</div>
+          <div class="text-xs tracking-widest jp-dark opacity-50">BINTANG</div>
+        </div>
+        <div class="text-center px-8 py-5" style="border:2px solid rgba(220,38,38,0.15);border-left:none;">
+          <div class="text-4xl font-black jp-red mb-1">15'</div>
+          <div class="text-xs tracking-widest jp-dark opacity-50">ESTIMASI</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter - Japan Style -->
+    <div class="flex gap-2 flex-wrap justify-center mb-10">
+      {% for emoji,label,cuisine in cuisine_list %}
+      <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+        class="cuisine-filter-btn px-4 py-2 text-sm font-bold transition-all"
+        style="border:2px solid rgba(220,38,38,0.2);color:#6b7280;background:white;">
+        {{ emoji }} {{ label }}
+      </button>
+      {% endfor %}
+    </div>
+
+    <!-- Tenant Grid - JP Style Horizontal Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="tenant-grid-jp">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/" class="jp-card rounded-none overflow-hidden cursor-pointer flex stagger-item tenant-card-item" data-cuisine="{{ tenant.cuisine_type }}">
+        <!-- Image -->
+        <div class="relative w-40 flex-shrink-0 overflow-hidden">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-5xl bg-red-50">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <div class="absolute inset-0" style="background:linear-gradient(to right,transparent,rgba(253,246,232,0.3));"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 p-5">
+          <div class="flex items-start justify-between mb-2">
+            <div>
+              <div class="jp-badge text-xs px-2 py-0.5 rounded-sm inline-block mb-2" style="font-size:9px;letter-spacing:0.1em;">
+                STALL {{ tenant.stall_number }}
+              </div>
+              <div class="jp-title font-black text-lg jp-dark">{{ tenant.name }}</div>
+              <div class="text-xs jp-red font-semibold">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</div>
+            </div>
+            <div class="text-right">
+              <div class="jp-red font-black text-xl">{{ tenant.rating }}</div>
+              <div style="font-size:10px;color:#dc2626;opacity:0.6;">★★★★★</div>
+            </div>
+          </div>
+          <p class="text-xs jp-dark opacity-50 line-clamp-2 mb-4 leading-relaxed">{{ tenant.description }}</p>
+          <div class="flex items-center justify-between">
+            <span class="text-xs jp-dark opacity-40">{{ tenant.opening_time|time:"H:i" }} ~ {{ tenant.closing_time|time:"H:i" }}</span>
+            <span class="jp-red font-bold text-sm">注文する →</span>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ==================== THEME 6: YOGYA GROUP BRAND ==================== -->
+<div class="theme-body" id="theme-yogya-body">
+
+<!-- Yogya Top Brand Bar -->
+<div class="yogya-topbar"></div>
+
+<div class="yogya-bg min-h-screen relative">
+
+  <!-- Decorative floating elements -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden" style="z-index:0;">
+    <div class="yogya-float" style="position:absolute;top:10%;right:5%;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,0,0.06) 0%,transparent 70%);"></div>
+    <div class="yogya-float-2" style="position:absolute;top:40%;left:2%;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(255,184,0,0.07) 0%,transparent 70%);"></div>
+    <div class="yogya-float-3" style="position:absolute;bottom:15%;right:10%;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(232,0,29,0.04) 0%,transparent 70%);"></div>
+    <!-- Large background shape -->
+    <div style="position:absolute;top:-5%;right:-5%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,0,0.04) 0%,transparent 65%);"></div>
+  </div>
+
+  <div class="relative z-10 max-w-screen-xl mx-auto px-6 pt-0 pb-16">
+
+    <!-- ========= YOGYA HERO BANNER ========= -->
+    <div class="yogya-banner rounded-3xl mb-10 px-8 py-10 md:py-14 relative overflow-hidden" style="margin-top:32px;">
+      <!-- Decorative circles in banner -->
+      <div style="position:absolute;top:-40px;right:20%;width:250px;height:250px;border-radius:50%;background:rgba(255,255,255,0.06);"></div>
+      <div style="position:absolute;bottom:-60px;right:5%;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,0.04);"></div>
+      <div style="position:absolute;top:20px;right:8%;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:2rem;">🛒</div>
+
+      <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+        <!-- Left: Text -->
+        <div>
+          <div class="inline-flex items-center gap-2 bg-white/15 rounded-full px-4 py-1.5 mb-5">
+            <span class="yogya-open-dot"></span>
+            <span class="text-white text-xs font-bold tracking-wide">FOODCOURT YOGYA · Buka Sekarang</span>
+          </div>
+
+          <h1 class="text-white font-black leading-none mb-2" style="font-size:clamp(2.5rem,7vw,5rem);text-shadow:0 2px 20px rgba(0,0,0,0.15);">
+            Food Court
+          </h1>
+          <h2 class="font-black leading-none mb-4" style="font-size:clamp(1.8rem,5vw,3.5rem);color:rgba(255,255,255,0.85);">
+            <span style="background:rgba(255,255,255,0.2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">&nbsp;</span>
+            Grand Galaxy
+          </h2>
+          <p class="text-white/70 text-base mb-6 max-w-md leading-relaxed">
+            Nikmati pengalaman kuliner terbaik bersama keluarga.
+            10 tenant pilihan, 100+ menu lezat dari berbagai penjuru dunia.
+          </p>
+
+          <div class="flex items-center flex-wrap gap-3">
+            <div class="yogya-btn-yellow inline-block text-sm rounded-xl px-6 py-3 font-bold cursor-default">
+              🍽️ 100+ Menu Pilihan
+            </div>
+            <div class="inline-flex items-center gap-2 bg-white/15 rounded-xl px-5 py-3 text-white text-sm font-semibold">
+              ⭐ 4.8/5 Rating
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Stats Grid -->
+        <div class="flex-shrink-0 grid grid-cols-2 gap-3 md:min-w-[280px]">
+          <div class="bg-white/15 rounded-2xl p-5 text-center">
+            <div class="text-white font-black text-4xl">10</div>
+            <div class="text-white/70 text-xs font-semibold mt-1">Tenant Aktif</div>
+          </div>
+          <div class="bg-white/15 rounded-2xl p-5 text-center">
+            <div class="text-white font-black text-4xl">100</div>
+            <div class="text-white/70 text-xs font-semibold mt-1">Menu Tersedia</div>
+          </div>
+          <div class="bg-white/15 rounded-2xl p-5 text-center">
+            <div class="text-white font-black text-4xl">~15'</div>
+            <div class="text-white/70 text-xs font-semibold mt-1">Estimasi Siap</div>
+          </div>
+          <div class="bg-white/15 rounded-2xl p-5 text-center">
+            <div class="text-white font-black text-4xl">4.8</div>
+            <div class="text-white/70 text-xs font-semibold mt-1">⭐ Bintang</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========= CUISINE FILTER ========= -->
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <div class="yogya-section-badge mb-2">🍴 Pilih Kuliner</div>
+          <h3 class="font-black text-2xl yogya-dark">Semua Tenant</h3>
+        </div>
+        <div class="text-sm yogya-muted">{{ tenants|length }} Tenant Tersedia</div>
+      </div>
+
+      <div class="flex gap-2 overflow-x-auto pb-2">
+        {% for emoji,label,cuisine in cuisine_list %}
+        <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+          class="cuisine-filter-btn flex items-center gap-2 px-5 py-2.5 text-sm font-semibold whitespace-nowrap rounded-xl border border-orange-200 transition-all"
+          style="background:#fff7f0;color:#FF6B00;">
+          {{ emoji }} {{ label }}
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- ========= TENANT GRID – 5 column cards ========= -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5" id="yogya-tenant-grid">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/" class="yogya-card cursor-pointer stagger-item tenant-card-item block" data-cuisine="{{ tenant.cuisine_type }}">
+        <!-- Image area -->
+        <div class="relative h-40 overflow-hidden" style="border-radius:20px 20px 0 0;">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img" style="transition:transform 0.5s ease;">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-6xl" style="background:linear-gradient(135deg,#fff3e5,#fff8f0);">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <!-- Gradient overlay -->
+          <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(0,0,0,0.5) 0%,transparent 50%);"></div>
+          <!-- Stall number badge -->
+          <div class="absolute top-3 left-3">
+            <span class="yogya-badge px-2 py-1 text-xs">{{ tenant.stall_number }}</span>
+          </div>
+          <!-- Open/Close badge -->
+          <div class="absolute top-3 right-3">
+            {% if tenant.is_open %}
+            <span class="px-2 py-0.5 text-xs font-bold rounded-full" style="background:rgba(34,197,94,0.9);color:white;">BUKA</span>
+            {% else %}
+            <span class="px-2 py-0.5 text-xs font-bold rounded-full" style="background:rgba(0,0,0,0.5);color:rgba(255,255,255,0.7);">TUTUP</span>
+            {% endif %}
+          </div>
+          <!-- Tenant name overlay on image -->
+          <div class="absolute bottom-0 left-0 right-0 px-3 pb-3">
+            <div class="text-white font-bold text-sm leading-tight">{{ tenant.name }}</div>
+            <div class="text-white/70 text-xs">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</div>
+          </div>
+        </div>
+
+        <!-- Card body -->
+        <div class="p-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-1">
+              <span style="color:#FFB800;font-size:14px;">★</span>
+              <span class="text-sm font-bold yogya-dark">{{ tenant.rating }}</span>
+            </div>
+            <div class="text-xs yogya-muted">{{ tenant.opening_time|time:"H:i" }}-{{ tenant.closing_time|time:"H:i" }}</div>
+          </div>
+          <button class="w-full yogya-btn text-center text-sm py-2 px-3" style="border-radius:10px;padding:8px 12px;font-size:13px;">
+            Pesan Sekarang →
+          </button>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- ========= BOTTOM INFO BAR ========= -->
+    <div class="mt-12 yogya-divider mb-8"></div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="yogya-stat p-5 text-center">
+        <div class="text-2xl mb-2">💳</div>
+        <div class="text-sm font-bold yogya-dark">Multi Payment</div>
+        <div class="text-xs yogya-muted mt-1">Cash · Card · QRIS · GoPay · OVO · DANA</div>
+      </div>
+      <div class="yogya-stat p-5 text-center">
+        <div class="text-2xl mb-2">⚡</div>
+        <div class="text-sm font-bold yogya-dark">Pesanan Cepat</div>
+        <div class="text-xs yogya-muted mt-1">Estimasi 15-20 menit</div>
+      </div>
+      <div class="yogya-stat p-5 text-center">
+        <div class="text-2xl mb-2">🧾</div>
+        <div class="text-sm font-bold yogya-dark">Struk Digital</div>
+        <div class="text-xs yogya-muted mt-1">Bukti pembayaran dikirim otomatis</div>
+      </div>
+      <div class="yogya-stat p-5 text-center">
+        <div class="text-2xl mb-2">🌟</div>
+        <div class="text-sm font-bold yogya-dark">Kualitas Terjamin</div>
+        <div class="text-xs yogya-muted mt-1">Semua tenant tersertifikasi</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ==================== THEME 7: AURORA BOREALIS ==================== -->
+<div class="theme-body" id="theme-aurora-body">
+
+<!-- Aurora animated BG -->
+<div class="aurora-canvas" aria-hidden="true">
+  <div class="aurora-stars"></div>
+  <div class="aurora-blob aurora-blob-1"></div>
+  <div class="aurora-blob aurora-blob-2"></div>
+  <div class="aurora-blob aurora-blob-3"></div>
+  <div class="aurora-blob aurora-blob-4"></div>
+</div>
+
+<div class="relative z-10 min-h-screen">
+  <div class="max-w-screen-xl mx-auto px-6 pt-10 pb-20">
+
+    <!-- ===== AURORA HERO ===== -->
+    <div class="aurora-reveal-1 text-center mb-4 mt-6">
+      <div class="aurora-section-label mb-6">
+        <span class="aurora-open-dot"></span>
+        Food Court Grand Galaxy &nbsp;·&nbsp; Buka Sekarang
+      </div>
+    </div>
+
+    <div class="aurora-reveal-2 text-center mb-6">
+      <h1 class="font-black leading-[0.9] tracking-tight" style="font-size:clamp(3.5rem,10vw,7.5rem);">
+        <span class="aurora-text">Taste The</span>
+        <br>
+        <span style="color:rgba(255,255,255,0.92);letter-spacing:-0.02em;">Universe</span>
+      </h1>
+      <p class="text-white/40 text-base mt-4 max-w-lg mx-auto leading-relaxed">
+        10 culinary destinations, 100+ extraordinary menus —
+        <span class="aurora-text-green font-semibold">all in one galaxy.</span>
+      </p>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="aurora-reveal-3 grid grid-cols-4 gap-3 max-w-2xl mx-auto mb-12">
+      <div class="aurora-stat">
+        <div class="text-3xl font-black aurora-text-green">10</div>
+        <div class="text-white/40 text-xs mt-1 font-medium">Tenant</div>
+      </div>
+      <div class="aurora-stat">
+        <div class="text-3xl font-black" style="color:#00d4ff;text-shadow:0 0 20px rgba(0,212,255,0.5);">100+</div>
+        <div class="text-white/40 text-xs mt-1 font-medium">Menu</div>
+      </div>
+      <div class="aurora-stat">
+        <div class="text-3xl font-black" style="color:#c084fc;text-shadow:0 0 20px rgba(192,132,252,0.5);">4.8</div>
+        <div class="text-white/40 text-xs mt-1 font-medium">⭐ Rating</div>
+      </div>
+      <div class="aurora-stat">
+        <div class="text-3xl font-black" style="color:#fb923c;text-shadow:0 0 20px rgba(251,146,60,0.5);">&lt;20'</div>
+        <div class="text-white/40 text-xs mt-1 font-medium">Estimasi</div>
+      </div>
+    </div>
+
+    <div class="aurora-divider mb-10"></div>
+
+    <!-- ===== FILTER ROW ===== -->
+    <div class="aurora-reveal-4 mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <div class="aurora-section-label">✦ Pilih Destinasi Kuliner</div>
+        <div class="text-white/30 text-xs">{{ tenants|length }} tenant tersedia</div>
+      </div>
+      <div class="flex gap-2 overflow-x-auto pb-2">
+        {% for emoji,label,cuisine in cuisine_list %}
+        <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+          class="cuisine-filter-btn flex items-center gap-2 px-4 py-2.5 text-sm font-semibold whitespace-nowrap rounded-xl border border-white/10 transition-all"
+          style="background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);backdrop-filter:blur(10px);">
+          {{ emoji }} {{ label }}
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- ===== TENANT GRID — glass cards ===== -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/"
+        class="aurora-card cursor-pointer stagger-item tenant-card-item block"
+        data-cuisine="{{ tenant.cuisine_type }}">
+
+        <!-- Image -->
+        <div class="aurora-img-wrap h-40">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-6xl"
+            style="background:rgba(0,255,163,0.04);">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <!-- dark gradient -->
+          <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(2,4,14,0.85) 0%,rgba(2,4,14,0.2) 50%,transparent 100%);"></div>
+          <!-- Stall badge -->
+          <div class="absolute top-3 left-3">
+            <span class="aurora-stall-badge">{{ tenant.stall_number }}</span>
+          </div>
+          <!-- Open badge -->
+          <div class="absolute top-3 right-3">
+            {% if tenant.is_open %}
+            <span class="text-xs font-bold px-2 py-0.5 rounded-full" style="background:rgba(0,255,163,0.2);border:1px solid rgba(0,255,163,0.4);color:#00ffa3;">BUKA</span>
+            {% else %}
+            <span class="text-xs font-bold px-2 py-0.5 rounded-full" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.4);">TUTUP</span>
+            {% endif %}
+          </div>
+          <!-- Name overlay -->
+          <div class="absolute bottom-0 left-0 right-0 px-3 pb-3">
+            <div class="text-white font-bold text-sm leading-tight">{{ tenant.name }}</div>
+            <div class="text-white/50 text-xs">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</div>
+          </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="p-4">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-1">
+              <span style="color:#fbbf24;font-size:12px;">★</span>
+              <span class="text-white/80 text-sm font-bold">{{ tenant.rating }}</span>
+            </div>
+            <div class="text-white/30 text-xs">{{ tenant.opening_time|time:"H:i" }}-{{ tenant.closing_time|time:"H:i" }}</div>
+          </div>
+          <button class="aurora-btn w-full text-center">Pesan →</button>
+        </div>
+
+        <!-- Hover glow line at top -->
+        <div class="absolute top-0 left-0 right-0 h-px" style="background:linear-gradient(90deg,transparent,rgba(0,255,163,0.5),transparent);opacity:0;transition:opacity 0.4s;" data-aurora-line></div>
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- ===== BOTTOM FEATURE ROW ===== -->
+    <div class="aurora-divider mt-14 mb-10"></div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="aurora-stat text-left px-5 py-5">
+        <div class="text-xl mb-2">💳</div>
+        <div class="text-white/80 text-sm font-bold">Multi Payment</div>
+        <div class="text-white/30 text-xs mt-1">QRIS · GoPay · OVO · DANA · Cash</div>
+      </div>
+      <div class="aurora-stat text-left px-5 py-5">
+        <div class="text-xl mb-2" style="filter:drop-shadow(0 0 8px #00ffa3);">⚡</div>
+        <div class="text-white/80 text-sm font-bold">Fast Order</div>
+        <div class="text-white/30 text-xs mt-1">Estimasi 15-20 menit</div>
+      </div>
+      <div class="aurora-stat text-left px-5 py-5">
+        <div class="text-xl mb-2" style="filter:drop-shadow(0 0 8px #00d4ff);">🧾</div>
+        <div class="text-white/80 text-sm font-bold">Digital Receipt</div>
+        <div class="text-white/30 text-xs mt-1">Struk otomatis tercetak</div>
+      </div>
+      <div class="aurora-stat text-left px-5 py-5">
+        <div class="text-xl mb-2" style="filter:drop-shadow(0 0 8px #c084fc);">🌟</div>
+        <div class="text-white/80 text-sm font-bold">Certified Quality</div>
+        <div class="text-white/30 text-xs mt-1">Semua tenant tersertifikasi</div>
+      </div>
+    </div>
+
+    <!-- Credit line -->
+    <div class="mt-10 text-center">
+      <div class="aurora-section-label">✦ Aurora Borealis Theme &nbsp;·&nbsp; FoodCourt Grand Galaxy ✦</div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ==================== THEME 5: NIGHT MARKET ==================== -->
+<div class="theme-body" id="theme-nightmarket-body">
+<div class="nm-bg min-h-screen relative overflow-hidden">
+
+  <!-- Lantern decorations -->
+  <div class="fixed inset-0 pointer-events-none" id="nm-lanterns">
+    <div class="lantern-sway" style="position:absolute;top:5%;left:5%;font-size:48px;filter:drop-shadow(0 0 20px rgba(255,140,0,0.6));">🏮</div>
+    <div class="lantern-sway" style="position:absolute;top:3%;left:20%;font-size:32px;filter:drop-shadow(0 0 15px rgba(255,140,0,0.5));animation-delay:0.5s;">🏮</div>
+    <div class="lantern-sway" style="position:absolute;top:5%;right:8%;font-size:48px;filter:drop-shadow(0 0 20px rgba(255,140,0,0.6));animation-delay:1s;">🏮</div>
+    <div class="lantern-sway" style="position:absolute;top:3%;right:22%;font-size:32px;filter:drop-shadow(0 0 15px rgba(255,140,0,0.5));animation-delay:1.5s;">🏮</div>
+    <!-- String lines -->
+    <div style="position:absolute;top:8%;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,160,0,0.2),rgba(255,160,0,0.3),rgba(255,160,0,0.2),transparent);"></div>
+    <div style="position:absolute;top:12%;left:5%;right:5%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,160,0,0.15),transparent);"></div>
+  </div>
+
+  <div class="relative z-10 max-w-screen-2xl mx-auto px-6 pt-20 pb-10">
+
+    <!-- Hero Night Market -->
+    <div class="text-center mb-12">
+      <div class="nm-badge inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+        <span class="w-2 h-2 rounded-full bg-orange-400 open-pulse"></span>
+        Pasar Malam · Buka Sekarang
+      </div>
+
+      <h1 class="nm-flicker font-black leading-none mb-4" style="font-size:clamp(3rem,9vw,7rem);">
+        <span class="nm-title">GRAND</span>
+        <br>
+        <span style="color:rgba(255,180,80,0.7);font-size:0.6em;letter-spacing:0.15em;font-weight:400;">GALAXY</span>
+        <br>
+        <span style="color:rgba(255,140,0,0.5);font-size:0.35em;letter-spacing:0.4em;font-weight:600;">FOOD COURT</span>
+      </h1>
+
+      <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(255,160,0,0.4),transparent);max-width:400px;margin:0 auto 24px;"></div>
+
+      <p class="mb-8 text-sm leading-relaxed max-w-lg mx-auto" style="color:rgba(255,200,100,0.65);">
+        🌙 Rasakan sensasi makan malam di pasar tradisional yang kaya cita rasa<br>
+        10 tenant terbaik siap melayani selera Anda
+      </p>
+
+      <!-- Market-style stat boards -->
+      <div class="flex items-center justify-center gap-4 flex-wrap mb-10">
+        <div class="nm-card px-6 py-4 rounded-xl text-center" style="min-width:100px;">
+          <div class="text-3xl font-black nm-title">10</div>
+          <div class="text-xs nm-muted">TENANT</div>
+        </div>
+        <div class="text-2xl" style="color:rgba(255,160,0,0.3);">·</div>
+        <div class="nm-card px-6 py-4 rounded-xl text-center" style="min-width:100px;">
+          <div class="text-3xl font-black nm-title">100+</div>
+          <div class="text-xs nm-muted">MENU</div>
+        </div>
+        <div class="text-2xl" style="color:rgba(255,160,0,0.3);">·</div>
+        <div class="nm-card px-6 py-4 rounded-xl text-center" style="min-width:100px;">
+          <div class="text-3xl font-black nm-title">⭐4.8</div>
+          <div class="text-xs nm-muted">RATING</div>
+        </div>
+        <div class="text-2xl" style="color:rgba(255,160,0,0.3);">·</div>
+        <div class="nm-card px-6 py-4 rounded-xl text-center" style="min-width:100px;">
+          <div class="text-3xl font-black nm-title">15'</div>
+          <div class="text-xs nm-muted">TUNGGU</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter - Night Market scroll -->
+    <div class="flex gap-3 overflow-x-auto pb-3 mb-8 justify-center flex-wrap">
+      {% for emoji,label,cuisine in cuisine_list %}
+      <button onclick="filterCuisine('{{ cuisine }}')" data-cuisine="{{ cuisine }}"
+        class="cuisine-filter-btn px-4 py-2 text-xs font-bold tracking-wider whitespace-nowrap transition-all rounded-lg"
+        style="border:1px solid rgba(255,140,0,0.2);color:rgba(255,180,80,0.6);background:rgba(255,100,0,0.05);">
+        {{ emoji }} {{ label }}
+      </button>
+      {% endfor %}
+    </div>
+
+    <!-- Tenant Grid - Night Market Stalls -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" id="tenant-grid-nm">
+      {% for tenant in tenants %}
+      <a href="/tenant/{{ tenant.slug }}/" class="nm-card rounded-xl overflow-hidden cursor-pointer stagger-item tenant-card-item" data-cuisine="{{ tenant.cuisine_type }}">
+        <div class="relative h-44 overflow-hidden">
+          {% if tenant.logo %}
+          <img src="{{ tenant.logo.url }}" alt="{{ tenant.name }}" class="w-full h-full object-cover tenant-hover-img" style="filter:brightness(0.65) sepia(0.3);">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center text-6xl" style="background:rgba(30,15,0,0.9);">{{ tenant.icon_emoji }}</div>
+          {% endif %}
+          <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(10,5,0,0.95),rgba(10,5,0,0.2) 50%,transparent)"></div>
+
+          <!-- Stall number plate -->
+          <div class="absolute top-3 left-3">
+            <span class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(255,140,0,0.2);border:1px solid rgba(255,140,0,0.3);color:#ffb300;">STALL {{ tenant.stall_number }}</span>
+          </div>
+
+          {% if tenant.is_open %}
+          <div class="absolute top-3 right-3">
+            <span class="text-xs font-bold" style="color:#22c55e;">● BUKA</span>
+          </div>
+          {% endif %}
+
+          <!-- Tenant name at bottom -->
+          <div class="absolute bottom-3 left-3 right-3">
+            <div class="text-sm font-black text-white mb-0.5">{{ tenant.name }}</div>
+            <div class="text-xs" style="color:rgba(255,180,80,0.6);">{{ tenant.icon_emoji }} {{ tenant.cuisine_type|title }}</div>
+          </div>
+        </div>
+        <div class="p-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1">
+              <span style="color:#ffb300;font-size:11px;">★</span>
+              <span class="text-xs font-bold" style="color:#ffb300;">{{ tenant.rating }}</span>
+            </div>
+            <span class="text-xs nm-muted">{{ tenant.total_orders }}+ orders</span>
+          </div>
+          <p class="text-xs mt-1 line-clamp-1" style="color:rgba(255,160,60,0.4);">{{ tenant.description }}</p>
+          <button class="nm-btn w-full mt-3 py-2 rounded-lg text-xs font-bold text-white">
+            🛒 Pesan Sekarang
+          </button>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ====================== THEME SWITCHER UI ====================== -->
+<div id="theme-switcher" class="flex flex-col gap-2">
+  <!-- Panel -->
+  <div id="theme-panel" class="glass-dark border border-white/10 rounded-2xl p-4 mb-2 hidden" style="backdrop-filter:blur(20px);">
+    <div class="text-xs font-bold text-white/50 uppercase tracking-wider mb-3 text-center">Pilih Tema</div>
+
+    <div class="flex flex-col gap-2">
+      <button onclick="switchTheme('neon')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-neon"
+        style="background:linear-gradient(135deg,#050510,#0d1440);border:1px solid rgba(0,255,255,0.3);">
+        <span class="text-xl">💻</span>
+        <div class="text-left">
+          <div class="text-white text-sm font-bold leading-none mb-0.5">Neon Cyberpunk</div>
+          <div class="text-white/40 text-xs">Dark futuristik</div>
+        </div>
+      </button>
+
+      <button onclick="switchTheme('luxury')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-luxury"
+        style="background:linear-gradient(135deg,#0a0604,#1a1003);border:1px solid rgba(212,175,55,0.25);">
+        <span class="text-xl">👑</span>
+        <div class="text-left">
+          <div class="text-white text-sm font-bold leading-none mb-0.5">Warm Luxury</div>
+          <div class="text-white/40 text-xs">Premium elegan</div>
+        </div>
+      </button>
+
+      <button onclick="switchTheme('fresh')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-fresh"
+        style="background:linear-gradient(135deg,#fff7f0,#f0f7ff);border:1px solid rgba(249,115,22,0.2);">
+        <span class="text-xl">🌿</span>
+        <div class="text-left">
+          <div class="text-gray-800 text-sm font-bold leading-none mb-0.5">Fresh Modern</div>
+          <div class="text-gray-400 text-xs">Clean terang</div>
+        </div>
+      </button>
+
+      <button onclick="switchTheme('japanese')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-japanese"
+        style="background:linear-gradient(135deg,#fdf6e8,#fff5f0);border:1px solid rgba(220,38,38,0.2);">
+        <span class="text-xl">🌸</span>
+        <div class="text-left">
+          <div class="text-gray-800 text-sm font-bold leading-none mb-0.5">Retro Japanese</div>
+          <div class="text-gray-400 text-xs">Tradisional autentik</div>
+        </div>
+      </button>
+
+      <button onclick="switchTheme('nightmarket')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-nightmarket"
+        style="background:linear-gradient(135deg,#0d0a00,#1a1000);border:1px solid rgba(255,140,0,0.25);">
+        <span class="text-xl">🏮</span>
+        <div class="text-left">
+          <div class="text-white text-sm font-bold leading-none mb-0.5">Night Market</div>
+          <div class="text-white/40 text-xs">Pasar malam hangat</div>
+        </div>
+      </button>
+
+      <button onclick="switchTheme('yogya')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-yogya"
+        style="background:linear-gradient(135deg,#FF6B00,#FFB800);border:1px solid rgba(255,107,0,0.4);">
+        <span class="text-xl">🛍️</span>
+        <div class="text-left">
+          <div class="text-white text-sm font-bold leading-none mb-0.5">Yogya Brand</div>
+          <div class="text-white/80 text-xs">Official orange & yellow</div>
+        </div>
+      </button>
+
+      <button onclick="switchTheme('aurora')" class="theme-pill flex items-center gap-3 px-4 py-3 rounded-xl transition-all" id="pill-aurora"
+        style="background:linear-gradient(135deg,#02040e,#0d1a2e);border:1px solid rgba(0,255,163,0.35);">
+        <span class="text-xl">🌌</span>
+        <div class="text-left">
+          <div class="text-sm font-bold leading-none mb-0.5" style="background:linear-gradient(90deg,#00ffa3,#00d4ff,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Aurora Borealis</div>
+          <div class="text-white/40 text-xs">Glassmorphism space</div>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Toggle Button -->
+  <button onclick="toggleThemePanel()" id="theme-toggle-btn"
+    class="flex items-center gap-2 px-4 py-3 rounded-2xl font-bold text-sm shadow-2xl"
+    style="background:linear-gradient(135deg,#f97316,#e11d48);color:white;box-shadow:0 8px 30px rgba(249,115,22,0.5);">
+    <span class="text-lg">🎨</span>
+    <span>Ganti Tema</span>
+  </button>
+</div>
+
+<!-- Cart Float Button (dynamic) -->
+{% if cart_count > 0 %}
+<div class="fixed bottom-6 right-6 z-30">
+  <button onclick="toggleCart()" class="flex items-center gap-3 gradient-btn glow-btn px-6 py-4 rounded-2xl font-bold text-white shadow-2xl">
+    <span>🛒</span>
+    <span>{{ cart_count }} · Rp {{ cart_total|floatformat:0 }}</span>
+  </button>
+</div>
+{% endif %}
+
+<script>
+// ========================
+// THEME DATA
+// ========================
+const THEMES = {
+  neon: {
+    bodyClass: 'theme-neon',
+    bodyId: 'theme-neon-body',
+    filterActive: 'border:1px solid #00ffff;color:#00ffff;background:rgba(0,255,255,0.1);',
+    filterDefault: 'border:1px solid rgba(0,255,255,0.25);color:rgba(0,255,255,0.6);background:transparent;',
+  },
+  luxury: {
+    bodyClass: 'theme-luxury',
+    bodyId: 'theme-luxury-body',
+    filterActive: 'border:1px solid rgba(212,175,55,0.6);color:#d4af37;background:rgba(212,175,55,0.1);',
+    filterDefault: 'border:1px solid rgba(212,175,55,0.2);color:rgba(212,175,55,0.6);background:transparent;',
+  },
+  fresh: {
+    bodyClass: 'theme-fresh',
+    bodyId: 'theme-fresh-body',
+    filterActive: 'background:#f97316;color:white;',
+    filterDefault: 'background:#f3f4f6;color:#374151;',
+  },
+  japanese: {
+    bodyClass: 'theme-japanese',
+    bodyId: 'theme-japanese-body',
+    filterActive: 'border:2px solid #dc2626;color:#dc2626;background:rgba(220,38,38,0.05);',
+    filterDefault: 'border:2px solid rgba(220,38,38,0.2);color:#6b7280;background:white;',
+  },
+  nightmarket: {
+    bodyClass: 'theme-nightmarket',
+    bodyId: 'theme-nightmarket-body',
+    filterActive: 'border:1px solid rgba(255,140,0,0.5);color:#ffb300;background:rgba(255,140,0,0.15);',
+    filterDefault: 'border:1px solid rgba(255,140,0,0.2);color:rgba(255,180,80,0.6);background:rgba(255,100,0,0.05);',
+  },
+  yogya: {
+    bodyClass: 'theme-yogya',
+    bodyId: 'theme-yogya-body',
+    filterActive: 'background:linear-gradient(135deg,#FF6B00,#FF8C00);color:white;border:1px solid #FF6B00;box-shadow:0 4px 15px rgba(255,107,0,0.35);',
+    filterDefault: 'background:#fff7f0;color:#FF6B00;border:1px solid rgba(255,107,0,0.2);',
+  },
+  aurora: {
+    bodyClass: 'theme-aurora',
+    bodyId: 'theme-aurora-body',
+    filterActive: 'background:rgba(0,255,163,0.15);border:1px solid rgba(0,255,163,0.5);color:#00ffa3;box-shadow:0 0 20px rgba(0,255,163,0.2);backdrop-filter:blur(10px);',
+    filterDefault: 'background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(10px);',
+  },
+};
+
+let currentTheme = localStorage.getItem('kiosk-theme') || 'yogya';
+let panelOpen = false;
+
+function switchTheme(theme) {
+  const prev = THEMES[currentTheme];
+  const next = THEMES[theme];
+
+  // Switch body class
+  document.body.classList.remove(...Object.values(THEMES).map(t => t.bodyClass));
+  document.body.classList.add(next.bodyClass);
+
+  // Switch body section
+  document.querySelectorAll('.theme-body').forEach(el => el.classList.remove('active'));
+  document.getElementById(next.bodyId).classList.add('active');
+
+  // Update pills
+  document.querySelectorAll('.theme-pill').forEach(p => p.classList.remove('selected'));
+  document.getElementById(`pill-${theme}`).classList.add('selected');
+
+  currentTheme = theme;
+  localStorage.setItem('kiosk-theme', theme);
+
+  // Re-stagger items
+  triggerStagger();
+
+  // Close panel
+  toggleThemePanel(false);
+}
+
+function toggleThemePanel(force) {
+  const panel = document.getElementById('theme-panel');
+  if (force === false) {
+    panel.classList.add('hidden');
+    panelOpen = false;
+    return;
+  }
+  panelOpen = !panelOpen;
+  panel.classList.toggle('hidden', !panelOpen);
+}
+
+function filterCuisine(cuisine) {
+  const theme = THEMES[currentTheme];
+  const cards = document.querySelectorAll('.tenant-card-item');
+
+  cards.forEach(card => {
+    const cardCuisine = card.dataset.cuisine;
+    const match = cuisine === 'all' || cardCuisine === cuisine;
+    card.style.display = match ? '' : 'none';
+  });
+
+  // Update filter button styles in current theme body
+  const activeBody = document.getElementById(THEMES[currentTheme].bodyId);
+  activeBody.querySelectorAll('.cuisine-filter-btn').forEach(btn => {
+    const isActive = btn.dataset.cuisine === cuisine;
+    btn.style.cssText = isActive ? theme.filterActive : theme.filterDefault;
+  });
+}
+
+function triggerStagger() {
+  const items = document.querySelectorAll(`#${THEMES[currentTheme].bodyId} .stagger-item`);
+  items.forEach((item, i) => {
+    item.classList.remove('visible');
+    setTimeout(() => item.classList.add('visible'), i * 60);
+  });
+}
+
+// Init on page load
+window.addEventListener('DOMContentLoaded', () => {
+  switchTheme(currentTheme);
+
+  // Set active filter button style after init
+  const activeBody = document.getElementById(THEMES[currentTheme].bodyId);
+  if (activeBody) {
+    const firstBtn = activeBody.querySelector('.cuisine-filter-btn');
+    if (firstBtn) {
+      firstBtn.style.cssText = THEMES[currentTheme].filterActive;
+    }
+  }
+});
+
+// Intersection observer for stagger
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+setTimeout(() => {
+  document.querySelectorAll('.stagger-item').forEach(el => observer.observe(el));
+}, 500);
+
+// ========================
+// Theme-adaptive Navbar
+// ========================
+function updateNavForTheme(theme) {
+  const nav = document.querySelector('nav');
+  if (!nav) return;
+
+  if (theme === 'fresh' || theme === 'japanese') {
+    nav.style.background = theme === 'japanese' 
+      ? 'rgba(253,246,232,0.95)' 
+      : 'rgba(255,255,255,0.95)';
+    nav.style.borderBottom = theme === 'japanese'
+      ? '1px solid rgba(220,38,38,0.15)'
+      : '1px solid rgba(0,0,0,0.06)';
+    nav.querySelectorAll('.font-black, .font-semibold, .font-medium').forEach(el => {
+      if (!el.closest('button[onclick="toggleCart()"]')) {
+        el.style.color = theme === 'japanese' ? '#1c1c1c' : '#1a1a2e';
+      }
+    });
+    nav.querySelectorAll('.text-white\\/50').forEach(el => {
+      el.style.color = theme === 'japanese' ? 'rgba(220,38,38,0.6)' : '#9ca3af';
+    });
+  } else {
+    nav.style.background = '';
+    nav.style.borderBottom = '';
+    nav.querySelectorAll('[style*="color"]').forEach(el => {
+      el.style.color = '';
+    });
+  }
+}
+
+// Extend switchTheme to also update nav
+const _origSwitch = switchTheme;
+// Already handled: nav update included
+window.addEventListener('DOMContentLoaded', () => {
+  // updateNavForTheme(currentTheme); 
+});
+
+// Animate "Semua" filter active on load per theme
+setTimeout(() => {
+  const activeBody = document.getElementById(THEMES[currentTheme].bodyId);
+  if (activeBody) {
+    const allBtns = activeBody.querySelectorAll('.cuisine-filter-btn');
+    allBtns.forEach((btn, i) => {
+      if (i === 0) {
+        btn.style.cssText = THEMES[currentTheme].filterActive;
+      }
+    });
+  }
+}, 300);
+</script>
+
+<!-- Marquee Ticker -->
+<style>
+.ticker-wrap {
+  overflow: hidden;
+  background: rgba(249,115,22,0.15);
+  border-top: 1px solid rgba(249,115,22,0.2);
+  border-bottom: 1px solid rgba(249,115,22,0.2);
+}
+.ticker {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
+}
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+</style>
+
+<!-- Inject ticker after nav -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const nav = document.querySelector('nav');
+  if (!nav) return;
+
+  const tickerContent = [
+    '🍜 Ramen Sanpachi · Tonkotsu terbaik',
+    '🥩 Korean House · BBQ Premium',
+    '🍕 Pizza Bella · Oven Batu Asli',
+    '🍛 Rumah Padang · Rendang Otentik',
+    '🍔 Burger Bros · Smash Burger Wagyu',
+    '🌶️ Thai Orchid · Pad Thai Segar',
+    '🥟 Dim Sum Palace · Handmade Setiap Hari',
+    '🧋 Boba Paradise · 50+ Pilihan Rasa',
+    '🌮 Taco Fiesta · Tortilla Homemade',
+    '🍨 Sweet Moments · Dessert Premium',
+    '💳 Bayar dengan QRIS · Cash · GoPay · OVO · DANA',
+    '⭐ Rating 4.8/5 · 10.000+ Pelanggan Puas',
+  ];
+
+  const tickerDiv = document.createElement('div');
+  tickerDiv.className = 'ticker-wrap py-1.5';
+  const tickerText = tickerContent.join('   ✦   ');
+  tickerDiv.innerHTML = `<div class="ticker text-xs font-semibold text-orange-400 tracking-wide">
+    <span class="px-8">${tickerText}</span>
+    <span class="px-8">${tickerText}</span>
+  </div>`;
+
+  nav.insertAdjacentElement('afterend', tickerDiv);
+});
+</script>
+
+<!-- Aurora card hover line effect -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Aurora card top-line glow on hover
+  document.querySelectorAll('[data-aurora-line]').forEach(line => {
+    const card = line.closest('.aurora-card');
+    if (!card) return;
+    card.addEventListener('mouseenter', () => { line.style.opacity = '1'; });
+    card.addEventListener('mouseleave', () => { line.style.opacity = '0'; });
+  });
+
+  // Create floating particles for aurora theme
+  function spawnAuroraParticle() {
+    const body = document.getElementById('theme-aurora-body');
+    if (!body || !document.body.classList.contains('theme-aurora')) return;
+
+    const particle = document.createElement('div');
+    const colors = ['#00ffa3', '#00d4ff', '#c084fc', '#f0abfc'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const size = Math.random() * 4 + 2;
+    const x = Math.random() * 100;
+
+    particle.style.cssText = `
+      position: fixed;
+      left: ${x}vw;
+      bottom: -10px;
+      width: ${size}px;
+      height: ${size}px;
+      border-radius: 50%;
+      background: ${color};
+      box-shadow: 0 0 ${size * 3}px ${color};
+      pointer-events: none;
+      z-index: 1;
+      animation: auroraParticle ${Math.random() * 4 + 3}s ease-out forwards;
+    `;
+    document.body.appendChild(particle);
+    setTimeout(() => particle.remove(), 7000);
+  }
+
+  setInterval(() => {
+    if (document.body.classList.contains('theme-aurora')) {
+      spawnAuroraParticle();
+    }
+  }, 600);
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Struk - {{ order.order_number }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f3f4f6; }
+        .receipt { font-family: 'Space Mono', monospace; }
+        @media print {
+            body { background: white; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+
+    <div class="max-w-sm w-full">
+        <!-- Receipt Card -->
+        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="bg-gradient-to-br from-orange-500 to-pink-600 p-6 text-white text-center">
+                <div class="text-3xl mb-2">🍜</div>
+                <div class="font-black text-xl">FoodCourt Grand Galaxy</div>
+                <div class="text-orange-100 text-sm">Struk Pembayaran</div>
+            </div>
+            
+            <!-- Receipt Body -->
+            <div class="receipt p-6">
+                <!-- Order Info -->
+                <div class="text-center mb-4">
+                    <div class="text-xs text-gray-400 uppercase tracking-wider">Nomor Pesanan</div>
+                    <div class="text-xl font-bold text-gray-800">{{ order.order_number }}</div>
+                    <div class="text-xs text-gray-400">{{ order.created_at|date:"d M Y, H:i" }} WIB</div>
+                </div>
+                
+                <div class="border-t border-dashed border-gray-200 my-4"></div>
+                
+                <!-- Customer Info -->
+                <div class="grid grid-cols-2 gap-2 text-xs text-gray-600 mb-4">
+                    <div>
+                        <div class="text-gray-400">Pelanggan</div>
+                        <div class="font-bold">{{ order.customer_name|default:"Guest" }}</div>
+                    </div>
+                    <div>
+                        <div class="text-gray-400">Meja</div>
+                        <div class="font-bold">{{ order.table_number|default:"Takeaway" }}</div>
+                    </div>
+                    <div>
+                        <div class="text-gray-400">Tenant</div>
+                        <div class="font-bold">{{ order.tenant.name }}</div>
+                    </div>
+                    <div>
+                        <div class="text-gray-400">Pembayaran</div>
+                        <div class="font-bold capitalize">{{ order.payment_method }}</div>
+                    </div>
+                </div>
+                
+                <div class="border-t border-dashed border-gray-200 my-4"></div>
+                
+                <!-- Items -->
+                <div class="space-y-2 mb-4">
+                    <div class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Item Pesanan</div>
+                    {% for item in items %}
+                    <div class="flex justify-between text-sm">
+                        <div class="flex-1">
+                            <div class="text-gray-800 font-semibold">{{ item.product.name }}</div>
+                            <div class="text-gray-400 text-xs">{{ item.quantity }} × Rp {{ item.unit_price|floatformat:0 }}</div>
+                        </div>
+                        <div class="text-gray-800 font-bold">Rp {{ item.subtotal|floatformat:0 }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="border-t border-dashed border-gray-200 my-4"></div>
+                
+                <!-- Totals -->
+                <div class="space-y-1 text-sm">
+                    <div class="flex justify-between text-gray-500">
+                        <span>Subtotal</span>
+                        <span>Rp {{ order.subtotal|floatformat:0 }}</span>
+                    </div>
+                    <div class="flex justify-between text-gray-500">
+                        <span>PPN 11%</span>
+                        <span>Rp {{ order.tax|floatformat:0 }}</span>
+                    </div>
+                    <div class="flex justify-between text-gray-500">
+                        <span>Service 5%</span>
+                        <span>Rp {{ order.service_charge|floatformat:0 }}</span>
+                    </div>
+                    <div class="flex justify-between font-black text-lg pt-2 border-t border-gray-200">
+                        <span class="text-gray-800">TOTAL</span>
+                        <span class="text-orange-500">Rp {{ order.total|floatformat:0 }}</span>
+                    </div>
+                </div>
+                
+                <div class="border-t border-dashed border-gray-200 my-4"></div>
+                
+                <!-- Status -->
+                <div class="text-center">
+                    <span class="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">
+                        ✅ LUNAS
+                    </span>
+                </div>
+                
+                <!-- QR Code Placeholder -->
+                <div class="mt-4 flex justify-center">
+                    <div class="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center text-gray-300 text-xs text-center border-2 border-dashed border-gray-200">
+                        QR Code
+                    </div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="text-center mt-4 text-xs text-gray-400">
+                    <p>Terima kasih telah makan di sini!</p>
+                    <p>www.foodcourt-grandgalaxy.com</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="flex gap-3 mt-4 no-print">
+            <button onclick="window.print()" class="flex-1 bg-gray-800 text-white py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2">
+                🖨️ Print
+            </button>
+            <a href="/" class="flex-1 bg-gradient-to-r from-orange-500 to-pink-600 text-white py-3 rounded-xl font-bold text-sm flex items-center justify-center gap-2">
+                🏠 Home
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FoodCourt POS Kiosk{% endblock %}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍜</text></svg>">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            200: '#fed7aa',
+                            300: '#fdba74',
+                            400: '#fb923c',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            800: '#9a3412',
+                            900: '#7c2d12',
+                        },
+                        accent: '#FF6B35',
+                        gold: '#FFD700',
+                    },
+                    fontFamily: {
+                        'display': ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-in-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'bounce-in': 'bounceIn 0.4s ease-out',
+                        'pulse-ring': 'pulseRing 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        bounceIn: {
+                            '0%': { transform: 'scale(0.8)', opacity: '0' },
+                            '70%': { transform: 'scale(1.05)' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        pulseRing: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.5' },
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Custom Styles -->
+    <style>
+        * { font-family: 'Poppins', sans-serif; }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            transition: all 0.3s ease;
+        }
+        
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(249, 115, 22, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(249, 115, 22, 0.2);
+        }
+        
+        .glow-orange {
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.4), 0 0 60px rgba(249, 115, 22, 0.2);
+        }
+        
+        .glow-btn {
+            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.5);
+            transition: all 0.2s ease;
+        }
+        
+        .glow-btn:hover {
+            box-shadow: 0 8px 30px rgba(249, 115, 22, 0.7);
+            transform: translateY(-2px);
+        }
+        
+        .glow-btn:active {
+            transform: translateY(0);
+        }
+        
+        .neon-text {
+            text-shadow: 0 0 10px rgba(249, 115, 22, 0.8), 0 0 30px rgba(249, 115, 22, 0.5);
+        }
+        
+        .gradient-btn {
+            background: linear-gradient(135deg, #f97316, #ef4444);
+        }
+        
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, #ea580c, #dc2626);
+        }
+        
+        .cart-badge {
+            animation: bounceIn 0.4s ease-out;
+        }
+        
+        .product-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-6px) scale(1.01);
+        }
+        
+        .cart-item-enter {
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: rgba(249, 115, 22, 0.5);
+            border-radius: 2px;
+        }
+        
+        .htmx-indicator {
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .htmx-request .htmx-indicator {
+            opacity: 1;
+        }
+        
+        .tenant-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tenant-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f97316, #ef4444, #8b5cf6);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .tenant-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .open-badge {
+            animation: pulseRing 2s infinite;
+        }
+        
+        @keyframes pulseRing {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+            50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+        }
+        
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.4; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.8; }
+        }
+        
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ripple::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            width: 100px;
+            height: 100px;
+            margin-top: -50px;
+            margin-left: -50px;
+            top: var(--y);
+            left: var(--x);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple {
+            0% { transform: scale(0); opacity: 1; }
+            100% { transform: scale(4); opacity: 0; }
+        }
+
+        .modal-backdrop {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+        }
+
+        .number-btn {
+            transition: all 0.15s ease;
+        }
+
+        .number-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid rgba(255,255,255,0.2);
+            border-top: 3px solid #f97316;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .tag-spicy { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .tag-veg { background: rgba(34, 197, 94, 0.2); color: #86efac; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .tag-best { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid rgba(234, 179, 8, 0.3); }
+        .tag-featured { background: rgba(139, 92, 246, 0.2); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.3); }
+    </style>
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="text-white min-h-screen overflow-x-hidden" id="main-body">
+    
+    <!-- Floating Particles -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="particle text-orange-500 text-2xl" style="top:10%;left:5%;animation-delay:0s;">✦</div>
+        <div class="particle text-pink-400 text-lg" style="top:30%;left:15%;animation-delay:1s;">◆</div>
+        <div class="particle text-purple-400 text-xl" style="top:60%;left:3%;animation-delay:2s;">✧</div>
+        <div class="particle text-orange-400 text-sm" style="top:80%;left:8%;animation-delay:3s;">●</div>
+        <div class="particle text-yellow-400 text-2xl" style="top:20%;right:5%;animation-delay:0.5s;">✦</div>
+        <div class="particle text-pink-500 text-lg" style="top:50%;right:10%;animation-delay:1.5s;">◆</div>
+        <div class="particle text-purple-300 text-xl" style="top:70%;right:4%;animation-delay:2.5s;">✧</div>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <nav class="glass-dark sticky top-0 z-50 border-b border-white/10">
+        <div class="max-w-screen-2xl mx-auto px-4 py-3 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl gradient-btn flex items-center justify-center glow-btn text-lg font-black">
+                    🍜
+                </div>
+                <div>
+                    <div class="font-black text-lg leading-tight neon-text">FoodCourt</div>
+                    <div class="text-xs text-white/50 font-medium tracking-widest uppercase">Grand Galaxy</div>
+                </div>
+            </a>
+            
+            <!-- Center - Time & Info -->
+            <div class="hidden md:flex items-center gap-6">
+                <div class="text-center">
+                    <div class="text-white/40 text-xs uppercase tracking-wider">Jam Operasional</div>
+                    <div class="text-white/80 text-sm font-semibold">10:00 - 22:00 WIB</div>
+                </div>
+                <div class="w-px h-8 bg-white/10"></div>
+                <div class="text-center">
+                    <div class="text-white/40 text-xs uppercase tracking-wider">Total Tenant</div>
+                    <div class="text-orange-400 text-sm font-bold">10 Tenant Aktif</div>
+                </div>
+            </div>
+            
+            <!-- Cart Button -->
+            <div class="flex items-center gap-3">
+                <button 
+                    onclick="toggleCart()"
+                    class="relative flex items-center gap-2 glass px-4 py-2 rounded-xl hover:bg-white/15 transition-all group"
+                    id="cart-btn"
+                >
+                    <span class="text-xl">🛒</span>
+                    <span class="hidden md:block text-sm font-medium">Keranjang</span>
+                    <span 
+                        id="cart-count"
+                        class="absolute -top-2 -right-2 w-5 h-5 gradient-btn rounded-full text-xs font-bold flex items-center justify-center cart-badge {% if cart_count == 0 %}hidden{% endif %}"
+                    >{{ cart_count }}</span>
+                </button>
+                
+                {% if request.path != '/' %}
+                <a href="/" class="glass px-4 py-2 rounded-xl text-sm font-medium hover:bg-white/15 transition-all flex items-center gap-2">
+                    <span>🏠</span>
+                    <span class="hidden md:block">Home</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="relative z-10">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Cart Sidebar Overlay -->
+    <div id="cart-overlay" class="fixed inset-0 modal-backdrop z-40 hidden" onclick="toggleCart()"></div>
+    
+    <!-- Cart Sidebar -->
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full md:w-96 glass-dark border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <!-- Cart Header -->
+        <div class="flex items-center justify-between p-5 border-b border-white/10">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl">🛒</span>
+                <div>
+                    <h2 class="font-bold text-lg">Keranjang Belanja</h2>
+                    <p class="text-white/50 text-xs">Review pesanan Anda</p>
+                </div>
+            </div>
+            <button onclick="toggleCart()" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-all">
+                ✕
+            </button>
+        </div>
+        
+        <!-- Cart Content (loaded via HTMX) -->
+        <div id="cart-content" class="flex-1 overflow-y-auto scrollbar-thin"
+             hx-get="/htmx/cart/"
+             hx-trigger="load, cartUpdated from:body"
+             hx-swap="innerHTML">
+            <div class="flex items-center justify-center h-full">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 hidden">
+        <div class="glass px-6 py-3 rounded-2xl border border-green-500/30 flex items-center gap-3 text-green-400">
+            <span class="text-xl">✅</span>
+            <span class="font-medium" id="toast-msg">Ditambahkan ke keranjang!</span>
+        </div>
+    </div>
+
+    <script>
+        // Cart toggle
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            const isOpen = !sidebar.classList.contains('translate-x-full');
+            
+            if (isOpen) {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            } else {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+            }
+        }
+        
+        // Update cart count in navbar
+        document.body.addEventListener('cartUpdated', function() {
+            htmx.trigger('#cart-count-refresh', 'refresh');
+        });
+        
+        // Show toast notification
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            toastMsg.textContent = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2500);
+        }
+        
+        // HTMX event listeners
+        document.body.addEventListener('htmx:afterRequest', function(evt) {
+            if (evt.detail.successful) {
+                const trigger = evt.detail.requestConfig.headers['HX-Trigger-Name'];
+            }
+        });
+        
+        // Update cart badge count dynamically
+        document.body.addEventListener('htmx:afterSwap', function(evt) {
+            if (evt.target.id === 'cart-content') {
+                // Count items in cart
+                const items = document.querySelectorAll('.cart-item');
+                const countEl = document.getElementById('cart-count');
+                let total = 0;
+                items.forEach(item => {
+                    const qty = item.querySelector('.qty-display');
+                    if (qty) total += parseInt(qty.textContent || '0');
+                });
+                
+                if (total > 0) {
+                    countEl.textContent = total;
+                    countEl.classList.remove('hidden');
+                } else {
+                    countEl.classList.add('hidden');
+                }
+            }
+        });
+
+        // Add ripple effect to buttons
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('.ripple');
+            if (btn) {
+                const rect = btn.getBoundingClientRect();
+                btn.style.setProperty('--x', `${e.clientX - rect.left}px`);
+                btn.style.setProperty('--y', `${e.clientY - rect.top}px`);
+            }
+        });
+
+        // Auto open cart when item added
+        document.body.addEventListener('htmx:afterRequest', function(evt) {
+            if (evt.detail.requestConfig.path === '/htmx/cart/add/') {
+                const sidebar = document.getElementById('cart-sidebar');
+                const overlay = document.getElementById('cart-overlay');
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                showToast('Item berhasil ditambahkan! 🎉');
+            }
+        });
+    </script>
+    
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
